@@ -1,7 +1,7 @@
 # GastricPath AI — Master Implementation Status Tracker
 
 **Document ID:** `GP-STATUS-2026-V1`  
-**Current Phase:** Phase 3.1 Complete (Full Test-Set Evaluation & Scientific Audit Verified) — Awaiting User Authorization for Phase 4  
+**Current Phase:** Phase 3.2 Complete (Lineage & Duplicate Audit Complete; Benchmark Classified as CONTAMINATED) — Awaiting User Authorization  
 **Last Updated:** November 2026  
 
 ---
@@ -65,6 +65,19 @@
 | Comprehensive Evaluation Metrics | Macro/weighted F1, Cohen's kappa, OvR AUROC, ECE, Brier score | **Tested** | Verified with synthetic edge cases; Wilson & bootstrap 95% CIs |
 | Historical Discrepancy Investigation | Forensic analysis of 56.82% notebook vs. 71.04% verified accuracy | **Tested** | 56.82% traced to Keras Conv2D model; PyTorch sequence baseline achieved 71.04% |
 | Scientific Disclaimer on Cancer Percentage | Explicit separation of class probabilities from true tumor area fraction | **Tested** | Integrated into benchmark summaries, reporting, and model registry |
+
+---
+
+### Phase 3.2: Checkpoint Training-Lineage & Duplicate-Aware Evaluation Audit
+| Module / Feature | Description | Status | Notes |
+|:---|:---|:---:|:---|
+| Checkpoint Lineage Recovery | Exact provenance recovery of `gastric_rnn_classifier.pt` | **Tested** | 100% mapped: checkpoint matches Epoch 15 (val_acc: 64.86%) trained on `dataset_manifest.csv` |
+| Train-Test Overlap Audit | Forensic mapping of Phase 3.1 test set (N=4,665) against historical training data | **Tested** | **CONTAMINATED**: 3,758 / 4,665 (80.56%) were historical training images; 465 (9.97%) val; 442 (9.47%) test |
+| Memorization Gap Quantification | Measurement of accuracy divergence between training vs unseen images | **Tested** | 72.99% on historical train vs. 65.84% on genuinely unseen test images ($\Delta = 7.15\%$) |
+| Test Duplicate Cohort Analysis | SHA-256 and dHash duplicate structure audit within 4,665 test files | **Tested** | 4,496 unique SHA-256 hashes, 169 duplicate files, 136 groups; 0 label conflicts; 100% prediction consistency |
+| Duplicate-Aware Metric Estimation | File-weighted vs exact-unique metrics comparison | **Tested** | File-weighted Acc 71.04% vs Unique Acc 70.93% ($\Delta = -0.11\%$); duplicates had minimal metric impact |
+| Cluster-Bootstrap Uncertainty ($B=1000$) | Indivisible cluster resampling across 4,496 clusters | **Tested** | Accuracy 95% Cluster CI: [0.6969, 0.7245]; Macro-F1 95% Cluster CI: [0.6973, 0.7250] |
+| Benchmark Integrity Classification | Definitive classification of baseline benchmark integrity | **Tested** | Classified as **CONTAMINATED**; machine-readable audit artifacts stored in `research/audits/phase3_2/` |
 
 ---
 
@@ -161,6 +174,9 @@
 
 ## Next Immediate Action
 
-**Phase 1 — Research Infrastructure:**
-Awaiting user authorization before creating test suites, experiment trackers, and configuration systems.
+**Phase 3.2 — Checkpoint Lineage & Duplicate-Aware Audit Complete:**  
+Audit classified baseline as **`CONTAMINATED`** (80.56% overlap with historical training data). Baseline achieved 65.84% on genuinely unseen historical test images. Machine-readable audit artifacts and comprehensive audit report (`docs/PHASE3_2_CHECKPOINT_LINEAGE_AND_DUPLICATE_AUDIT_REPORT.md`) completed.
+
+**Awaiting User Review & Authorization for Next Phase:**  
+Either execute Protocol A (evaluate baseline on the 3,110 uncorrupted historical test set images), Protocol B (clean retrain baseline and comparator models on Phase 2 `manifest_train.csv`), or proceed to Phase 4 (Pathology Foundation Models / Embeddings).
 
