@@ -23,6 +23,8 @@ paths:
   registry_dir: "research/registry"
   checkpoint_dir: "models/checkpoints"
   test_artifacts_dir: "research/test_artifacts"
+  splits_dir: "research/splits"
+  reports_dir: "research/reports"
 
 dataset:
   name: "GCHTID"
@@ -38,9 +40,9 @@ dataset:
     - "STR"
     - "TUM"
   split_ratios:
-    train: 0.80
-    val: 0.10
-    test: 0.10
+    train: 0.70
+    val: 0.15
+    test: 0.15
   stratified: true
   split_seed: 42
 
@@ -82,3 +84,4 @@ evaluation:
   uncertainty:
     calibration_bins: 10
     temperature_scaling: false
+

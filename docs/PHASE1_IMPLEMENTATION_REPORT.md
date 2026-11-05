@@ -223,3 +223,4 @@ With Phase 1 research infrastructure verified, **Phase 2 (Dataset Audit, Integri
 1. Scan all 31,096 images for file corruption, dimension consistency ($224 \times 224$), channel depth (3 channels), and color distribution.
 2. Run perceptual hashing (pHash) across classes to identify and document near-duplicate or overlapping patches.
 3. Generate version-controlled, reproducible train/validation/test split manifests (`manifest_train.csv`, `manifest_val.csv`, `manifest_test.csv`) stored in `research/splits/`.
+

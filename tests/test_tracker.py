@@ -48,3 +48,4 @@ def test_experiment_tracker_workflow(tmp_path: Path):
     assert manifest["name"] == "test_run_1"
     assert manifest["seed"] == 42
     assert "provenance" in manifest
+

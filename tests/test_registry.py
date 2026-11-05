@@ -57,3 +57,4 @@ def test_register_actual_baseline_checkpoint(tmp_path: Path):
     assert len(meta.checkpoint_hash) == 64
     assert meta.evaluation_metrics["val_accuracy"] == 0.6486
     assert len(meta.class_labels) == 8
+

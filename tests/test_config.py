@@ -48,3 +48,4 @@ paths:
     config = load_research_config(config_path=custom_yaml)
     assert config.project.name == "Custom Project"
     assert config.paths.experiment_dir.is_absolute()
+

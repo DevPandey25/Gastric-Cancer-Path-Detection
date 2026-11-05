@@ -34,12 +34,14 @@ class PathsConfig(BaseModel):
     registry_dir: Path = Field(default_factory=lambda: PROJECT_ROOT / "research" / "registry")
     checkpoint_dir: Path = Field(default_factory=lambda: PROJECT_ROOT / "models" / "checkpoints")
     test_artifacts_dir: Path = Field(default_factory=lambda: PROJECT_ROOT / "research" / "test_artifacts")
+    splits_dir: Path = Field(default_factory=lambda: PROJECT_ROOT / "research" / "splits")
+    reports_dir: Path = Field(default_factory=lambda: PROJECT_ROOT / "research" / "reports")
 
 
 class SplitRatios(BaseModel):
-    train: float = 0.80
-    val: float = 0.10
-    test: float = 0.10
+    train: float = 0.70
+    val: float = 0.15
+    test: float = 0.15
 
 
 class DatasetConfig(BaseModel):

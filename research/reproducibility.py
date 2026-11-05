@@ -110,3 +110,4 @@ def get_nondeterministic_operations_disclosure() -> list[str]:
         "Adaptive average pooling across differing SIMD instruction sets (AVX2 vs AVX-512) can yield minor floating point discrepancies.",
         "Multi-threaded CPU BLAS operations (OpenBLAS/MKL) may sum floating-point numbers in non-associative order.",
     ]
+

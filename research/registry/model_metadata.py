@@ -24,3 +24,4 @@ class ModelMetadata(BaseModel):
     model_limitations: list[str] = Field(default_factory=list)
     status: Literal["baseline", "candidate", "production", "deprecated"] = "candidate"
     registered_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+

@@ -71,3 +71,4 @@ def test_database_multiple_records_stats(temp_db):
     assert stats["total_predictions"] == 2
     assert stats["average_percentage"] == 50.0  # (10 + 90) / 2
     assert stats["high_risk_cases"] == 1
+

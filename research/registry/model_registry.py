@@ -126,3 +126,4 @@ class ModelRegistry:
             status="baseline",
         )
         return self.register_model(metadata)
+

@@ -1,7 +1,7 @@
 # GastricPath AI — Master Implementation Status Tracker
 
 **Document ID:** `GP-STATUS-2026-V1`  
-**Current Phase:** Phase 1 Complete (Research Infrastructure & Reproducibility Verified) — Awaiting User Authorization for Phase 2  
+**Current Phase:** Phase 2 Complete (Dataset Integrity, Audit & Leak-Proof Splits Verified) — Awaiting User Authorization for Phase 3  
 **Last Updated:** November 2026  
 
 ---
@@ -47,10 +47,12 @@
 ### Phase 2: Dataset Audit, Manifests & Splitting
 | Module / Feature | Description | Status | Notes |
 |:---|:---|:---:|:---|
-| Image Integrity & Corruption Scanner | Automated verification of image dimensions, channels, and readability | **Not started** | Will verify all 31,096 images |
-| Near-Duplicate & Leakage Detection | Perceptual hashing (pHash) to detect identical/near-identical patches | **Not started** | Critical for scientific integrity |
-| Reproducible Split Manifests | Version-controlled train/val/test split manifests | **Not started** | Extends existing `prepare_manifest.py` |
-| Patient/Slide Linkage Audit | Documentation of unlinked GCHTID filenames | **Tested** | Verified: filenames do not encode patient IDs |
+| Image Integrity & Corruption Scanner | Automated verification of image dimensions, channels, and readability | **Tested** | 31,096 images scanned: 0 corrupt, 100% 224x224, 100% RGBA (lossless RGB) |
+| Exact Duplicate Detection (SHA-256) | Bitwise duplicate detection and cross-class contradiction audit | **Tested** | 29,910 unique hashes, 932 duplicate groups, 0 cross-class conflicts |
+| Near-Duplicate & Leakage Detection | Perceptual hashing (dHash) & DSU clustering (Hamming <= 2) | **Tested** | 932 intra-class clusters, 0 cross-class clusters, multi-index candidate table |
+| Canonical Master Manifest | Reproducible sorted dataset manifest with SHA-256 and dHash | **Tested** | `research/manifests/manifest_all.csv` (31,096 records) |
+| Leak-Proof Group-Stratified Splits | 70% Train, 15% Val, 15% Test with zero cross-split duplicate leakage | **Tested** | 21,767 train / 4,664 val / 4,665 test; mutual exclusivity verified |
+| Patient/Slide Linkage Audit | Documentation of unlinked GCHTID filenames | **Tested** | Verified: filenames do not encode patient IDs; image-level split disclosed |
 
 ---
 

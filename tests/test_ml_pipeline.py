@@ -51,3 +51,4 @@ def test_gastric_rnn_forward_pass():
     for i in range(batch_size):
         attn_sum = attention[i].sum().item()
         assert abs(attn_sum - 1.0) < 1e-5
+
