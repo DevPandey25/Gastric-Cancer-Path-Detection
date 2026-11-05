@@ -1,7 +1,7 @@
 # GastricPath AI — Master Implementation Status Tracker
 
 **Document ID:** `GP-STATUS-2026-V1`  
-**Current Phase:** Phase 3.2 Complete (Lineage & Duplicate Audit Complete; Benchmark Classified as CONTAMINATED) — Awaiting User Authorization  
+**Current Phase:** Phase 3.3 Complete (Historical Test Evaluated; Final Baseline Certified; 62/62 Tests Passing) — Awaiting User Authorization  
 **Last Updated:** November 2026  
 
 ---
@@ -78,6 +78,18 @@
 | Duplicate-Aware Metric Estimation | File-weighted vs exact-unique metrics comparison | **Tested** | File-weighted Acc 71.04% vs Unique Acc 70.93% ($\Delta = -0.11\%$); duplicates had minimal metric impact |
 | Cluster-Bootstrap Uncertainty ($B=1000$) | Indivisible cluster resampling across 4,496 clusters | **Tested** | Accuracy 95% Cluster CI: [0.6969, 0.7245]; Macro-F1 95% Cluster CI: [0.6973, 0.7250] |
 | Benchmark Integrity Classification | Definitive classification of baseline benchmark integrity | **Tested** | Classified as **CONTAMINATED**; machine-readable audit artifacts stored in `research/audits/phase3_2/` |
+
+---
+
+### Phase 3.3: Historical Test Evaluation & Final Baseline Verification
+| Module / Feature | Description | Status | Notes |
+|:---|:---|:---:|:---|
+| Full Historical Test Set Evaluation | Deterministic evaluation of original checkpoint across all 3,110 historical test images | **Tested** | 65.92% Acc [0.6423, 0.6756], 66.11% Macro-F1, 0.9392 AUROC, 0.0357 ECE |
+| Cross-Split Duplicate Audit | Audit SHA-256 & dHash leakage across historical Train/Val/Test | **Tested** | 174 test images had exact match in Train; 34 in Val; 0 label conflicts; 93.83% strictly unexposed |
+| Duplicate Memorization Quantification | Compare model performance on training duplicates vs clean test samples | **Tested** | 70.69% on train duplicates vs. 65.63% unexposed ($\Delta = +5.06\%$ memorization boost) |
+| Deduplicated & Sensitivity Benchmarks | Evaluate exact-unique (N=3,090) and strictly unexposed (N=2,918) cohorts | **Tested** | Unique Acc: 65.95%; Strictly Unexposed Acc: 65.66% [0.6392, 0.6736] |
+| Cluster-Bootstrap Uncertainty ($B=1000$) | Resample 3,090 indivisible clusters for empirical confidence intervals | **Tested** | Cluster 95% CI: Accuracy [0.6421, 0.6759], Macro-F1 [0.6444, 0.6775] |
+| Final Baseline Certification | Establish certified baseline and permanently retire contaminated 71.04% metric | **Tested** | Documented in `docs/PHASE3_3_HISTORICAL_TEST_AND_FINAL_BASELINE_REPORT.md` (62 tests passing) |
 
 ---
 
@@ -174,9 +186,9 @@
 
 ## Next Immediate Action
 
-**Phase 3.2 — Checkpoint Lineage & Duplicate-Aware Audit Complete:**  
-Audit classified baseline as **`CONTAMINATED`** (80.56% overlap with historical training data). Baseline achieved 65.84% on genuinely unseen historical test images. Machine-readable audit artifacts and comprehensive audit report (`docs/PHASE3_2_CHECKPOINT_LINEAGE_AND_DUPLICATE_AUDIT_REPORT.md`) completed.
+**Phase 3.3 — Historical Test Evaluation & Final Baseline Certification Complete:**  
+The baseline GastricCancerRNN checkpoint has been definitively evaluated on the historical test set ($N=3,110$), achieving **65.92% Accuracy** ($95\%$ CI: $[64.23\%, 67.56\%]$) and **65.66% Accuracy** on strictly unexposed samples ($N=2,918$). The Phase 3.1 71.04% score has been permanently retired as contaminated. All machine-readable artifacts and comprehensive documentation (`docs/PHASE3_3_HISTORICAL_TEST_AND_FINAL_BASELINE_REPORT.md`) are committed, and 62/62 automated tests pass.
 
-**Awaiting User Review & Authorization for Next Phase:**  
-Either execute Protocol A (evaluate baseline on the 3,110 uncorrupted historical test set images), Protocol B (clean retrain baseline and comparator models on Phase 2 `manifest_train.csv`), or proceed to Phase 4 (Pathology Foundation Models / Embeddings).
+**Awaiting User Review & Authorization for Phase 4:**  
+Awaiting explicit authorization to initiate **Phase 4: Pathology Foundation Models (DINOv2, Phikon embeddings, feature caching, and FAISS similarity retrieval)**.
 

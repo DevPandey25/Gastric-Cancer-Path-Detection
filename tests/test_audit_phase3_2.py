@@ -81,3 +81,4 @@ def test_duplicate_aware_metrics_data():
     assert lineage["historical_train_overlap_subset"]["accuracy"] == 0.7299
     assert lineage["historical_unseen_test_subset"]["sample_count"] == 442
     assert lineage["historical_unseen_test_subset"]["accuracy"] == 0.6584
+
