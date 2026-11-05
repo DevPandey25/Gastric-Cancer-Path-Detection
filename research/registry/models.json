@@ -108,5 +108,68 @@
     ],
     "status": "baseline",
     "registered_at": "2026-11-05T21:50:22.266586+00:00"
+  },
+  "baseline_evaluated_exp_20261105_221027_2463a2de": {
+    "model_id": "baseline_evaluated_exp_20261105_221027_2463a2de",
+    "name": "GastricCancerRNN Full Test Verified",
+    "architecture": "GastricCancerRNN (CNN-BiLSTM-Attention)",
+    "checkpoint_path": "C:\\Users\\KIIT0001\\OneDrive\\Desktop\\gastric-cancer-histopathology-dashboard-main\\models\\checkpoints\\gastric_rnn_classifier.pt",
+    "checkpoint_hash": "65369ef618ad1d0ad10ecb65b6f15324e932f52e21c8b25a43b71c636726d8b8",
+    "dataset_info": {
+      "name": "GCHTID",
+      "total_classes": 8,
+      "classes": [
+        "ADI",
+        "DEB",
+        "LYM",
+        "MUC",
+        "MUS",
+        "NOR",
+        "STR",
+        "TUM"
+      ],
+      "test_samples": 4665
+    },
+    "training_config": {},
+    "evaluation_metrics": {
+      "test_accuracy": 0.7104,
+      "test_accuracy_ci_95": [
+        0.6972,
+        0.7232
+      ],
+      "test_macro_f1": 0.7114,
+      "test_macro_f1_ci_95": [
+        0.6984,
+        0.7235
+      ],
+      "test_balanced_accuracy": 0.7104,
+      "test_balanced_accuracy_ci_95": [
+        0.698,
+        0.7225
+      ],
+      "cohen_kappa": 0.669,
+      "macro_auroc": 0.9593,
+      "weighted_auroc": 0.9593,
+      "ece": 0.0167,
+      "brier_score": 0.388
+    },
+    "class_labels": [
+      "ADI",
+      "DEB",
+      "LYM",
+      "MUC",
+      "MUS",
+      "NOR",
+      "STR",
+      "TUM"
+    ],
+    "input_preprocessing": {},
+    "git_commit": "unknown",
+    "model_limitations": [
+      "Evaluated strictly on image-level group-stratified splits.",
+      "Does not output clinical tumor burden; probabilities represent model confidence."
+    ],
+    "status": "baseline",
+    "registered_at": "2026-11-05T22:13:33.881198+00:00"
   }
 }

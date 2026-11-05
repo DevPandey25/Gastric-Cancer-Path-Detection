@@ -1,7 +1,7 @@
 """Report Generator for GastricPath AI Benchmarks.
 
 Exports metrics.json, epoch_history.csv, predictions_test.csv, confusion_matrix.csv,
-classification_report.csv, and experiment_summary.md.
+classification_report.csv, and experiment_summary.md with Wilson and bootstrap confidence intervals.
 """
 
 from __future__ import annotations
@@ -79,17 +79,22 @@ def generate_experiment_reports(
                 "class_index",
                 "precision",
                 "recall_sensitivity",
+                "sensitivity_ci_95_lower",
+                "sensitivity_ci_95_upper",
                 "specificity",
                 "f1_score",
                 "support",
                 "auroc_ovr",
             ])
             for c_name, c_data in metrics["per_class"].items():
+                ci = c_data.get("sensitivity_ci_95", ["N/A", "N/A"])
                 writer.writerow([
                     c_name,
                     c_data["class_index"],
                     c_data["precision"],
                     c_data["recall_sensitivity"],
+                    ci[0],
+                    ci[1],
                     c_data["specificity"],
                     c_data["f1_score"],
                     c_data["support"],
@@ -101,6 +106,10 @@ def generate_experiment_reports(
     summary_file = exp_path / "experiment_summary.md"
     meta = experiment_metadata or {}
     overall = metrics.get("overall", {})
+
+    acc_ci = overall.get("accuracy_ci_95", ["N/A", "N/A"])
+    f1_ci = overall.get("macro_f1_ci_95", ["N/A", "N/A"])
+    bal_ci = overall.get("balanced_accuracy_ci_95", ["N/A", "N/A"])
 
     md_lines = [
         f"# Experiment Summary: {meta.get('experiment_id', exp_path.name)}",
@@ -115,18 +124,18 @@ def generate_experiment_reports(
         "",
         "## Overall Test Evaluation Metrics",
         "",
-        f"| Metric | Value |",
-        f"|:---|:---:|",
-        f"| **Test Accuracy** | **{overall.get('accuracy', 'N/A')}** |",
-        f"| **Balanced Accuracy** | {overall.get('balanced_accuracy', 'N/A')} |",
-        f"| **Macro F1-Score** | **{overall.get('macro_f1', 'N/A')}** |",
-        f"| **Weighted F1-Score** | {overall.get('weighted_f1', 'N/A')} |",
-        f"| **Macro Precision** | {overall.get('macro_precision', 'N/A')} |",
-        f"| **Macro Recall** | {overall.get('macro_recall', 'N/A')} |",
-        f"| **Cohen's Kappa** | {overall.get('cohen_kappa', 'N/A')} |",
-        f"| **Macro AUROC (OvR)** | {overall.get('macro_auroc', 'N/A')} |",
-        f"| **Expected Calibration Error (ECE)** | {overall.get('expected_calibration_error', 'N/A')} |",
-        f"| **Brier Score** | {overall.get('brier_score', 'N/A')} |",
+        f"| Metric | Value | 95% Confidence Interval |",
+        f"|:---|:---:|:---:|",
+        f"| **Test Accuracy** | **{overall.get('accuracy', 'N/A')}** | [{acc_ci[0]}, {acc_ci[1]}] (Wilson) |",
+        f"| **Balanced Accuracy** | {overall.get('balanced_accuracy', 'N/A')} | [{bal_ci[0]}, {bal_ci[1]}] (Bootstrap) |",
+        f"| **Macro F1-Score** | **{overall.get('macro_f1', 'N/A')}** | [{f1_ci[0]}, {f1_ci[1]}] (Bootstrap) |",
+        f"| **Weighted F1-Score** | {overall.get('weighted_f1', 'N/A')} | — |",
+        f"| **Macro Precision** | {overall.get('macro_precision', 'N/A')} | — |",
+        f"| **Macro Recall** | {overall.get('macro_recall', 'N/A')} | — |",
+        f"| **Cohen's Kappa** | {overall.get('cohen_kappa', 'N/A')} | — |",
+        f"| **Macro AUROC (OvR)** | {overall.get('macro_auroc', 'N/A')} | — |",
+        f"| **Expected Calibration Error (ECE)** | {overall.get('expected_calibration_error', 'N/A')} | — |",
+        f"| **Brier Score** | {overall.get('brier_score', 'N/A')} | — |",
         "",
         "## Scientific Integrity Limitation",
         "",
@@ -142,4 +151,3 @@ def generate_experiment_reports(
     generated_files["experiment_summary_md"] = summary_file
 
     return generated_files
-

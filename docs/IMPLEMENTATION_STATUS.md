@@ -1,7 +1,7 @@
 # GastricPath AI — Master Implementation Status Tracker
 
 **Document ID:** `GP-STATUS-2026-V1`  
-**Current Phase:** Phase 3 Complete (Classification Research Engine & Baseline Benchmarking Verified) — Awaiting User Authorization for Phase 4  
+**Current Phase:** Phase 3.1 Complete (Full Test-Set Evaluation & Scientific Audit Verified) — Awaiting User Authorization for Phase 4  
 **Last Updated:** November 2026  
 
 ---
@@ -56,13 +56,14 @@
 
 ---
 
-### Phase 3: Classification Benchmark Suite
+### Phase 3 & 3.1: Classification Benchmark Suite & Scientific Verification Audit
 | Module / Feature | Description | Status | Notes |
 |:---|:---|:---:|:---|
-| Existing CNN-BiLSTM-Attention Baseline | Preserve current 8-class sequence model checkpoint | **Tested** | Re-evaluated on leak-proof test set: 71.50% Acc, 71.15% Macro-F1, 0.9612 AUROC |
-| Standard ResNet50 Classifier Baseline | Standard 2D CNN pathology baseline with ImageNet weights | **Tested** | Implemented & smoke-tested on GCHTID (`research/benchmark/models.py`) |
+| Existing CNN-BiLSTM-Attention Baseline | Full 4,665 test-image evaluation of original sequence checkpoint | **Tested** | 71.04% Acc [69.72, 72.32], 71.14% Macro-F1, 0.9593 AUROC, 0.0167 ECE |
+| Standard ResNet50 Classifier Baseline | Standard 2D CNN pathology baseline (`research/benchmark/models.py`) | **Tested** | Initialized with random weights (`pretrained=False`); zero external downloads |
 | EfficientNet / ConvNeXt Baseline | Lightweight convolutional baseline suited for CPU/edge inference | **Tested** | Implemented EfficientNet-B0 (4.0M params) with dynamic input transforms |
-| Comprehensive Evaluation Metrics | Macro-F1, balanced accuracy, per-class sensitivity/specificity, AUROC | **Tested** | Implemented in `research/benchmark/metrics.py`; includes ECE & Brier score |
+| Comprehensive Evaluation Metrics | Macro/weighted F1, Cohen's kappa, OvR AUROC, ECE, Brier score | **Tested** | Verified with synthetic edge cases; Wilson & bootstrap 95% CIs |
+| Historical Discrepancy Investigation | Forensic analysis of 56.82% notebook vs. 71.04% verified accuracy | **Tested** | 56.82% traced to Keras Conv2D model; PyTorch sequence baseline achieved 71.04% |
 | Scientific Disclaimer on Cancer Percentage | Explicit separation of class probabilities from true tumor area fraction | **Tested** | Integrated into benchmark summaries, reporting, and model registry |
 
 ---

@@ -2,16 +2,86 @@
 
 Implements accuracy, balanced accuracy, macro/weighted precision, recall, F1, Cohen's kappa,
 multiclass confusion matrix, per-class sensitivity, specificity, support, One-vs-Rest AUROC,
-macro/weighted AUROC, Brier score, and Expected Calibration Error (ECE).
+macro/weighted AUROC, Brier score, Expected Calibration Error (ECE), Wilson score confidence
+intervals, and deterministic bootstrap confidence intervals.
 """
 
 from __future__ import annotations
 
+import math
 from typing import Any
 import numpy as np
 from sklearn import metrics as sk_metrics
 
 from research.benchmark.dataset import CANONICAL_CLASSES
+
+
+def wilson_score_interval(
+    successes: int,
+    total: int,
+    confidence: float = 0.95,
+) -> tuple[float, float]:
+    """Calculates Wilson score binomial confidence interval for a proportion.
+
+    Suitable for image-level accuracy and per-class sensitivity (recall).
+    NOTE: Filenames do not encode patient IDs, so this interval applies to
+    image-level test sample proportions, not patient-level diagnostic confidence.
+    """
+    if total <= 0:
+        return (0.0, 0.0)
+
+    # Standard normal quantile: 1.95996 for 95% CI
+    z = 1.959963984540054 if abs(confidence - 0.95) < 1e-4 else math.sqrt(2.0) * math.erf(confidence)
+    p_hat = successes / total
+    n_tilde = total + z * z
+    p_tilde = (successes + 0.5 * z * z) / n_tilde
+    margin = (z / n_tilde) * math.sqrt(total * p_hat * (1.0 - p_hat) + 0.25 * z * z)
+
+    lower = max(0.0, float(p_tilde - margin))
+    upper = min(1.0, float(p_tilde + margin))
+    return (round(lower, 4), round(upper, 4))
+
+
+def compute_bootstrap_confidence_intervals(
+    y_true: np.ndarray,
+    y_pred: np.ndarray,
+    n_bootstraps: int = 1000,
+    seed: int = 42,
+) -> dict[str, tuple[float, float]]:
+    """Calculates empirical percentile bootstrap 95% confidence intervals.
+
+    Used for Macro-F1 and Balanced Accuracy where closed-form binomial intervals
+    do not apply. Deterministically seeded for reproducibility.
+    """
+    n_samples = len(y_true)
+    if n_samples < 5:
+        return {
+            "macro_f1_ci_95": (0.0, 0.0),
+            "balanced_accuracy_ci_95": (0.0, 0.0),
+        }
+
+    rng = np.random.default_rng(seed)
+    boot_macro_f1 = []
+    boot_bal_acc = []
+
+    for _ in range(n_bootstraps):
+        idx = rng.integers(0, n_samples, size=n_samples)
+        sample_true = y_true[idx]
+        sample_pred = y_pred[idx]
+
+        f1 = sk_metrics.f1_score(sample_true, sample_pred, average="macro", zero_division=0)
+        bal = sk_metrics.balanced_accuracy_score(sample_true, sample_pred)
+
+        boot_macro_f1.append(f1)
+        boot_bal_acc.append(bal)
+
+    lower_f1, upper_f1 = np.percentile(boot_macro_f1, [2.5, 97.5])
+    lower_bal, upper_bal = np.percentile(boot_bal_acc, [2.5, 97.5])
+
+    return {
+        "macro_f1_ci_95": (round(float(lower_f1), 4), round(float(upper_f1), 4)),
+        "balanced_accuracy_ci_95": (round(float(lower_bal), 4), round(float(upper_bal), 4)),
+    }
 
 
 def compute_expected_calibration_error(
@@ -75,6 +145,7 @@ def compute_comprehensive_metrics(
     y_true: list[int] | np.ndarray,
     y_prob: list[list[float]] | np.ndarray,
     class_names: list[str] | None = None,
+    compute_ci: bool = True,
 ) -> dict[str, Any]:
     """Computes full suite of overall and per-class computational pathology metrics."""
     if class_names is None:
@@ -87,6 +158,7 @@ def compute_comprehensive_metrics(
     if len(y_true_arr) == 0:
         raise ValueError("Cannot compute metrics on empty ground truth.")
 
+    total_samples = len(y_true_arr)
     y_pred_arr = np.argmax(y_prob_arr, axis=1)
 
     # 1. Overall Metrics
@@ -106,13 +178,26 @@ def compute_comprehensive_metrics(
         kappa = 0.0
     cm = sk_metrics.confusion_matrix(y_true_arr, y_pred_arr, labels=list(range(num_classes)))
 
+    # Wilson 95% Confidence Interval for Accuracy
+    total_correct = int(np.sum(y_true_arr == y_pred_arr))
+    acc_ci_lower, acc_ci_upper = wilson_score_interval(total_correct, total_samples, confidence=0.95)
+
+    # Bootstrap 95% CIs for Macro-F1 and Balanced Accuracy
+    if compute_ci:
+        boot_cis = compute_bootstrap_confidence_intervals(y_true_arr, y_pred_arr, n_bootstraps=1000)
+    else:
+        boot_cis = {
+            "macro_f1_ci_95": (round(float(macro_f1), 4), round(float(macro_f1), 4)),
+            "balanced_accuracy_ci_95": (round(float(bal_acc), 4), round(float(bal_acc), 4)),
+        }
+
     # 2. Per-Class Specificity, Precision, Recall, F1, Support
     per_class_p, per_class_r, per_class_f1, per_class_sup = sk_metrics.precision_recall_fscore_support(
         y_true_arr, y_pred_arr, labels=list(range(num_classes)), zero_division=0
     )
 
     per_class_metrics: dict[str, dict[str, Any]] = {}
-    total_samples = len(y_true_arr)
+    valid_ovr_aurocs: list[tuple[float, int]] = []  # (auroc, support)
 
     # Calculate per-class Specificity = TN / (TN + FP)
     for c_idx, c_name in enumerate(class_names):
@@ -121,13 +206,20 @@ def compute_comprehensive_metrics(
         fp = np.sum(cm[:, c_idx]) - tp
         tn = total_samples - (tp + fn + fp)
         specificity = tn / (tn + fp) if (tn + fp) > 0 else 0.0
+        support_c = int(per_class_sup[c_idx])
+
+        # Per-class sensitivity 95% Wilson confidence interval
+        sens_ci_lower, sens_ci_upper = wilson_score_interval(int(tp), support_c, confidence=0.95)
 
         # One-vs-Rest AUROC for this class
         ovr_auroc: float | None = None
         c_true = (y_true_arr == c_idx).astype(int)
         if len(np.unique(c_true)) > 1:
             try:
-                ovr_auroc = round(float(sk_metrics.roc_auc_score(c_true, y_prob_arr[:, c_idx])), 4)
+                score = float(sk_metrics.roc_auc_score(c_true, y_prob_arr[:, c_idx]))
+                if not np.isnan(score):
+                    ovr_auroc = round(score, 4)
+                    valid_ovr_aurocs.append((ovr_auroc, support_c))
             except Exception:
                 ovr_auroc = None
 
@@ -135,21 +227,24 @@ def compute_comprehensive_metrics(
             "class_index": c_idx,
             "precision": round(float(per_class_p[c_idx]), 4),
             "recall_sensitivity": round(float(per_class_r[c_idx]), 4),
+            "sensitivity_ci_95": [sens_ci_lower, sens_ci_upper],
             "specificity": round(float(specificity), 4),
             "f1_score": round(float(per_class_f1[c_idx]), 4),
-            "support": int(per_class_sup[c_idx]),
+            "support": support_c,
             "auroc_ovr": ovr_auroc,
         }
 
-    # 3. Macro & Weighted AUROC
-    macro_auroc: float | None = None
-    weighted_auroc: float | None = None
-    if len(np.unique(y_true_arr)) > 1:
-        try:
-            macro_auroc = round(float(sk_metrics.roc_auc_score(y_true_arr, y_prob_arr, multi_class="ovr", average="macro")), 4)
-            weighted_auroc = round(float(sk_metrics.roc_auc_score(y_true_arr, y_prob_arr, multi_class="ovr", average="weighted")), 4)
-        except Exception:
-            pass
+    # 3. Macro & Weighted AUROC from Valid Per-Class AUROCs
+    if valid_ovr_aurocs:
+        macro_auroc = round(float(np.mean([item[0] for item in valid_ovr_aurocs])), 4)
+        total_valid_sup = sum(item[1] for item in valid_ovr_aurocs)
+        if total_valid_sup > 0:
+            weighted_auroc = round(float(sum(item[0] * item[1] for item in valid_ovr_aurocs) / total_valid_sup), 4)
+        else:
+            weighted_auroc = macro_auroc
+    else:
+        macro_auroc = None
+        weighted_auroc = None
 
     # 4. Calibration & Brier Score
     ece, ece_bins = compute_expected_calibration_error(y_true_arr, y_prob_arr)
@@ -159,10 +254,13 @@ def compute_comprehensive_metrics(
         "overall": {
             "total_samples": total_samples,
             "accuracy": round(float(acc), 4),
+            "accuracy_ci_95": [acc_ci_lower, acc_ci_upper],
             "balanced_accuracy": round(float(bal_acc), 4),
+            "balanced_accuracy_ci_95": list(boot_cis["balanced_accuracy_ci_95"]),
             "macro_precision": round(float(macro_p), 4),
             "macro_recall": round(float(macro_r), 4),
             "macro_f1": round(float(macro_f1), 4),
+            "macro_f1_ci_95": list(boot_cis["macro_f1_ci_95"]),
             "weighted_precision": round(float(weighted_p), 4),
             "weighted_recall": round(float(weighted_r), 4),
             "weighted_f1": round(float(weighted_f1), 4),
@@ -177,4 +275,3 @@ def compute_comprehensive_metrics(
         "ece_bins": ece_bins,
         "class_labels": class_names,
     }
-

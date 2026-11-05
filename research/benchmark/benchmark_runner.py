@@ -70,10 +70,11 @@ def evaluate_baseline_model(
     provenance = get_system_provenance()
 
     tracker = ExperimentTracker(experiment_dir=cfg.paths.workspace_root / "research" / "experiments")
+    exp_name = "GastricCancerRNN Full Test Evaluation (4,665 Images)" if test_limit is None else f"GastricCancerRNN Baseline Evaluation ({test_limit} Images)"
     run = tracker.start_experiment(
-        name="GastricCancerRNN Baseline Evaluation",
+        name=exp_name,
         model_architecture="GastricCancerRNN",
-        dataset_info={"name": cfg.dataset.name, "split": "test"},
+        dataset_info={"name": cfg.dataset.name, "split": "test", "total_images": 4665 if test_limit is None else test_limit},
         config=cfg.model_dump(mode="json"),
         seed=cfg.environment.seed,
     )
@@ -161,7 +162,7 @@ def evaluate_baseline_model(
     registry = ModelRegistry(registry_dir=cfg.paths.registry_dir)
     meta_card = ModelMetadata(
         model_id=f"baseline_evaluated_{run.run_id}",
-        name="GastricCancerRNN Baseline Verified",
+        name="GastricCancerRNN Full Test Verified" if test_limit is None else "GastricCancerRNN Baseline Verified",
         architecture="GastricCancerRNN (CNN-BiLSTM-Attention)",
         checkpoint_path=str(cfg.baseline_model.checkpoint_file),
         checkpoint_hash=cp_sha,
@@ -173,10 +174,16 @@ def evaluate_baseline_model(
         },
         evaluation_metrics={
             "test_accuracy": overall["accuracy"],
+            "test_accuracy_ci_95": overall.get("accuracy_ci_95"),
             "test_macro_f1": overall["macro_f1"],
+            "test_macro_f1_ci_95": overall.get("macro_f1_ci_95"),
             "test_balanced_accuracy": overall["balanced_accuracy"],
+            "test_balanced_accuracy_ci_95": overall.get("balanced_accuracy_ci_95"),
             "cohen_kappa": overall["cohen_kappa"],
+            "macro_auroc": overall.get("macro_auroc"),
+            "weighted_auroc": overall.get("weighted_auroc"),
             "ece": overall["expected_calibration_error"],
+            "brier_score": overall["brier_score"],
         },
         class_labels=cfg.dataset.classes,
         status="baseline",

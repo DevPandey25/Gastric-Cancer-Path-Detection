@@ -25,6 +25,7 @@ def evaluate_model(
     dataloader: DataLoader,
     device: torch.device | str = "cpu",
     class_names: list[str] | None = None,
+    print_progress: bool = True,
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     """Evaluates a model over a DataLoader, returning comprehensive metrics and detailed prediction rows."""
     if class_names is None:
@@ -37,8 +38,9 @@ def evaluate_model(
     all_y_prob: list[list[float]] = []
     prediction_records: list[dict[str, Any]] = []
 
+    total_batches = len(dataloader)
     with torch.no_grad():
-        for batch in dataloader:
+        for batch_idx, batch in enumerate(dataloader):
             inputs, targets, paths = batch
             inputs = inputs.to(device)
             targets = targets.to(device)
@@ -75,6 +77,9 @@ def evaluate_model(
 
                 prediction_records.append(rec)
 
+            if print_progress and ((batch_idx + 1) % 25 == 0 or (batch_idx + 1) == total_batches):
+                pct = 100.0 * (batch_idx + 1) / total_batches
+                print(f"  [Progress] Processed batch {batch_idx + 1}/{total_batches} ({pct:.1f}%) — {len(all_y_true)} images evaluated")
+
     metrics_result = compute_comprehensive_metrics(all_y_true, all_y_prob, class_names=class_names)
     return metrics_result, prediction_records
-
