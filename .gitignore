@@ -11,6 +11,7 @@ data/uploads/*
 models/checkpoints/*
 !models/checkpoints/.gitkeep
 !models/checkpoints/gastric_rnn_classifier.pt
+research/experiments/**/checkpoints/*
 model_train/logs/*
 !model_train/logs/.gitkeep
 !model_train/logs/training_summary.json

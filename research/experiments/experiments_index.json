@@ -1,0 +1,36 @@
+[
+  {
+    "run_id": "exp_20261105_214959_acf25e9b",
+    "name": "GastricCancerRNN Baseline Evaluation",
+    "status": "COMPLETED",
+    "model_architecture": "GastricCancerRNN",
+    "created_at": "2026-11-05T21:49:59.337652+00:00",
+    "completed_at": "2026-11-05T21:50:22.225932+00:00",
+    "seed": 42,
+    "metrics_summary": {
+      "test_accuracy": 0.715,
+      "test_macro_f1": 0.7115,
+      "test_balanced_accuracy": 0.715,
+      "test_brier_score": 0.3806,
+      "test_ece": 0.0351
+    },
+    "run_dir": "research/experiments/exp_20261105_214959_acf25e9b"
+  },
+  {
+    "run_id": "exp_20261105_214700_3971005c",
+    "name": "Smoke Test ResNet50",
+    "status": "COMPLETED",
+    "model_architecture": "ResNet50",
+    "created_at": "2026-11-05T21:47:00.078339+00:00",
+    "completed_at": "2026-11-05T21:47:39.767334+00:00",
+    "seed": 42,
+    "metrics_summary": {
+      "test_accuracy": 0.125,
+      "test_macro_f1": 0.0278,
+      "test_balanced_accuracy": 0.125,
+      "test_brier_score": 0.8806,
+      "test_ece": 0.0263
+    },
+    "run_dir": "research/experiments/exp_20261105_214700_3971005c"
+  }
+]

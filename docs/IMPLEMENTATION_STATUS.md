@@ -1,7 +1,7 @@
 # GastricPath AI — Master Implementation Status Tracker
 
 **Document ID:** `GP-STATUS-2026-V1`  
-**Current Phase:** Phase 2 Complete (Dataset Integrity, Audit & Leak-Proof Splits Verified) — Awaiting User Authorization for Phase 3  
+**Current Phase:** Phase 3 Complete (Classification Research Engine & Baseline Benchmarking Verified) — Awaiting User Authorization for Phase 4  
 **Last Updated:** November 2026  
 
 ---
@@ -59,11 +59,11 @@
 ### Phase 3: Classification Benchmark Suite
 | Module / Feature | Description | Status | Notes |
 |:---|:---|:---:|:---|
-| Existing CNN-BiLSTM-Attention Baseline | Preserve current 8-class sequence model checkpoint | **Tested** | 64.86% val accuracy active |
-| Standard ResNet50 Classifier Baseline | Standard 2D CNN pathology baseline with ImageNet weights | **Not started** | Ready to implement |
-| EfficientNet / ConvNeXt Baseline | Lightweight convolutional baseline suited for CPU/edge inference | **Not started** | Planned |
-| Comprehensive Evaluation Metrics | Macro-F1, balanced accuracy, per-class sensitivity/specificity, AUROC | **Not started** | Replaces single accuracy metric |
-| Scientific Disclaimer on Cancer Percentage | Explicit separation of class probabilities from true tumor area fraction | **Not started** | Corrects methodological flaw |
+| Existing CNN-BiLSTM-Attention Baseline | Preserve current 8-class sequence model checkpoint | **Tested** | Re-evaluated on leak-proof test set: 71.50% Acc, 71.15% Macro-F1, 0.9612 AUROC |
+| Standard ResNet50 Classifier Baseline | Standard 2D CNN pathology baseline with ImageNet weights | **Tested** | Implemented & smoke-tested on GCHTID (`research/benchmark/models.py`) |
+| EfficientNet / ConvNeXt Baseline | Lightweight convolutional baseline suited for CPU/edge inference | **Tested** | Implemented EfficientNet-B0 (4.0M params) with dynamic input transforms |
+| Comprehensive Evaluation Metrics | Macro-F1, balanced accuracy, per-class sensitivity/specificity, AUROC | **Tested** | Implemented in `research/benchmark/metrics.py`; includes ECE & Brier score |
+| Scientific Disclaimer on Cancer Percentage | Explicit separation of class probabilities from true tumor area fraction | **Tested** | Integrated into benchmark summaries, reporting, and model registry |
 
 ---
 

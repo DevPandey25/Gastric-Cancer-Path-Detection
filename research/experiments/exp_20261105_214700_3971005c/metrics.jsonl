@@ -1,0 +1,2 @@
+{"timestamp": "2026-11-05T21:47:39.712526+00:00", "name": "test_accuracy", "value": 0.125, "step": null}
+{"timestamp": "2026-11-05T21:47:39.714751+00:00", "name": "test_macro_f1", "value": 0.0278, "step": null}

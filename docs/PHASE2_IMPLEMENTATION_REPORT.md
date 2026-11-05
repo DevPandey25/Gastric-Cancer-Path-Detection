@@ -246,3 +246,4 @@ With clean, verified, and leak-proof dataset manifests established, the platform
    - Expand beyond simple accuracy to include Macro-F1, Weighted-F1, Balanced Accuracy, Per-Class Sensitivity (Recall), Per-Class Specificity, AUROC (One-vs-Rest), and Cohen's Kappa.
 3. **Formal Decoupling of Cancer Probability from Tumor Area:**
    - Update API and dashboard reporting logic to clearly separate model confidence scores from physical anatomical tumor area fractions.
+

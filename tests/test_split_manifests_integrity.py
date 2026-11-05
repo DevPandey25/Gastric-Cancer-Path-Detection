@@ -66,3 +66,4 @@ def test_generated_manifests_integrity_and_exclusivity():
     assert summary_data["split_manifest_hashes"]["manifest_train.csv"] == compute_sha256(train_path)
     assert summary_data["split_manifest_hashes"]["manifest_val.csv"] == compute_sha256(val_path)
     assert summary_data["split_manifest_hashes"]["manifest_test.csv"] == compute_sha256(test_path)
+

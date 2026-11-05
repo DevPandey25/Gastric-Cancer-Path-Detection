@@ -61,7 +61,7 @@ class ExperimentRun:
             "metrics_summary": self.metrics_summary,
             "artifacts": self.artifacts,
         }
-        self.manifest_file.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        self.manifest_file.write_text(json.dumps(payload, default=str, indent=2), encoding="utf-8")
 
     def log_metric(self, name: str, value: float, step: int | None = None) -> None:
         """Log a single scalar metric with timestamp and optional step/epoch."""
@@ -72,7 +72,7 @@ class ExperimentRun:
             "step": step,
         }
         with open(self.metrics_file, "a", encoding="utf-8") as f:
-            f.write(json.dumps(entry) + "\n")
+            f.write(json.dumps(entry, default=str) + "\n")
         self.metrics_summary[name] = float(value)
 
     def log_metrics(self, metrics: dict[str, float], step: int | None = None) -> None:
@@ -86,7 +86,7 @@ class ExperimentRun:
                     "value": float(val),
                     "step": step,
                 }
-                f.write(json.dumps(entry) + "\n")
+                f.write(json.dumps(entry, default=str) + "\n")
                 self.metrics_summary[name] = float(val)
 
     def log_artifact(self, source_path: Path | str, artifact_name: str | None = None) -> Path:
@@ -189,6 +189,9 @@ class ExperimentTracker:
         """Finishes the run and updates the index."""
         run.finish(status=status, summary=summary)
         self._update_index(run)
+
+    # Alias for finish_experiment
+    complete_experiment = finish_experiment
 
     def list_experiments(self) -> list[dict[str, Any]]:
         """Returns the list of all tracked experiments."""

@@ -111,3 +111,8 @@ def get_nondeterministic_operations_disclosure() -> list[str]:
         "Multi-threaded CPU BLAS operations (OpenBLAS/MKL) may sum floating-point numbers in non-associative order.",
     ]
 
+
+# Convenience aliases
+set_seed = set_reproducible_seed
+get_system_provenance = get_environment_provenance
+
