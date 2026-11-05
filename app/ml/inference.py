@@ -22,7 +22,7 @@ except ImportError:  # pragma: no cover - allows the app to start before full ML
 class InferenceService:
     def __init__(self) -> None:
         self.class_names = TISSUE_CLASSES
-        self.prototypes = self._build_prototypes()
+        self.prototypes: dict[str, np.ndarray] | None = None
         self.model_loaded = False
         self.model_source = "prototype-baseline"
         self.checkpoint_validation_accuracy = 0.0
@@ -66,13 +66,14 @@ class InferenceService:
                 self.model_source = "trained-checkpoint"
 
     def status(self) -> dict:
+        prototype_ready = bool(self.prototypes) if self.prototypes is not None else settings.histology_dataset_dir.exists()
         return {
             "mode": self.model_source,
             "checkpoint_available": self.model_loaded,
             "checkpoint_found": settings.model_checkpoint.exists(),
             "checkpoint_validation_accuracy": round(self.checkpoint_validation_accuracy, 4),
             "torch_available": TORCH_AVAILABLE,
-            "prototype_ready": bool(self.prototypes),
+            "prototype_ready": prototype_ready,
             "checkpoint_path": str(settings.model_checkpoint),
         }
 
@@ -127,6 +128,8 @@ class InferenceService:
         return result
 
     def _predict_with_prototypes(self, image_path: Path) -> dict:
+        if self.prototypes is None:
+            self.prototypes = self._build_prototypes()
         if not self.prototypes:
             raise FileNotFoundError(
                 "No trained model checkpoint or prototype dataset could be loaded. Ensure the dataset is present."
