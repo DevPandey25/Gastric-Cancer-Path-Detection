@@ -95,20 +95,20 @@ The optimal linear probes were evaluated strictly on the **Phase 2 test set ($N=
 
 Detailed per-class metrics on the test split ($N = 4,665$) for the CLS Token Probe ($C^*=20.0$) and Mean Spatial Patch Probe ($C^*=200.0$):
 
-| Class | Description | Support | CLS Precision | CLS Recall (Sens) | CLS Specificity | CLS F1-Score | Patch Precision | Patch Recall (Sens) | Patch Specificity | Patch F1-Score |
-|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **ADI** | Adipose Tissue | 583 | 75.08% | 76.50% | 96.37% | **75.79%** | 76.13% | 78.22% | 96.50% | **77.16%** |
-| **DEB** | Necrotic Debris | 583 | 58.72% | 56.60% | 94.32% | **57.64%** | 58.15% | 58.15% | 94.02% | **58.15%** |
-| **LYM** | Lymphocytes | 583 | 74.45% | 80.96% | 96.03% | **77.57%** | 77.36% | 80.27% | 96.64% | **78.79%** |
-| **MUC** | Mucus Lakes | 584 | 61.79% | 57.88% | 94.88% | **59.77%** | 65.79% | 59.93% | 95.54% | **62.72%** |
-| **MUS** | Smooth Muscle | 583 | 72.20% | 66.38% | 96.35% | **69.17%** | 71.06% | 67.75% | 96.06% | **69.36%** |
-| **NOR** | Normal Mucosa | 583 | 51.37% | 48.20% | 93.48% | **49.73%** | 52.35% | 51.63% | 93.29% | **51.99%** |
-| **STR** | Cancer Stroma | 583 | 60.62% | 60.72% | 94.37% | **60.67%** | 58.56% | 59.86% | 93.95% | **59.20%** |
-| **TUM** | Tumor Epithelium | 583 | 59.61% | 67.58% | 93.46% | **63.34%** | 61.07% | 64.84% | 94.10% | **62.90%** |
-| **Macro** | *Unweighted Mean* | 4665 | 64.23% | 64.35% | 94.91% | **64.21%** | 65.05% | 65.08% | 95.01% | **65.03%** |
-| **Weighted** | *Support-Weighted Mean* | 4665 | 64.23% | 64.35% | 94.91% | **64.21%** | 65.05% | 65.08% | 95.01% | **65.03%** |
+| Class | CLS Precision | CLS Recall | CLS Specificity | CLS F1 | Mean-Patch Precision | Mean-Patch Recall | Mean-Patch Specificity | Mean-Patch F1 |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **ADI** | 75.08% | 76.50% | 96.37% | 75.79% | 76.13% | 78.22% | 96.50% | 77.16% |
+| **DEB** | 58.72% | 56.60% | 94.32% | 57.64% | 58.15% | 58.15% | 94.02% | 58.15% |
+| **LYM** | 74.45% | 80.96% | 96.03% | 77.57% | 77.36% | 80.27% | 96.64% | 78.79% |
+| **MUC** | 61.79% | 57.88% | 94.88% | 59.77% | 65.79% | 59.93% | 95.54% | 62.72% |
+| **MUS** | 72.20% | 66.38% | 96.35% | 69.17% | 71.04% | 67.75% | 96.06% | 69.36% |
+| **NOR** | 51.37% | 48.20% | 93.48% | 49.73% | 52.35% | 51.63% | 93.29% | 51.99% |
+| **STR** | 60.62% | 60.72% | 94.37% | 60.67% | 58.56% | 59.86% | 93.95% | 59.20% |
+| **TUM** | 59.61% | 67.58% | 93.46% | 63.34% | 61.07% | 64.84% | 94.10% | 62.90% |
+| **Macro Average** | 64.23% | 64.35% | 94.91% | 64.21% | 65.05% | 65.08% | 95.01% | 65.03% |
+| **Weighted Average** | 64.23% | 64.35% | 94.91% | 64.21% | 65.05% | 65.08% | 95.01% | 65.03% |
 
-*Note on DEB Precision/Recall Coincidence:* In the Mean Patch probe, Necrotic Debris (`DEB`) exhibits identical precision, recall, and F1 at $58.15\%$. An audit of the confusion matrix confirms $\text{TP}=339$, $\text{FP}=244$, $\text{FN}=244$; since $\text{FP} = \text{FN}$, Precision ($339/583$) and Recall ($339/583$) are mathematically identical ($58.1475\% \rightarrow 58.15\%$).
+*Note on DEB Precision/Recall Coincidence:* In the Mean Patch probe, Necrotic Debris (`DEB`) exhibits identical precision, recall, and F1 at $58.15\%$. An audit of the confusion matrix confirms $\text{TP}=339$, $\text{FP}=244$, $\text{FN}=244$; since $\text{FP} = \text{FN}$, Precision ($339/583$) and Recall ($339/583$) are mathematically identical ($58.1475\% \rightarrow 58.15\%$). Detailed verification records are documented in [`docs/PHASE4_2_2_FINAL_METRIC_TABLE_VERIFICATION.md`](file:///c:/Users/KIIT0001/OneDrive/Desktop/gastric-cancer-histopathology-dashboard-main/docs/PHASE4_2_2_FINAL_METRIC_TABLE_VERIFICATION.md).
 
 ---
 
