@@ -1,7 +1,7 @@
 # GastricPath AI — Master Implementation Status Tracker
 
 **Document ID:** `GP-STATUS-2026-V1`  
-**Current Phase:** Phase 4.1 Complete (Full Dataset Feature Extraction & Retrieval Evaluation; 86/86 Tests Passing) — Awaiting User Authorization  
+**Current Phase:** Phase 4.2 Complete (Frozen Foundation Model Downstream Probing & Linear Evaluation; 95/95 Tests Passing) — Awaiting User Authorization  
 **Last Updated:** November 2026  
 
 ---
@@ -93,7 +93,7 @@
 
 ---
 
-### Phase 4, 4.0 & 4.1: Pathology Foundation Models & Retrieval Subsystem
+### Phase 4, 4.0, 4.1 & 4.2: Pathology Foundation Models, Retrieval & Probing
 | Module / Feature | Description | Status | Notes |
 |:---|:---|:---:|:---|
 | Foundation Model Adapter Interface | Modular plug-in architecture for pathology encoders | **Tested** | Implemented `FrozenEncoderWrapper`, `load_foundation_encoder` in `research/foundation_models/` |
@@ -102,6 +102,7 @@
 | FAISS & Exact Cosine Similarity Retrieval | Top-K similar patch retrieval with split & duplicate filters | **Tested** | `HistopathologySimilarityRetriever` with self, SHA-256 duplicate, and dHash cluster exclusion |
 | Full Dataset Embedding Extraction | Extract frozen embeddings across all 31,096 images | **Tested** | Completed in 45.88 min at 11.30 img/s; constant ~550 MB RSS; 100% finite & L2-normalized |
 | Test-to-Train Retrieval Benchmark | Evaluate 4,665 test queries against 21,767 training references | **Tested** | Hit@1: 47.31% (CLS) / 47.33% (Patch); Majority@10: 54.98% / 55.13%; zero leakage verified |
+| Frozen Downstream Linear Probing | Linear softmax probing on frozen visual embeddings | **Tested** | Test Acc: 64.35% (CLS) / 65.08% (Mean Patch); Macro-F1: 64.21% / 65.03%; AUROC: 0.9293 / 0.9316 |
 | Heavy Foundation Models (UNI, UNI2, Gigapath) | Large pathology vision transformers (>1B parameters) | **Blocked by hardware** | Requires GPU VRAM (>12GB) and gated model weights |
 
 ---
@@ -188,9 +189,9 @@
 
 ## Next Immediate Action
 
-**Phase 4.1 — Full Dataset Feature Extraction, Indexing & Retrieval Evaluation Complete:**  
-Full-dataset frozen feature extraction across all **31,096 images** in GCHTID was completed using Meta AI DINOv2 ViT-S/14 in **45.88 minutes** (**11.30 images/sec**) with a constant memory footprint of **~550 MB RSS**. Both CLS tokens and mean spatial patch tokens ($[31096, 384]$ each, 45.55 MB each) were persisted in memory-mapped binary arrays accompanied by complete provenance manifests (120.05 MB total cache). Test-to-train retrieval evaluation across 4,665 test queries against the 21,767 training reference pool achieved **47.31% Hit@1** (CLS) and **47.33%** (Mean Patch), rising to **54.98% / 55.13% Majority Agreement@10**. Zero cross-split duplicate leakage was verified. 4 publication-quality visualizations were generated. 10 new tests were added (86/86 automated tests passing repo-wide, 100% pass rate).
+**Phase 4.2 — Frozen Foundation Model Downstream Probing & Linear Evaluation Complete:**  
+Downstream linear probing on frozen Meta AI DINOv2 ViT-S/14 representations was comprehensively tuned on the validation split and evaluated exactly once on the 4,665-image test split. The optimal probes achieved **64.35% Test Accuracy** / **64.21% Macro-F1** (CLS token, $C^*=20.0$) and **65.08% Test Accuracy** / **65.03% Macro-F1** (Mean Spatial Patch token, $C^*=200.0$) with **0.9293 / 0.9316 Macro OvR AUROC** and excellent probability calibration (**ECE: 0.0220 / 0.0368**). Linear probing provides a massive **+17.75 percentage point boost** over raw nearest-neighbor retrieval ($47.33\% \rightarrow 65.08\%$), demonstrating strong linear separability in pretrained self-supervised representations without any task-specific fine-tuning. 9 new unit and integration tests were added; all 95 tests pass across the repository (100% pass rate).
 
-**Awaiting User Review & Authorization for Phase 4.2:**  
-Awaiting explicit user authorization before initiating **Phase 4.2: Foundation Model Downstream Probing & Linear Evaluation** (frozen feature linear probing, k-NN evaluation, and comparison against baseline CNN-BiLSTM-attention classifier).
+**Awaiting User Review & Authorization for Phase 4.3:**  
+Awaiting explicit user authorization before initiating **Phase 4.3: Foundation Model k-NN & Lightweight Non-Linear Probing** (e.g. k-NN classification, MLP probes, and stain-invariance robustness analysis).
 

@@ -1,0 +1,225 @@
+{
+  "representation": "cls",
+  "model_name": "dinov2_vits14",
+  "embedding_dim": 384,
+  "optimal_C": 20.0,
+  "fit_time_seconds": 6.848,
+  "inference_time_seconds": 0.012,
+  "total_test_samples": 4665,
+  "overall_metrics": {
+    "accuracy": 0.6435,
+    "accuracy_ci_95": [
+      0.6297,
+      0.6571
+    ],
+    "balanced_accuracy": 0.6435,
+    "balanced_accuracy_ci_95": [
+      0.6309,
+      0.6583
+    ],
+    "macro_precision": 0.6423,
+    "macro_recall": 0.6435,
+    "macro_f1": 0.6421,
+    "macro_f1_ci_95": [
+      0.6293,
+      0.6564
+    ],
+    "weighted_precision": 0.6423,
+    "weighted_recall": 0.6435,
+    "weighted_f1": 0.6421,
+    "cohen_kappa": 0.5926,
+    "macro_ovr_auroc": 0.9293,
+    "weighted_ovr_auroc": 0.9293,
+    "expected_calibration_error": 0.022,
+    "brier_score": 0.4819
+  },
+  "per_class_metrics": {
+    "ADI": {
+      "class_index": 0,
+      "precision": 0.7508,
+      "recall_sensitivity": 0.765,
+      "sensitivity_ci_95": [
+        0.7289,
+        0.7976
+      ],
+      "specificity": 0.9637,
+      "f1_score": 0.7579,
+      "support": 583,
+      "auroc_ovr": 0.9739
+    },
+    "DEB": {
+      "class_index": 1,
+      "precision": 0.5872,
+      "recall_sensitivity": 0.566,
+      "sensitivity_ci_95": [
+        0.5255,
+        0.6057
+      ],
+      "specificity": 0.9432,
+      "f1_score": 0.5764,
+      "support": 583,
+      "auroc_ovr": 0.9046
+    },
+    "LYM": {
+      "class_index": 2,
+      "precision": 0.7445,
+      "recall_sensitivity": 0.8096,
+      "sensitivity_ci_95": [
+        0.7757,
+        0.8394
+      ],
+      "specificity": 0.9603,
+      "f1_score": 0.7757,
+      "support": 583,
+      "auroc_ovr": 0.9711
+    },
+    "MUC": {
+      "class_index": 3,
+      "precision": 0.6179,
+      "recall_sensitivity": 0.5788,
+      "sensitivity_ci_95": [
+        0.5383,
+        0.6182
+      ],
+      "specificity": 0.9488,
+      "f1_score": 0.5977,
+      "support": 584,
+      "auroc_ovr": 0.9231
+    },
+    "MUS": {
+      "class_index": 4,
+      "precision": 0.722,
+      "recall_sensitivity": 0.6638,
+      "sensitivity_ci_95": [
+        0.6245,
+        0.701
+      ],
+      "specificity": 0.9635,
+      "f1_score": 0.6917,
+      "support": 583,
+      "auroc_ovr": 0.936
+    },
+    "NOR": {
+      "class_index": 5,
+      "precision": 0.5137,
+      "recall_sensitivity": 0.482,
+      "sensitivity_ci_95": [
+        0.4417,
+        0.5225
+      ],
+      "specificity": 0.9348,
+      "f1_score": 0.4973,
+      "support": 583,
+      "auroc_ovr": 0.872
+    },
+    "STR": {
+      "class_index": 6,
+      "precision": 0.6062,
+      "recall_sensitivity": 0.6072,
+      "sensitivity_ci_95": [
+        0.567,
+        0.646
+      ],
+      "specificity": 0.9437,
+      "f1_score": 0.6067,
+      "support": 583,
+      "auroc_ovr": 0.9181
+    },
+    "TUM": {
+      "class_index": 7,
+      "precision": 0.5961,
+      "recall_sensitivity": 0.6758,
+      "sensitivity_ci_95": [
+        0.6368,
+        0.7126
+      ],
+      "specificity": 0.9346,
+      "f1_score": 0.6334,
+      "support": 583,
+      "auroc_ovr": 0.9355
+    }
+  },
+  "confusion_matrix": [
+    [
+      446,
+      13,
+      0,
+      77,
+      26,
+      17,
+      1,
+      3
+    ],
+    [
+      5,
+      330,
+      50,
+      33,
+      28,
+      35,
+      45,
+      57
+    ],
+    [
+      3,
+      36,
+      472,
+      2,
+      3,
+      25,
+      15,
+      27
+    ],
+    [
+      76,
+      38,
+      5,
+      338,
+      24,
+      55,
+      26,
+      22
+    ],
+    [
+      30,
+      39,
+      11,
+      20,
+      387,
+      20,
+      65,
+      11
+    ],
+    [
+      31,
+      45,
+      49,
+      45,
+      6,
+      281,
+      41,
+      85
+    ],
+    [
+      1,
+      31,
+      27,
+      14,
+      56,
+      38,
+      354,
+      62
+    ],
+    [
+      2,
+      30,
+      20,
+      18,
+      6,
+      76,
+      37,
+      394
+    ]
+  ],
+  "evaluated_at_utc": "2026-11-06T15:39:33.236388+00:00"
+}
