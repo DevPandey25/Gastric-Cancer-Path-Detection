@@ -1,0 +1,235 @@
+{
+  "probe_type": "nonlinear_mlp",
+  "representation": "mean_patch",
+  "model_name": "dinov2_vits14",
+  "embedding_dim": 384,
+  "selected_config": {
+    "name": "MLP-256-lr3e4-wd1e3-dp0.3",
+    "hidden_dim": 256,
+    "lr": 0.0003,
+    "weight_decay": 0.001,
+    "dropout": 0.3,
+    "activation": "gelu"
+  },
+  "parameter_count": 101128,
+  "best_val_epoch": 19,
+  "best_val_macro_f1": 0.6681,
+  "inference_time_seconds": 0.0081,
+  "total_test_samples": 4665,
+  "overall_metrics": {
+    "accuracy": 0.6497,
+    "accuracy_ci_95": [
+      0.6359,
+      0.6633
+    ],
+    "balanced_accuracy": 0.6497,
+    "balanced_accuracy_ci_95": [
+      0.6376,
+      0.6636
+    ],
+    "macro_precision": 0.655,
+    "macro_recall": 0.6497,
+    "macro_f1": 0.6501,
+    "macro_f1_ci_95": [
+      0.6378,
+      0.664
+    ],
+    "weighted_precision": 0.655,
+    "weighted_recall": 0.6497,
+    "weighted_f1": 0.6501,
+    "cohen_kappa": 0.5997,
+    "macro_ovr_auroc": 0.9363,
+    "weighted_ovr_auroc": 0.9363,
+    "expected_calibration_error": 0.0171,
+    "brier_score": 0.4651
+  },
+  "per_class_metrics": {
+    "ADI": {
+      "class_index": 0,
+      "precision": 0.7996,
+      "recall_sensitivity": 0.7393,
+      "sensitivity_ci_95": [
+        0.7022,
+        0.7733
+      ],
+      "specificity": 0.9735,
+      "f1_score": 0.7683,
+      "support": 583,
+      "auroc_ovr": 0.9777
+    },
+    "DEB": {
+      "class_index": 1,
+      "precision": 0.5511,
+      "recall_sensitivity": 0.6295,
+      "sensitivity_ci_95": [
+        0.5896,
+        0.6677
+      ],
+      "specificity": 0.9268,
+      "f1_score": 0.5877,
+      "support": 583,
+      "auroc_ovr": 0.9119
+    },
+    "LYM": {
+      "class_index": 2,
+      "precision": 0.8201,
+      "recall_sensitivity": 0.7427,
+      "sensitivity_ci_95": [
+        0.7057,
+        0.7765
+      ],
+      "specificity": 0.9767,
+      "f1_score": 0.7795,
+      "support": 583,
+      "auroc_ovr": 0.9752
+    },
+    "MUC": {
+      "class_index": 3,
+      "precision": 0.5787,
+      "recall_sensitivity": 0.7055,
+      "sensitivity_ci_95": [
+        0.6673,
+        0.741
+      ],
+      "specificity": 0.9265,
+      "f1_score": 0.6358,
+      "support": 584,
+      "auroc_ovr": 0.9342
+    },
+    "MUS": {
+      "class_index": 4,
+      "precision": 0.6727,
+      "recall_sensitivity": 0.705,
+      "sensitivity_ci_95": [
+        0.6667,
+        0.7406
+      ],
+      "specificity": 0.951,
+      "f1_score": 0.6884,
+      "support": 583,
+      "auroc_ovr": 0.9406
+    },
+    "NOR": {
+      "class_index": 5,
+      "precision": 0.5579,
+      "recall_sensitivity": 0.5043,
+      "sensitivity_ci_95": [
+        0.4638,
+        0.5447
+      ],
+      "specificity": 0.9429,
+      "f1_score": 0.5297,
+      "support": 583,
+      "auroc_ovr": 0.8866
+    },
+    "STR": {
+      "class_index": 6,
+      "precision": 0.6196,
+      "recall_sensitivity": 0.5197,
+      "sensitivity_ci_95": [
+        0.4792,
+        0.56
+      ],
+      "specificity": 0.9544,
+      "f1_score": 0.5653,
+      "support": 583,
+      "auroc_ovr": 0.9227
+    },
+    "TUM": {
+      "class_index": 7,
+      "precision": 0.6408,
+      "recall_sensitivity": 0.6518,
+      "sensitivity_ci_95": [
+        0.6123,
+        0.6894
+      ],
+      "specificity": 0.9478,
+      "f1_score": 0.6463,
+      "support": 583,
+      "auroc_ovr": 0.9416
+    }
+  },
+  "confusion_matrix": [
+    [
+      431,
+      11,
+      0,
+      94,
+      23,
+      19,
+      1,
+      4
+    ],
+    [
+      10,
+      367,
+      29,
+      42,
+      33,
+      30,
+      28,
+      44
+    ],
+    [
+      0,
+      62,
+      433,
+      7,
+      6,
+      31,
+      20,
+      24
+    ],
+    [
+      54,
+      33,
+      2,
+      412,
+      27,
+      31,
+      10,
+      15
+    ],
+    [
+      20,
+      56,
+      4,
+      24,
+      411,
+      11,
+      47,
+      10
+    ],
+    [
+      20,
+      45,
+      27,
+      78,
+      12,
+      294,
+      37,
+      70
+    ],
+    [
+      1,
+      48,
+      22,
+      32,
+      91,
+      40,
+      303,
+      46
+    ],
+    [
+      3,
+      44,
+      11,
+      23,
+      8,
+      71,
+      43,
+      380
+    ]
+  ],
+  "evaluated_at_utc": "2026-11-06T16:52:05.421889+00:00"
+}

@@ -1,7 +1,7 @@
 # GastricPath AI — Master Implementation Status Tracker
 
 **Document ID:** `GP-STATUS-2026-V1`  
-**Current Phase:** Phase 4.2.2 Complete (Final Per-Class Metric Table Integrity Correction; 105/105 Tests Passing) — Awaiting User Authorization  
+**Current Phase:** Phase 4.3 Complete (Frozen DINOv2 Nonlinear Probing & Representation Comparison; 114/114 Tests Passing) — Awaiting User Authorization  
 **Last Updated:** November 2026  
 
 ---
@@ -105,6 +105,7 @@
 | Frozen Downstream Linear Probing | Linear softmax probing on frozen visual embeddings | **Tested** | Test Acc: 64.35% (CLS) / 65.08% (Mean Patch); Macro-F1: 64.21% / 65.03%; AUROC: 0.9293 / 0.9316 |
 | Linear Probe Scientific Audit & Recomputation (Phase 4.2.1) | Independent recomputation, execution lineage audit, and reporting correction | **Tested** | Confirmed Scikit-Learn L-BFGS probe, verified zero test leakage, 100% metric match, documented in `docs/PHASE4_2_1_METRIC_AND_EVALUATION_AUDIT.md` |
 | Metric Table Integrity & Formula Verification (Phase 4.2.2) | Standardize 8-metric column schema, verify first-principles formulas & unrounded aggregates | **Tested** | Confirmed TP/FP/FN/TN invariants, verified unrounded Macro & Weighted calculations, documented in `docs/PHASE4_2_2_FINAL_METRIC_TABLE_VERIFICATION.md` |
+| Frozen Downstream Nonlinear Probing (Phase 4.3) | Compact 2-layer MLP probing (256 hidden, LayerNorm, GELU, Dropout 0.3) on frozen visual embeddings | **Tested** | Test Acc: 64.52% (CLS) / 64.97% (Mean Patch); Macro-F1: 64.75% / 65.01%; AUROC: 0.9348 / 0.9363; ECE: 0.0261 / 0.0171; documented in `docs/PHASE4_3_NONLINEAR_PROBING_REPORT.md` |
 | Heavy Foundation Models (UNI, UNI2, Gigapath) | Large pathology vision transformers (>1B parameters) | **Blocked by hardware** | Requires GPU VRAM (>12GB) and gated model weights |
 
 ---
@@ -191,14 +192,14 @@
 
 ## Next Immediate Action
 
-**Phase 4.2.2 — Final Per-Class Metric Table Integrity Correction Complete:**  
-Phase 4.2.2 concluded a rigorous mathematical audit of the downstream linear probe per-class benchmark tables. The correction verified:
-1. **Standardized 8-Metric Table Schema:** Standardized the per-class table across all documentation to contain strictly the 8 canonical metrics (CLS Precision, CLS Recall, CLS Specificity, CLS F1, Mean-Patch Precision, Mean-Patch Recall, Mean-Patch Specificity, Mean-Patch F1) with zero ambiguous or extraneous columns.
-2. **First-Principles Formulation Invariants:** Proved and tested $P = \frac{\text{TP}}{\text{TP}+\text{FP}}$, $R = \frac{\text{TP}}{\text{TP}+\text{FN}}$, $S = \frac{\text{TN}}{\text{TN}+\text{FP}}$, $F_1 = \frac{2PR}{P+R}$ for all 8 canonical classes, with confusion matrix row sums equaling class support and column sums equaling class predicted count.
-3. **Independent Unrounded Aggregation:** Recomputed unrounded Macro and Support-Weighted averages from float64 class metrics before percentile rounding, proving and documenting their independent mathematical derivation.
-4. **Automated Regression Suite:** Added `tests/test_audit_phase4_2_2.py`. All 105 tests across the repository pass cleanly (100% pass rate).
-5. **System Preservation:** Baseline checkpoint SHA-256 (`65369ef6...`), SQLite database (`app.db` $N=4$), DINOv2 embedding cache, Phase 4.1 retrieval outputs, and API inference remain 100% bitwise intact.
+**Phase 4.3 — Frozen DINOv2 Nonlinear Probing & Representation Comparison Complete:**  
+Nonlinear probing on frozen Meta AI DINOv2 ViT-S/14 representations was comprehensively tuned on the validation split and evaluated exactly once on the 4,665-image test split using compact 2-layer MLPs (`PathologyNonlinearProbe`, $101,128$ parameters). Key empirical conclusions:
+1. **Linear Accessibility Dominance:** A nonlinear MLP readout achieves **$64.52\%$ Test Accuracy / $64.75\%$ Macro-F1** (CLS token) and **$64.97\%$ Test Accuracy / $65.01\%$ Macro-F1** (Mean Spatial Patch token), showing virtually zero delta compared to linear probes ($64.35\%$ and $65.08\%$). This empirically proves that frozen DINOv2 representation manifolds are predominantly linearly accessible.
+2. **Substantial Calibration Gain:** The Mean Patch MLP achieves an outstanding Expected Calibration Error (ECE) of **$0.0171$** (a $53.5\%$ relative improvement over linear probe ECE $0.0368$).
+3. **Class-Specific Nonlinear Shifts:** Nonlinear readouts improved Mucus Lakes (`MUC`: $+3.50\%$ F1 on CLS) and Tumor Epithelium (`TUM`: $+1.73\%$ F1 on Patch), while Stroma (`STR`) slightly declined due to mesenchymal overlap with Smooth Muscle.
+4. **Architectural Comparison & Incommensurability:** Consolidated table generated across all models; historical baseline incommensurability caveats documented.
+5. **System & Regression Integrity:** Added 9 tests in `tests/test_phase4_3.py`; all 114 tests passing repo-wide. Baseline checkpoint SHA-256 (`65369ef6...`), database (`app.db` $N=4$), and cache intact.
 
-**Awaiting User Review & Authorization for Phase 4.3:**  
-Strict STOP enforced. Awaiting explicit user authorization before initiating **Phase 4.3: Foundation Model k-NN & Lightweight Non-Linear Probing** (e.g. k-NN classification, MLP probes, and stain-invariance robustness analysis).
+**Awaiting User Review & Authorization for Phase 4.4:**  
+Strict STOP enforced. Awaiting explicit user authorization before initiating Phase 4.4.
 
