@@ -1,7 +1,7 @@
 # GastricPath AI — Master Implementation Status Tracker
 
 **Document ID:** `GP-STATUS-2026-V1`  
-**Current Phase:** Phase 4.3 Complete (Frozen DINOv2 Nonlinear Probing & Representation Comparison; 114/114 Tests Passing) — Awaiting User Authorization  
+**Current Phase:** Phase 4.3.1 Complete (Metric Reconciliation, Nonlinear Probe Audit & Statistical Certification; 138/138 Tests Passing) — Awaiting User Authorization  
 **Last Updated:** November 2026  
 
 ---
@@ -106,6 +106,7 @@
 | Linear Probe Scientific Audit & Recomputation (Phase 4.2.1) | Independent recomputation, execution lineage audit, and reporting correction | **Tested** | Confirmed Scikit-Learn L-BFGS probe, verified zero test leakage, 100% metric match, documented in `docs/PHASE4_2_1_METRIC_AND_EVALUATION_AUDIT.md` |
 | Metric Table Integrity & Formula Verification (Phase 4.2.2) | Standardize 8-metric column schema, verify first-principles formulas & unrounded aggregates | **Tested** | Confirmed TP/FP/FN/TN invariants, verified unrounded Macro & Weighted calculations, documented in `docs/PHASE4_2_2_FINAL_METRIC_TABLE_VERIFICATION.md` |
 | Frozen Downstream Nonlinear Probing (Phase 4.3) | Compact 2-layer MLP probing (256 hidden, LayerNorm, GELU, Dropout 0.3) on frozen visual embeddings | **Tested** | Test Acc: 64.52% (CLS) / 64.97% (Mean Patch); Macro-F1: 64.75% / 65.01%; AUROC: 0.9348 / 0.9363; ECE: 0.0261 / 0.0171; documented in `docs/PHASE4_3_NONLINEAR_PROBING_REPORT.md` |
+| Metric Reconciliation, Forensic Audit & Statistical Certification (Phase 4.3.1) | Independent metric recomputation, paired bootstrap comparison, discrepancy audit, calibration certification | **Tested** | Confirmed identical cohort metrics, eliminated chat transcription discrepancies, 138/138 tests passing, documented in `docs/PHASE4_3_1_METRIC_RECONCILIATION_REPORT.md` |
 | Heavy Foundation Models (UNI, UNI2, Gigapath) | Large pathology vision transformers (>1B parameters) | **Blocked by hardware** | Requires GPU VRAM (>12GB) and gated model weights |
 
 ---
@@ -192,13 +193,14 @@
 
 ## Next Immediate Action
 
-**Phase 4.3 — Frozen DINOv2 Nonlinear Probing & Representation Comparison Complete:**  
-Nonlinear probing on frozen Meta AI DINOv2 ViT-S/14 representations was comprehensively tuned on the validation split and evaluated exactly once on the 4,665-image test split using compact 2-layer MLPs (`PathologyNonlinearProbe`, $101,128$ parameters). Key empirical conclusions:
-1. **Linear Accessibility Dominance:** A nonlinear MLP readout achieves **$64.52\%$ Test Accuracy / $64.75\%$ Macro-F1** (CLS token) and **$64.97\%$ Test Accuracy / $65.01\%$ Macro-F1** (Mean Spatial Patch token), showing virtually zero delta compared to linear probes ($64.35\%$ and $65.08\%$). This empirically proves that frozen DINOv2 representation manifolds are predominantly linearly accessible.
-2. **Substantial Calibration Gain:** The Mean Patch MLP achieves an outstanding Expected Calibration Error (ECE) of **$0.0171$** (a $53.5\%$ relative improvement over linear probe ECE $0.0368$).
-3. **Class-Specific Nonlinear Shifts:** Nonlinear readouts improved Mucus Lakes (`MUC`: $+3.50\%$ F1 on CLS) and Tumor Epithelium (`TUM`: $+1.73\%$ F1 on Patch), while Stroma (`STR`) slightly declined due to mesenchymal overlap with Smooth Muscle.
-4. **Architectural Comparison & Incommensurability:** Consolidated table generated across all models; historical baseline incommensurability caveats documented.
-5. **System & Regression Integrity:** Added 9 tests in `tests/test_phase4_3.py`; all 114 tests passing repo-wide. Baseline checkpoint SHA-256 (`65369ef6...`), database (`app.db` $N=4$), and cache intact.
+**Phase 4.3.1 — Metric Reconciliation, Nonlinear Probe Audit & Statistical Certification Complete:**  
+Phase 4.3.1 executed an exhaustive forensic reconciliation and certified the quantitative benchmark results:
+1. **Reconciled Per-Class Metric Table:** Independently computed all 8 per-class rows and verified exact mathematical identities (Macro Recall $\equiv$ Balanced Accuracy, Weighted Recall $\equiv$ Accuracy, row/column support totals $\equiv 4,665$).
+2. **Reconciled Phase 4.2 Linear Probe Metrics:** Traced minor transcription variations and established certified canonical figures from raw persistent prediction files ($0.9293$ / $0.0217$ / $0.4819$ for CLS; $0.9316$ / $0.0368$ / $0.4730$ for Mean Patch).
+3. **Historical Baseline Provenance & Spurious Figure Elimination:** Reconciled historical evaluation cohorts (Historical Test $N=3,110$ at $65.92\%$ vs. Phase 2 Test $N=4,665$ at $71.04\%$ [80.56% training overlap] vs. genuinely unseen $N=442$ at $65.84\%$). Proved that the figure $55.03\%$ originated solely as a chat typing hallucination, marked it as unverified, and permanently excised it.
+4. **Calibration Protocol Audit:** Documented ECE (10 equal-width bins, sample confidence $\max_k p_{ik}$, zero contribution for empty bins) and multiclass Brier score conventions. Mean Patch MLP achieves $0.0171$ ECE ($53.5\%$ relative error reduction over linear probe).
+5. **Paired Statistical Comparison ($B=2,000$ Resamples):** Paired bootstrap percentile CIs and McNemar tests confirm that overall accuracy and Macro-F1 differences between linear and nonlinear probes span zero ($p > 0.30$), establishing that performance shifts are statistically indistinguishable.
+6. **System & Regression Integrity:** Added 24 new unit and regression tests in `tests/test_phase4_3_1.py`. Entire test suite: **138 / 138 passing** across repository. Baseline checkpoint SHA-256 (`65369ef6...`), database (`app.db` $N=4$), and embedding caches remain bitwise intact.
 
 **Awaiting User Review & Authorization for Phase 4.4:**  
 Strict STOP enforced. Awaiting explicit user authorization before initiating Phase 4.4.
