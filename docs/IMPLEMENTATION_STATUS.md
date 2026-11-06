@@ -1,7 +1,7 @@
 # GastricPath AI — Master Implementation Status Tracker
 
 **Document ID:** `GP-STATUS-2026-V1`  
-**Current Phase:** Phase 4.2 Complete (Frozen Foundation Model Downstream Probing & Linear Evaluation; 95/95 Tests Passing) — Awaiting User Authorization  
+**Current Phase:** Phase 4.2.1 Complete (Scientific Reporting & Linear Probe Evaluation Audit; 101/101 Tests Passing) — Awaiting User Authorization  
 **Last Updated:** November 2026  
 
 ---
@@ -103,6 +103,7 @@
 | Full Dataset Embedding Extraction | Extract frozen embeddings across all 31,096 images | **Tested** | Completed in 45.88 min at 11.30 img/s; constant ~550 MB RSS; 100% finite & L2-normalized |
 | Test-to-Train Retrieval Benchmark | Evaluate 4,665 test queries against 21,767 training references | **Tested** | Hit@1: 47.31% (CLS) / 47.33% (Patch); Majority@10: 54.98% / 55.13%; zero leakage verified |
 | Frozen Downstream Linear Probing | Linear softmax probing on frozen visual embeddings | **Tested** | Test Acc: 64.35% (CLS) / 65.08% (Mean Patch); Macro-F1: 64.21% / 65.03%; AUROC: 0.9293 / 0.9316 |
+| Linear Probe Scientific Audit & Recomputation (Phase 4.2.1) | Independent recomputation, execution lineage audit, and reporting correction | **Tested** | Confirmed Scikit-Learn L-BFGS probe, verified zero test leakage, 100% metric match, documented in `docs/PHASE4_2_1_METRIC_AND_EVALUATION_AUDIT.md` |
 | Heavy Foundation Models (UNI, UNI2, Gigapath) | Large pathology vision transformers (>1B parameters) | **Blocked by hardware** | Requires GPU VRAM (>12GB) and gated model weights |
 
 ---
@@ -189,9 +190,15 @@
 
 ## Next Immediate Action
 
-**Phase 4.2 — Frozen Foundation Model Downstream Probing & Linear Evaluation Complete:**  
-Downstream linear probing on frozen Meta AI DINOv2 ViT-S/14 representations was comprehensively tuned on the validation split and evaluated exactly once on the 4,665-image test split. The optimal probes achieved **64.35% Test Accuracy** / **64.21% Macro-F1** (CLS token, $C^*=20.0$) and **65.08% Test Accuracy** / **65.03% Macro-F1** (Mean Spatial Patch token, $C^*=200.0$) with **0.9293 / 0.9316 Macro OvR AUROC** and excellent probability calibration (**ECE: 0.0220 / 0.0368**). Linear probing provides a massive **+17.75 percentage point boost** over raw nearest-neighbor retrieval ($47.33\% \rightarrow 65.08\%$), demonstrating strong linear separability in pretrained self-supervised representations without any task-specific fine-tuning. 9 new unit and integration tests were added; all 95 tests pass across the repository (100% pass rate).
+**Phase 4.2.1 — Scientific Reporting & Linear Probe Evaluation Audit Complete:**  
+Phase 4.2.1 concluded a comprehensive scientific audit of downstream linear probing on frozen Meta AI DINOv2 ViT-S/14 representations. The audit verified:
+1. **Model Specification:** The final reported results originate exclusively from Scikit-Learn's multinomial `LogisticRegression` with L-BFGS optimization (`C=20.0` for CLS and `C=200.0` for Mean Patch, unpenalized intercept `fit_intercept=True`, tolerance $10^{-4}$); `PyTorchLinearSoftmax` served purely as an exploratory prototype module.
+2. **Execution Lineage & Test Isolation:** Verified that hyperparameters were selected strictly on the validation split prior to test evaluation; repeated evaluation occurred solely due to a dictionary-unpacking KeyError during output formatting, with absolute zero test-driven hyperparameter tuning.
+3. **Independent Metric Recomputation:** Recomputed all overall and per-class metrics directly from persistent test prediction CSVs with 100% numerical match (Accuracy: $64.35\%$ CLS, $65.08\%$ Mean Patch; Macro-F1: $64.21\%$ CLS, $65.03\%$ Mean Patch; AUROC: $0.9293$ CLS, $0.9316$ Mean Patch). Canonical class ordering and probability normalization ($\sum p_i = 1.0$) were verified.
+4. **Reporting Table Reconciliation:** Updated per-class benchmark tables with complete Macro and Weighted summary rows and explained the algebraic identity of DEB metrics ($P=R=F1=58.15\%$).
+5. **Scientific Language Calibration:** Eliminated claims of equivalence with historical baselines in favor of numerical proximity ($65.08\%$ vs. $65.92\%$), clearly stating cohort incommensurability ($N=3,110$ historical test vs. $N=4,665$ Phase 2 cluster-isolated test); clarified patch-level scope of all confidence intervals; and reframed histological error explanations strictly as plausible scientific hypotheses.
+6. **System Integrity:** Verified historical checkpoint SHA-256 (`65369ef6...`), SQLite database (`app.db` $N=4$), and all cached embeddings. All automated tests pass repo-wide.
 
 **Awaiting User Review & Authorization for Phase 4.3:**  
-Awaiting explicit user authorization before initiating **Phase 4.3: Foundation Model k-NN & Lightweight Non-Linear Probing** (e.g. k-NN classification, MLP probes, and stain-invariance robustness analysis).
+Strict STOP enforced. Awaiting explicit user authorization before initiating **Phase 4.3: Foundation Model k-NN & Lightweight Non-Linear Probing** (e.g. k-NN classification, MLP probes, and stain-invariance robustness analysis).
 

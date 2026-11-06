@@ -327,6 +327,12 @@ class FullDatasetExtractor:
         assert abs(patch_norm_mean - 1.0) < 1e-4, f"Patch norm mean deviates from 1.0: {patch_norm_mean}"
         logger.info("Numerical validation PASSED: all 31,096 embeddings are finite, non-zero, and L2-normalized (mean=1.0000).")
 
+        summary_path = self.cache_dir / "extraction_summary.json"
+        if self.manifest_csv_path.exists() and self.manifest_json_path.exists() and summary_path.exists():
+            logger.info("Manifests and summary already exist on disk; skipping re-serialization.")
+            with open(summary_path, "r") as f:
+                return json.load(f)
+
         # 4. Generate Final Manifests
         timestamp = datetime.now(timezone.utc).isoformat()
         records = []

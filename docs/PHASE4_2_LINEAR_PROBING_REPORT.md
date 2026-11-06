@@ -30,11 +30,13 @@ Quantify the amount of linearly separable discriminative signal present in the p
 ## 2. Experimental Protocol & Split Isolation
 
 To guarantee absolute scientific integrity and prevent data leakage:
+- **Model Architecture:** Scikit-Learn multinomial logistic regression (`LogisticRegression(solver='lbfgs', max_iter=1000, tol=1e-4, fit_intercept=True, random_state=42)`). The `PyTorchLinearSoftmax` module was used for exploratory validation only; all reported benchmark numbers originate from the Scikit-Learn L-BFGS probe.
 - **Encoder Status:** Strictly frozen (`param.requires_grad = False`). The DINOv2 visual encoder was never loaded for gradient backpropagation.
 - **Fitting Data:** Training split only ($N = 21,767$ images).
 - **Hyperparameter Tuning:** Validation split only ($N = 4,664$ images).
 - **Final Evaluation:** Test split only ($N = 4,665$ images), evaluated **exactly once** on the final selected model.
 - **Reproducibility:** Seed fixed to $42$ across Scikit-Learn L-BFGS and PyTorch modules.
+- **Confidence Interval Scope:** All reported intervals are image/patch-level bounds (Wilson score binomial intervals for proportions, bootstrap percentiles for non-linear metrics). No patient-level or clinical diagnostic confidence is asserted.
 
 ---
 
@@ -104,6 +106,9 @@ Detailed per-class metrics on the test split ($N = 4,665$) for the CLS Token Pro
 | **STR** | Cancer Stroma | 583 | 60.62% | 60.72% | 94.37% | **60.67%** | 58.56% | 59.86% | 93.95% | **59.20%** |
 | **TUM** | Tumor Epithelium | 583 | 59.61% | 67.58% | 93.46% | **63.34%** | 61.07% | 64.84% | 94.10% | **62.90%** |
 | **Macro** | *Unweighted Mean* | 4665 | 64.23% | 64.35% | 94.91% | **64.21%** | 65.05% | 65.08% | 95.01% | **65.03%** |
+| **Weighted** | *Support-Weighted Mean* | 4665 | 64.23% | 64.35% | 94.91% | **64.21%** | 65.05% | 65.08% | 95.01% | **65.03%** |
+
+*Note on DEB Precision/Recall Coincidence:* In the Mean Patch probe, Necrotic Debris (`DEB`) exhibits identical precision, recall, and F1 at $58.15\%$. An audit of the confusion matrix confirms $\text{TP}=339$, $\text{FP}=244$, $\text{FN}=244$; since $\text{FP} = \text{FN}$, Precision ($339/583$) and Recall ($339/583$) are mathematically identical ($58.1475\% \rightarrow 58.15\%$).
 
 ---
 
@@ -126,15 +131,15 @@ Below is the complete count confusion matrix for the CLS Linear Probe on the tes
 1. **Tumor Epithelium Misclassified as Normal Gastric Mucosa (`TUM` $\rightarrow$ `NOR`):**
    - [`TUM/TUM_1012.png`](file:///c:/Users/KIIT0001/OneDrive/Desktop/gastric-cancer-histopathology-dashboard-main/data/raw/HMU-GC-HE-30K/all_image/TUM/TUM_1012.png): True = `TUM`, Predicted = `NOR` (Confidence = $0.5334$).
    - [`TUM/TUM_1014.png`](file:///c:/Users/KIIT0001/OneDrive/Desktop/gastric-cancer-histopathology-dashboard-main/data/raw/HMU-GC-HE-30K/all_image/TUM/TUM_1014.png): True = `TUM`, Predicted = `NOR` (Confidence = $0.4924$).
-   - *Histological Interpretation:* Well-differentiated tubular adenocarcinoma preserves gland-forming architecture, displaying lumenal cavities and epithelial lining that closely mirror non-neoplastic gastric glands without overt cytological pleomorphism at patch resolution.
+   - *Histological Hypothesis:* We hypothesize that well-differentiated tubular adenocarcinoma preserves gland-forming architecture, displaying lumenal cavities and epithelial lining that closely mirror non-neoplastic gastric glands without overt cytological pleomorphism distinguishable at patch resolution.
 2. **Tumor Epithelium Misclassified as Stroma (`TUM` $\rightarrow$ `STR`):**
    - [`TUM/TUM_112.png`](file:///c:/Users/KIIT0001/OneDrive/Desktop/gastric-cancer-histopathology-dashboard-main/data/raw/HMU-GC-HE-30K/all_image/TUM/TUM_112.png): True = `TUM`, Predicted = `STR` (Confidence = $0.7393$).
    - [`TUM/TUM_1145.png`](file:///c:/Users/KIIT0001/OneDrive/Desktop/gastric-cancer-histopathology-dashboard-main/data/raw/HMU-GC-HE-30K/all_image/TUM/TUM_1145.png): True = `TUM`, Predicted = `STR` (Confidence = $0.6139$).
-   - *Histological Interpretation:* Infiltrative carcinoma (diffuse/Lauren type or scirrhous carcinoma) frequently incites dense desmoplastic stroma where malignant epithelial cells account for $<20\%$ of patch area.
+   - *Histological Hypothesis:* We hypothesize that infiltrative carcinoma (such as diffuse/Lauren type or scirrhous carcinoma) frequently incites dense desmoplastic stroma where malignant epithelial cells account for a small fraction ($<20\%$) of patch area, leading visual representations to be dominated by collagenous stromal features.
 3. **Mucus vs. Adipose Reciprocal Confusion (`MUC` $\leftrightarrow$ `ADI`):**
    - [`MUC/MUC_1016.png`](file:///c:/Users/KIIT0001/OneDrive/Desktop/gastric-cancer-histopathology-dashboard-main/data/raw/HMU-GC-HE-30K/all_image/MUC/MUC_1016.png): True = `MUC`, Predicted = `ADI` (Confidence = $0.5713$).
    - [`ADI/ADI_1039.png`](file:///c:/Users/KIIT0001/OneDrive/Desktop/gastric-cancer-histopathology-dashboard-main/data/raw/HMU-GC-HE-30K/all_image/ADI/ADI_1039.png): True = `ADI`, Predicted = `MUC` (Confidence = $0.7603$).
-   - *Histological Interpretation:* Extracellular mucin pools and intracellular lipid clearing both appear as optically pale or non-staining vacuolated expanses on H&E.
+   - *Histological Hypothesis:* We hypothesize that extracellular mucin pools and intracellular lipid clearing both appear as optically pale or non-staining vacuolated expanses on routine H&E, creating visual texture ambiguity for generic self-supervised representations.
 
 ---
 
@@ -156,8 +161,8 @@ Below is the complete count confusion matrix for the CLS Linear Probe on the tes
 > **CRITICAL SCIENTIFIC CAVEAT ON BASELINE COMPARISON:**
 > - The historical `GastricCancerRNN` baseline checkpoint was evaluated on its **historical test split ($N=3,110$)**, which was constructed prior to our Phase 2 duplicate-quarantine audit.
 > - The frozen DINOv2 linear probe was evaluated on the **Phase 2 cluster-isolated split ($N=4,665$)**, where all multi-image perceptual clusters (Hamming $\le 2$) were quarantined into single splits.
-> - **Consequently, this is NOT a direct apples-to-apples performance comparison.** Differing test sample compositions prevent declaring numerical superiority of one architecture over another.
-> - What this comparison scientifically proves is that **a general-domain self-supervised vision transformer, without a single parameter fine-tuned on histopathology, encodes sufficient linear separability to match the performance level of a specialized deep neural network ($65.1\%$ vs. $65.7\%$)**.
+> - **Consequently, this is NOT a direct apples-to-apples performance comparison.** Differing test sample compositions, cohort sizes, and duplicate isolation constraints prevent declaring numerical superiority or statistical equivalence of one architecture over another.
+> - What this comparison empirically demonstrates is **numerical proximity**: a frozen foundation model visual representation paired with a single linear classifier exhibits performance in the same quantitative tier ($65.08\%$) on the cluster-isolated split as the specialized end-to-end network achieved on its historical cohort ($65.92\%$). Detailed audit and verification records are documented in [`docs/PHASE4_2_1_METRIC_AND_EVALUATION_AUDIT.md`](file:///c:/Users/KIIT0001/OneDrive/Desktop/gastric-cancer-histopathology-dashboard-main/docs/PHASE4_2_1_METRIC_AND_EVALUATION_AUDIT.md).
 
 ---
 
@@ -179,3 +184,4 @@ Three dedicated figures were generated in [`research/foundation_models/visualiza
 ---
 
 *Report certified by GastricPath AI Research Engine.*
+
