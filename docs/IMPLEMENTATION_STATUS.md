@@ -1,7 +1,7 @@
 # GastricPath AI — Master Implementation Status Tracker
 
 **Document ID:** `GP-STATUS-2026-V1`  
-**Current Phase:** Phase 3.3.1 Complete (Scientific Audit & Baseline Finalization Complete; 68/68 Tests Passing) — Awaiting User Authorization  
+**Current Phase:** Phase 4.0 Complete (Foundation Model Feasibility & Retrieval Architecture; 76/76 Tests Passing) — Awaiting User Authorization  
 **Last Updated:** November 2026  
 
 ---
@@ -93,13 +93,14 @@
 
 ---
 
-### Phase 4: Pathology Foundation Models
+### Phase 4 & 4.0: Pathology Foundation Model Feasibility & Retrieval Architecture
 | Module / Feature | Description | Status | Notes |
 |:---|:---|:---:|:---|
-| Foundation Model Adapter Interface | Modular plug-in architecture for pathology encoders | **Not started** | Planned |
-| DINOv2 / Phikon Feature Extractor | Extract 768-dim embeddings from histopathology patches | **Not started** | CPU-compatible feature extraction |
-| Embedding Cache & Storage | Parquet / NumPy embedding matrix storage on disk | **Not started** | Prevents repeated model forward passes |
-| FAISS Similarity Retrieval Engine | Top-K similar patch retrieval for morphologically identical lesions | **Not started** | Planned |
+| Foundation Model Adapter Interface | Modular plug-in architecture for pathology encoders | **Tested** | Implemented `FrozenEncoderWrapper`, `load_foundation_encoder` in `research/foundation_models/` |
+| DINOv2 / Phikon Feature Extractor | Extract 384/768-dim embeddings from histopathology patches | **Tested** | Meta AI DINOv2 ViT-S/14 verified on CPU (32-image pilot: 78.41 ms/img; 12.75 img/s); offline cache configured |
+| Embedding Cache & Storage | Memory-mapped NumPy embedding matrix + JSON/CSV manifests | **Tested** | `EmbeddingCacheManager` outside DB (`.npy` + JSON/CSV provenance); verified by tests |
+| FAISS & Exact Cosine Similarity Retrieval | Top-K similar patch retrieval with split & duplicate filters | **Tested** | `HistopathologySimilarityRetriever` with FAISS & NumPy fallback, self-exclusion & split isolation |
+| Full Dataset Embedding Extraction | Extract frozen embeddings across all 31,096 images | **Not started** | Extrapolated at 40.6 min; planned for Phase 4.1 |
 | Heavy Foundation Models (UNI, UNI2, Gigapath) | Large pathology vision transformers (>1B parameters) | **Blocked by hardware** | Requires GPU VRAM (>12GB) and gated model weights |
 
 ---
@@ -186,9 +187,9 @@
 
 ## Next Immediate Action
 
-**Phase 3.3.1 — Scientific Audit Corrections & Baseline Finalization Complete:**  
-The baseline GastricCancerRNN checkpoint evaluation has been independently verified across all metrics (Accuracy: **65.92%**, Strictly Duplicate-Unexposed Accuracy: **65.66%**). All duplicate-exposure arithmetic ($+0.26\%$ empirical shift vs. $+0.28\%$ marginal contribution) has been reconciled. The cluster-bootstrap interval ($[0.6421, 0.6759]$) is verified as 100% reproducible with seed 42. All overconfident terminology has been corrected to neutral scientific standards. 68/68 automated tests pass.
+**Phase 4.0 — Pathology Foundation Model Feasibility & Retrieval Architecture Complete:**  
+The foundation model infrastructure has been fully established and empirically validated. Meta AI DINOv2 ViT-S/14 (22.05M params, 384-dim, Apache 2.0) has been selected as the primary frozen visual encoder and configured with local offline weight caching. The controlled 32-image pilot benchmark measured a throughput of **12.75 images/sec** (**78.41 ms/image**) and a RAM footprint of **+187.11 MB**, extrapolating to **40.64 minutes** and **~53 MB** disk storage for the full 31,096 images. The similarity retrieval engine (`HistopathologySimilarityRetriever`) supports FAISS `IndexFlatIP` and exact vectorized NumPy dot products with strict query self-exclusion, duplicate-hash exclusion, and split-level reference isolation. The AnyIO test-process deadlock was forensically diagnosed and eliminated. 76/76 automated tests pass repo-wide (100% pass rate).
 
-**Awaiting User Review & Authorization for Phase 4:**  
-Awaiting explicit authorization to initiate **Phase 4: Pathology Foundation Models (DINOv2, Phikon embeddings, feature caching, and FAISS similarity retrieval)**.
+**Awaiting User Review & Authorization for Phase 4.1:**  
+Awaiting explicit user authorization before initiating **Phase 4.1: Full Dataset Feature Extraction, Indexing & Retrieval Evaluation** (batched background extraction of all 31,096 patches, persistent cache generation, and retrieval precision benchmarking).
 
