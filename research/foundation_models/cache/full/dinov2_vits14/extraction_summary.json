@@ -1,0 +1,46 @@
+{
+  "status": "success",
+  "model_name": "dinov2_vits14",
+  "weight_sha256": "b938bf1bc15cd2ec0feacfe3a1bb553fe8ea9ca46a7e1d8d00217f29aef60cd9",
+  "total_images": 31096,
+  "embedding_dim": 384,
+  "extraction_duration_seconds": 2.53,
+  "extraction_duration_minutes": 0.04,
+  "throughput_img_sec": 12287.48,
+  "cls_l2_norm": {
+    "mean": 1.0,
+    "std": 0.0,
+    "min": 1.0,
+    "max": 1.0
+  },
+  "mean_patch_l2_norm": {
+    "mean": 1.0,
+    "std": 0.0,
+    "min": 1.0,
+    "max": 1.0
+  },
+  "storage_megabytes": {
+    "cls_embeddings_npy": 45.55,
+    "mean_patch_embeddings_npy": 45.55,
+    "manifest_json": 19.59,
+    "manifest_csv": 9.36,
+    "total_cache_mb": 120.05
+  },
+  "class_distribution": {
+    "ADI": 3887,
+    "DEB": 3887,
+    "LYM": 3887,
+    "MUC": 3887,
+    "MUS": 3887,
+    "NOR": 3887,
+    "STR": 3887,
+    "TUM": 3887
+  },
+  "split_distribution": {
+    "train": 21767,
+    "test": 4665,
+    "val": 4664
+  },
+  "unique_clusters": 29910,
+  "completed_at_utc": "2026-11-06T14:42:06.870823+00:00"
+}

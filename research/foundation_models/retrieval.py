@@ -82,8 +82,10 @@ class HistopathologySimilarityRetriever:
         query_image_id: str | None = None,
         query_relative_path: str | None = None,
         query_sha256: str | None = None,
+        query_cluster_id: str | None = None,
         exclude_self: bool = True,
         exclude_duplicates: bool = True,
+        exclude_same_cluster: bool = True,
         filter_split: str | None = None,
     ) -> list[RetrievalMatch]:
         """Finds top-k nearest neighbors for a query embedding vector.
@@ -93,9 +95,11 @@ class HistopathologySimilarityRetriever:
             top_k: Number of nearest neighbors to return
             query_image_id: Optional ID of query image (used for self-exclusion)
             query_relative_path: Optional relative path of query image
-            query_sha256: Optional SHA-256 hash (used for duplicate exclusion)
+            query_sha256: Optional SHA-256 hash (used for exact duplicate exclusion)
+            query_cluster_id: Optional duplicate cluster ID (used for near-duplicate exclusion)
             exclude_self: Whether to filter out the query image itself from results
             exclude_duplicates: Whether to filter out exact hash duplicates of the query
+            exclude_same_cluster: Whether to filter out items from the same duplicate cluster
             filter_split: Optional filter restricting returned neighbors to a split
 
         Returns:
@@ -113,7 +117,7 @@ class HistopathologySimilarityRetriever:
             q = q / q_norm
 
         # Candidate pool size: request more neighbors than top_k to account for exclusions
-        pool_k = min(self.num_items, top_k * 5 + 20)
+        pool_k = min(self.num_items, top_k * 5 + 30)
 
         if self.use_faiss and self.index is not None:
             q_2d = np.ascontiguousarray(q.reshape(1, -1), dtype=np.float32)
@@ -152,7 +156,13 @@ class HistopathologySimilarityRetriever:
                 if rec.sha256 == query_sha256:
                     continue
 
-            # 3. Split filter check
+            # 3. Near-duplicate / duplicate cluster exclusion check
+            if exclude_same_cluster and query_cluster_id:
+                rec_cluster = getattr(rec, "cluster_id", "")
+                if rec_cluster and rec_cluster == query_cluster_id:
+                    continue
+
+            # 4. Split filter check
             if filter_split and rec.dataset_split != filter_split:
                 continue
 
@@ -170,6 +180,7 @@ class HistopathologySimilarityRetriever:
                 similarity_score=round(float(score), 4),
                 rank=rank,
                 is_same_class=is_same_class,
+                cluster_id=getattr(rec, "cluster_id", ""),
             )
             matches.append(match)
             rank += 1

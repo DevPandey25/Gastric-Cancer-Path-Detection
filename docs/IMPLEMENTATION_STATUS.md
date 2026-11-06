@@ -1,7 +1,7 @@
 # GastricPath AI — Master Implementation Status Tracker
 
 **Document ID:** `GP-STATUS-2026-V1`  
-**Current Phase:** Phase 4.0 Complete (Foundation Model Feasibility & Retrieval Architecture; 76/76 Tests Passing) — Awaiting User Authorization  
+**Current Phase:** Phase 4.1 Complete (Full Dataset Feature Extraction & Retrieval Evaluation; 86/86 Tests Passing) — Awaiting User Authorization  
 **Last Updated:** November 2026  
 
 ---
@@ -93,14 +93,15 @@
 
 ---
 
-### Phase 4 & 4.0: Pathology Foundation Model Feasibility & Retrieval Architecture
+### Phase 4, 4.0 & 4.1: Pathology Foundation Models & Retrieval Subsystem
 | Module / Feature | Description | Status | Notes |
 |:---|:---|:---:|:---|
 | Foundation Model Adapter Interface | Modular plug-in architecture for pathology encoders | **Tested** | Implemented `FrozenEncoderWrapper`, `load_foundation_encoder` in `research/foundation_models/` |
-| DINOv2 / Phikon Feature Extractor | Extract 384/768-dim embeddings from histopathology patches | **Tested** | Meta AI DINOv2 ViT-S/14 verified on CPU (32-image pilot: 78.41 ms/img; 12.75 img/s); offline cache configured |
-| Embedding Cache & Storage | Memory-mapped NumPy embedding matrix + JSON/CSV manifests | **Tested** | `EmbeddingCacheManager` outside DB (`.npy` + JSON/CSV provenance); verified by tests |
-| FAISS & Exact Cosine Similarity Retrieval | Top-K similar patch retrieval with split & duplicate filters | **Tested** | `HistopathologySimilarityRetriever` with FAISS & NumPy fallback, self-exclusion & split isolation |
-| Full Dataset Embedding Extraction | Extract frozen embeddings across all 31,096 images | **Not started** | Extrapolated at 40.6 min; planned for Phase 4.1 |
+| DINOv2 / Phikon Feature Extractor | Extract 384/768-dim embeddings from histopathology patches | **Tested** | Meta AI DINOv2 ViT-S/14 verified on CPU (offline cache configured, SHA-256 verified) |
+| Embedding Cache & Storage | Memory-mapped NumPy embedding matrix + JSON/CSV manifests | **Tested** | `cls_embeddings.npy` & `mean_patch_embeddings.npy` (45.55 MB each) + manifests (120 MB total) |
+| FAISS & Exact Cosine Similarity Retrieval | Top-K similar patch retrieval with split & duplicate filters | **Tested** | `HistopathologySimilarityRetriever` with self, SHA-256 duplicate, and dHash cluster exclusion |
+| Full Dataset Embedding Extraction | Extract frozen embeddings across all 31,096 images | **Tested** | Completed in 45.88 min at 11.30 img/s; constant ~550 MB RSS; 100% finite & L2-normalized |
+| Test-to-Train Retrieval Benchmark | Evaluate 4,665 test queries against 21,767 training references | **Tested** | Hit@1: 47.31% (CLS) / 47.33% (Patch); Majority@10: 54.98% / 55.13%; zero leakage verified |
 | Heavy Foundation Models (UNI, UNI2, Gigapath) | Large pathology vision transformers (>1B parameters) | **Blocked by hardware** | Requires GPU VRAM (>12GB) and gated model weights |
 
 ---
@@ -187,9 +188,9 @@
 
 ## Next Immediate Action
 
-**Phase 4.0 — Pathology Foundation Model Feasibility & Retrieval Architecture Complete:**  
-The foundation model infrastructure has been fully established and empirically validated. Meta AI DINOv2 ViT-S/14 (22.05M params, 384-dim, Apache 2.0) has been selected as the primary frozen visual encoder and configured with local offline weight caching. The controlled 32-image pilot benchmark measured a throughput of **12.75 images/sec** (**78.41 ms/image**) and a RAM footprint of **+187.11 MB**, extrapolating to **40.64 minutes** and **~53 MB** disk storage for the full 31,096 images. The similarity retrieval engine (`HistopathologySimilarityRetriever`) supports FAISS `IndexFlatIP` and exact vectorized NumPy dot products with strict query self-exclusion, duplicate-hash exclusion, and split-level reference isolation. The AnyIO test-process deadlock was forensically diagnosed and eliminated. 76/76 automated tests pass repo-wide (100% pass rate).
+**Phase 4.1 — Full Dataset Feature Extraction, Indexing & Retrieval Evaluation Complete:**  
+Full-dataset frozen feature extraction across all **31,096 images** in GCHTID was completed using Meta AI DINOv2 ViT-S/14 in **45.88 minutes** (**11.30 images/sec**) with a constant memory footprint of **~550 MB RSS**. Both CLS tokens and mean spatial patch tokens ($[31096, 384]$ each, 45.55 MB each) were persisted in memory-mapped binary arrays accompanied by complete provenance manifests (120.05 MB total cache). Test-to-train retrieval evaluation across 4,665 test queries against the 21,767 training reference pool achieved **47.31% Hit@1** (CLS) and **47.33%** (Mean Patch), rising to **54.98% / 55.13% Majority Agreement@10**. Zero cross-split duplicate leakage was verified. 4 publication-quality visualizations were generated. 10 new tests were added (86/86 automated tests passing repo-wide, 100% pass rate).
 
-**Awaiting User Review & Authorization for Phase 4.1:**  
-Awaiting explicit user authorization before initiating **Phase 4.1: Full Dataset Feature Extraction, Indexing & Retrieval Evaluation** (batched background extraction of all 31,096 patches, persistent cache generation, and retrieval precision benchmarking).
+**Awaiting User Review & Authorization for Phase 4.2:**  
+Awaiting explicit user authorization before initiating **Phase 4.2: Foundation Model Downstream Probing & Linear Evaluation** (frozen feature linear probing, k-NN evaluation, and comparison against baseline CNN-BiLSTM-attention classifier).
 
