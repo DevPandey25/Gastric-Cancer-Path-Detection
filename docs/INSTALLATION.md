@@ -105,3 +105,4 @@ python -m pytest tests/clinical_reporting/test_clinical_reporting.py -q
 ## 6. Optional: Dataset Setup (HMU-GC-HE-30K)
 
 For training experiments or full tile exploration, see [DATASET_SETUP.md](DATASET_SETUP.md) for downloading and placing the open HMU-GC-HE-30K histopathology dataset.
+

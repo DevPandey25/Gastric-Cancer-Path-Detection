@@ -42,3 +42,4 @@ python -m pytest tests/ -q
 1. Ensure `python -m pytest tests/` passes with 0 failures.
 2. Confirm that `.env`, local `.db` files, and raw images are not staged.
 3. Open a Pull Request describing your research motivation, methodology, and verification steps.
+

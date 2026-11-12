@@ -151,3 +151,4 @@ gastric-cancer-histopathology-dashboard-main/
 | **13** | Validation & Roadmap | Reproducibility checklist & milestone tracker | Documented / Verified |
 | **14** | Scientific Reports | In-browser markdown report viewer | Implemented / Verified |
 | **15** | Clinical Reporting | Case review, evidence registry & PDF builder | Implemented (Modes A, B, C via ReportLab) |
+

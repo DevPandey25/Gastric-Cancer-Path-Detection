@@ -67,3 +67,4 @@ For research benchmarking, GastricPath AI includes comparison modules evaluating
 - **Phikon:** Pathology-specific foundation model pretrained on 40M+ histology tiles from The Cancer Genome Atlas (TCGA).
 - **DINOv2 (ViT-S/14):** Vision transformer pretrained by Meta AI on 142M general visual images.
 - Linear probe and nonlinear multi-layer perceptron (MLP) evaluation scripts are located in `research/foundation_models/`.
+

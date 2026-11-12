@@ -64,3 +64,4 @@ Once the dataset is placed at `data/raw/HMU-GC-HE-30K/all_image/`, run the datas
 ```powershell
 python -m training.prepare_manifest
 ```
+
