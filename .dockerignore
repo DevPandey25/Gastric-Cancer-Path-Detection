@@ -1,0 +1,40 @@
+# Version control
+.git
+.gitignore
+
+# Python cache & virtual environments
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local data & raw files (exclude massive raw image datasets from container build)
+data/
+raw_data/
+*.zip
+*.tar.gz
+*.svs
+*.tif
+*.tiff
+research/data/raw/
+
+# Temporary artifacts & uploads
+uploads/*
+!uploads/.gitkeep
+scratch/
+brain/
+tmp/
+*.log
+
+# Environment secrets
+.env
+.env.local
+.env.*.local
+.env.*
+

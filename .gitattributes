@@ -1,0 +1,32 @@
+# ===========================================================================
+# GastricPath AI — Git Attributes Configuration
+# ===========================================================================
+
+# Auto-detect text files and normalize line endings to LF on commit
+* text=auto eol=lf
+
+# Explicit binary files
+*.pt binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.pdf binary
+*.ico binary
+*.svg text
+*.svgz binary
+
+# Documentation, data manifests, and source code
+*.md text
+*.py text
+*.js text
+*.css text
+*.html text
+*.json text
+*.jsonl text
+*.yml text
+*.yaml text
+*.toml text
+*.cff text
+*.csv text
+*.ris text
+*.bib text

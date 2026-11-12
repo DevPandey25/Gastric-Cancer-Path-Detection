@@ -1,0 +1,23 @@
+{
+  "calibration_percentile": 95.0,
+  "calibration_split": "validation",
+  "n_validation_samples": 466,
+  "mahalanobis": {
+    "threshold": 1310.1563852511763,
+    "val_mean": 776.6743328256891,
+    "val_std": 303.97160382263166,
+    "val_min": 279.5709379658763,
+    "val_max": 2568.009123311052,
+    "val_median": 706.2811510119078,
+    "val_rejection_rate": 0.05150214592274678
+  },
+  "msp": {
+    "threshold": 0.6538104651359357,
+    "val_mean": 0.32170755382299276,
+    "val_std": 0.2116349114242031,
+    "val_min": 0.0009742641046186495,
+    "val_max": 0.801889843930379,
+    "val_median": 0.3191486461736989,
+    "val_rejection_rate": 0.05150214592274678
+  }
+}

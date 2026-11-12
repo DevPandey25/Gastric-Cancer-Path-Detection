@@ -1,0 +1,96 @@
+{
+  "phase": "Original Phase 7",
+  "phase_name": "Nuclei Detection and Cellular Morphology",
+  "implementation_status": "EXPLORATORY_BASELINE_OPERATIONAL",
+  "deep_models_audit": {
+    "stardist": {
+      "model_variant": "2D_versatile_he",
+      "architecture": "Star-Convex Polygon Regression (U-Net backbone)",
+      "is_available": false,
+      "status": "BLOCKED",
+      "blocker_reason": "'stardist' / 'csbdeep' packages not installed; TensorFlow 2.20 .keras permission error on Python 3.13; weights not present locally; external download restricted by protocol."
+    },
+    "cellpose": {
+      "model_variant": "nuclei",
+      "architecture": "Topological Vector Flow-Field Integration (U-Net variant)",
+      "is_available": false,
+      "status": "BLOCKED",
+      "blocker_reason": "'cellpose' package not installed; weights not present locally; external download restricted by protocol."
+    },
+    "hover_net": {
+      "model_variant": "CoNSeP / PanNuke",
+      "architecture": "Multi-Task ResNet-50 (NP, HoVer, NC branches)",
+      "is_available": false,
+      "status": "BLOCKED",
+      "blocker_reason": "HoVer-Net repository and CoNSeP/PanNuke checkpoints not present locally; external download restricted by protocol."
+    },
+    "classical_hed_watershed": {
+      "model_variant": "ruifrok_hed_marker_watershed",
+      "architecture": "Ruifrok-Johnston Optical Density Deconvolution + Distance Transform + Marker Watershed",
+      "is_available": true,
+      "status": "OPERATIONAL",
+      "notes": "Executes natively on CPU using installed NumPy, SciPy, and OpenCV without external weight downloads."
+    }
+  },
+  "candidate_comparison_matrix": {
+    "stardist": {
+      "detection_approach": "Star-convex polygon ray regression from predicted object centers",
+      "he_compatibility": "High (pretrained model 2D_versatile_he trained on MoNuSeg / DSB2018)",
+      "simultaneous_classification": "No (requires secondary classification network)",
+      "license": "BSD-3-Clause",
+      "cpu_feasibility": "Moderate (~0.5s per tile on CPU)",
+      "local_readiness": "Blocked (dependencies missing)"
+    },
+    "cellpose": {
+      "detection_approach": "Vector flow-field tracking of diffusion gradient sinks",
+      "he_compatibility": "Moderate (predominantly trained on fluorescence microscopy, adaptable to H&E)",
+      "simultaneous_classification": "No (instance boundaries only)",
+      "license": "BSD-3-Clause",
+      "cpu_feasibility": "Moderate to Slow (~1.2s per tile on CPU)",
+      "local_readiness": "Blocked (dependencies missing)"
+    },
+    "hover_net": {
+      "detection_approach": "Horizontal/Vertical distance gradients + multi-task nuclear classification",
+      "he_compatibility": "Very High (specifically designed for H&E WSIs; CoNSeP/PanNuke)",
+      "simultaneous_classification": "Yes (predicts neoplastic, inflammatory, stromal, necrotic phenotypes)",
+      "license": "Non-commercial Research License (University of Warwick)",
+      "cpu_feasibility": "Slow (~3.5s per tile on CPU due to 3 heavy branches)",
+      "local_readiness": "Blocked (repository and weights missing)"
+    },
+    "classical_hed_watershed": {
+      "detection_approach": "Optical density color deconvolution + distance transform peak marker watershed",
+      "he_compatibility": "High (analytical Ruifrok-Johnston stain calibration for H&E)",
+      "simultaneous_classification": "No (pure unsupervised instance segmentation)",
+      "license": "Public Domain / Open Source",
+      "cpu_feasibility": "Fast (~0.04s per tile on CPU)",
+      "local_readiness": "Operational"
+    }
+  },
+  "pilot_configuration": {
+    "dataset": "HMU-GC-HE-30K (GCHTID)",
+    "images_per_class": 8,
+    "total_images": 64,
+    "classes": ["ADI", "DEB", "LYM", "MUC", "MUS", "NOR", "STR", "TUM"],
+    "random_seed": 42,
+    "image_dimensions": [224, 224, 3]
+  },
+  "regional_analysis_layout": {
+    "grid_type": "2x2 Quadrant Layout",
+    "quadrants": {
+      "TL": {"x_range": [0, 112], "y_range": [0, 112]},
+      "TR": {"x_range": [112, 224], "y_range": [0, 112]},
+      "BL": {"x_range": [0, 112], "y_range": [112, 224]},
+      "BR": {"x_range": [112, 224], "y_range": [112, 224]}
+    },
+    "quadrant_area_px2": 12544
+  },
+  "stain_deconvolution": {
+    "method": "Ruifrok & Johnston (2001)",
+    "hed_matrix": [
+      [0.650, 0.704, 0.286],
+      [0.072, 0.990, 0.105],
+      [0.268, 0.570, 0.776]
+    ]
+  }
+}
+

@@ -1,0 +1,1 @@
+# Preserves research/clinical_reporting/output directory in git while ignoring generated PDF builds.

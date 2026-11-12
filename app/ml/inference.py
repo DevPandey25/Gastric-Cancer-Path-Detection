@@ -99,10 +99,18 @@ class InferenceService:
             for class_name, _ in sorted_items
         ]
 
+        predicted_tum_probability = round(probabilities.get("TUM", 0.0) * 100.0, 2)
+        disclaimer = (
+            "Predicted TUM class probability represents patch-level histological classification, "
+            "NOT patient-level cancer diagnosis or anatomical tumor area percentage."
+        )
+
         return {
             "predicted_class": predicted_class,
             "predicted_label": CLASS_LABELS[predicted_class],
             "cancer_percentage": round(cancer_percentage, 2),
+            "predicted_tum_probability": predicted_tum_probability,
+            "disclaimer": disclaimer,
             "risk_band": risk_band,
             "confidence_score": round(top_probability * 100.0, 2),
             "top_probability": round(top_probability * 100.0, 2),

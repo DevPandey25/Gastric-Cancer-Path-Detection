@@ -81,6 +81,37 @@ def clinical_summary() -> dict:
             {"label": str(int(key)) if pd.notna(key) else "Unknown", "value": int(value)}
             for key, value in her2.value_counts(dropna=True).to_dict().items()
         ],
+        "her2_four_tier_counts": {
+            "0 (Negative)": int((her2 == 0).sum()),
+            "1+ (Negative/Equivocal)": int((her2 == 1).sum()),
+            "2+ (Equivocal / Requires ISH)": int((her2 == 2).sum()),
+            "3+ (Positive Overexpression)": int((her2 == 3).sum()),
+        },
+        "her2_exploratory_category_label": "IHC 2+/3+ exploratory category — not confirmed HER2-positive status.",
+        "her2_scientific_caveat": "IHC 2+ requires In Situ Hybridization (ISH) confirmation for clinical HER2 positivity. No patient-level ISH assays exist in this cohort.",
+        "her2_unimodal_cv_benchmark": {
+            "task": "HER-2 Exploratory Category (2+/3+ vs 0/1+)",
+            "majority_class_baseline_accuracy": 0.7533,
+            "logistic_regression": {
+                "balanced_accuracy_mean": 0.4274,
+                "balanced_accuracy_std": 0.0666,
+                "macro_f1_mean": 0.2576,
+                "macro_f1_std": 0.0806,
+                "auroc_mean": 0.4212,
+                "auroc_std": 0.0710,
+            },
+            "random_forest": {
+                "balanced_accuracy_mean": 0.4930,
+                "balanced_accuracy_std": 0.0704,
+                "macro_f1_mean": 0.2366,
+                "macro_f1_std": 0.1125,
+                "auroc_mean": 0.4895,
+                "auroc_std": 0.1058,
+            },
+            "clinical_utility_disclosure": "Model results do not demonstrate clinically useful discrimination.",
+        },
+        "patient_privacy_enforced": True,
+        "privacy_notice": "Individual patient IDs and raw records excluded. Aggregate cohort statistics only.",
     }
 
 
@@ -96,6 +127,9 @@ def biomarker_summary() -> dict:
     return {
         "sheet_name": "Table s2",
         "rows": int(len(df)),
+        "mirna_id": "hsa-miR-497-5p",
+        "network_nature": "In-silico predicted target network",
+        "scientific_disclosure": "In-silico predictions across 8 computational tools. Not experimentally validated patient biomarkers.",
         "top_targets": [
             {
                 "target_symbol": row["target_symbol"],

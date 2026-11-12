@@ -181,3 +181,4 @@ def test_wilson_interval_bounds():
     assert low < p < high
     assert math.isclose(low, 0.6314, abs_tol=1e-3)
     assert math.isclose(high, 0.6588, abs_tol=1e-3)
+

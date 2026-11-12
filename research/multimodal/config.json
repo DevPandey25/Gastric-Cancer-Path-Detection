@@ -1,0 +1,71 @@
+{
+  "phase_name": "Original Phase 10: Multimodal Clinical Research",
+  "status": "Clinical and Biomarker Analytics Operational / Multimodal Fusion and Survival Modeling Blocked by Data",
+  "datasets": {
+    "gchtid_histopathology": {
+      "path": "data/raw/",
+      "manifest_path": "research/manifests/manifest_all.csv",
+      "total_tiles": 31096,
+      "tile_dimensions": [224, 224, 3],
+      "classes": ["ADI", "DEB", "LYM", "MUC", "MUS", "NOR", "STR", "TUM"],
+      "has_patient_identifiers": false,
+      "provenance": "Pre-extracted tiles from Harbin Medical University; filenames do not encode patient IDs"
+    },
+    "hmu_gc_clinical": {
+      "path": "data/support/HMU-GC-Clinical.csv",
+      "total_patient_records": 300,
+      "unique_patient_identifiers": 300,
+      "has_patient_identifiers": true,
+      "patient_id_format": "7-Digit Integers in the 1600000 range",
+      "nature": "Cross-sectional pathological staging, histological subtype, and HER-2 immunohistochemistry",
+      "has_survival_followup_time": false,
+      "has_vital_status_event": false
+    },
+    "gastric_xlsx_biomarker": {
+      "path": "data/support/Gastric.xlsx",
+      "sheet_name": "Table s2",
+      "total_interaction_rows": 3711,
+      "unique_target_genes": 3497,
+      "mirna_accession": "MIMAT0002820",
+      "mirna_identifier": "hsa-miR-497-5p",
+      "nature": "In-silico computational target predictions from 8 bioinformatics algorithms; zero patient molecular expression data",
+      "has_patient_identifiers": false
+    }
+  },
+  "provenance_and_linkage_audit": {
+    "gchtid_to_clinical_status": "UNAVAILABLE",
+    "clinical_to_biomarker_status": "UNAVAILABLE",
+    "gchtid_to_biomarker_status": "UNAVAILABLE",
+    "explicit_crosswalk_files_present": 0,
+    "scientific_integrity_enforcement": {
+      "heuristic_joins_permitted": false,
+      "synthetic_patient_ids_permitted": false,
+      "patch_to_patient_label_transfer_permitted": false,
+      "in_silico_to_patient_biomarker_transfer_permitted": false
+    }
+  },
+  "clinical_preprocessing": {
+    "numerical_features": ["age"],
+    "scaling": "StandardScaler (fitted strictly on training split)",
+    "categorical_nominal": ["sex", "histological_type", "tumor_infiltration_pattern"],
+    "encoding": "OneHotEncoder(handle_unknown='ignore')",
+    "ordinal_pathological": ["t_stage", "n_stage", "m_stage", "lauren_classification", "stroma_quantity"],
+    "binary_invasion_indicators": ["lymphovascular_invasion", "venous_invasion", "perineural_invasion"]
+  },
+  "unimodal_clinical_modeling": {
+    "target": "her2_overexpression",
+    "definition": "HER2 2+ (equivocal) or 3+ (positive) vs 0/1+ (negative) on immunohistochemistry",
+    "validation_protocol": "Stratified 5-Fold Cross-Validation (N=300)",
+    "models": ["ClinicalLogisticRegressionModel", "ClinicalRandomForestModel", "ClinicalMLPEncoder"]
+  },
+  "multimodal_image_clinical_fusion": {
+    "status": "INFRASTRUCTURE_IMPLEMENTED_TRAINING_BLOCKED",
+    "architectures": ["EarlyFusionClassifier", "LateFusionClassifier", "CrossAttentionFusion"],
+    "blocker": "Zero verified patient crosswalk between GCHTID tiles and HMU-GC-Clinical records"
+  },
+  "survival_analysis": {
+    "status": "BLOCKED",
+    "blocker": "HMU-GC-Clinical.csv lacks follow-up duration (OS_months), vital status (dead/alive), and time origin"
+  }
+}
+

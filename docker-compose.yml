@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  gastricpath-ai:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gastricpath-ai:1.0.0
+    container_name: gastricpath-workbench
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_ENV=production
+      - HOST=0.0.0.0
+      - PORT=8000
+      - DATABASE_URL=sqlite:////app/data/gastric_path.db
+      - UPLOAD_DIR=/app/uploads
+      - MODEL_CHECKPOINT=/app/models/checkpoints/gastric_rnn_classifier.pt
+      - MINIMUM_CHECKPOINT_ACCURACY=0.80
+    volumes:
+      - app-db:/app/data
+      - app-uploads:/app/uploads
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  app-db:
+    name: gastricpath_db_data
+  app-uploads:
+    name: gastricpath_upload_data
+

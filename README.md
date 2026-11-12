@@ -1,112 +1,175 @@
-# Gastric Cancer Histopathology Analysis Dashboard
+# GastricPath AI
+### AI-Assisted Gastric Histopathology Research and Computational Pathology Workbench
 
-This project is a gastric cancer analysis website built around the GCHTID histopathology dataset, the notebook benchmark results, the clinical CSV, and the biomarker spreadsheet.
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688.svg?logo=fastapi)](https://fastapi.tiangolo.com)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-EE4C2C.svg?logo=pytorch)](https://pytorch.org/)
+[![Tests Passing](https://img.shields.io/badge/tests-359%20passed-success.svg)](tests/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Security: Offline First](https://img.shields.io/badge/security-offline--first-brightgreen.svg)](docs/SECURITY.md)
 
-This folder is the GitHub-safe version of the project. It keeps the code, support files, trained checkpoint, and benchmark artifacts, but leaves out the large raw image dataset, local virtual environment, uploads, and SQLite database file.
+---
 
-## What it includes
+## 🔬 Project Overview
 
-- A gastric tissue classifier based on a lightweight CNN encoder plus BiLSTM and attention
-- A live upload workflow that predicts tissue class and estimates cancer percentage
-- SQLite-backed storage for prediction history
-- A FastAPI dashboard for:
-  - live inference
-  - dataset distribution
-  - notebook benchmark metrics
-  - confusion matrix display
-  - clinical stage analysis
-  - biomarker target exploration
-- A bundled trained checkpoint so the copied repo can still run predictions without the raw dataset
+**GastricPath AI** is an open-source, comprehensive computational pathology and deep learning research platform specifically designed for **gastric adenocarcinoma histopathology analysis**. 
 
-## Project structure
+Operating as an offline, private scientific workstation, GastricPath AI unifies deep learning patch classification, foundation-model feature comparisons, interpretable gradient attributions, cellular morphology deconvolution, spatial graph neural networks, whole-slide image (WSI) tile processing, and evidence-grounded clinical research reporting into a single dark-mode pathology workstation interface.
 
-- `app/`: FastAPI app, analytics layer, SQL models, inference logic, dashboard UI
-- `training/`: manifest generation and training scripts
-- `data/raw/`: empty in this GitHub-safe copy; add the extracted histopathology images here if you want full dataset-backed training or the fallback similarity mode
-- `data/support/`: clinical CSV, biomarker XLSX, notebook, and benchmark JSON
-- `data/uploads/`: uploaded inference samples
-- `models/checkpoints/`: trained model checkpoints
-- `model_train/logs/`: training summaries
-- `model_train/runs/`: generated manifests and experiment artifacts
+The platform is anchored on the **HMU-GC-HE-30K** (Gastric Cancer Histopathology Tissue Image Dataset) benchmark (31,096 FFPE H&E patches across 8 classes) and validated across **359 automated test cases**.
 
-## Real dataset used
+---
 
-- Histopathology image dataset: `31,096` images across `8` classes
-- Classes: `ADI`, `DEB`, `LYM`, `MUC`, `MUS`, `NOR`, `STR`, `TUM`
-- Clinical file: `HMU-GC-Clinical.csv`
-- Biomarker file: `Gastric.xlsx`
-- Benchmark notebook: `gastric-cancer-histopathology-tissue.ipynb`
+## ⚠️ Important Research Limitations & Regulatory Disclaimer
 
-## Setup
+> [!WARNING]
+> **RESEARCH SOFTWARE ONLY — NOT A CLINICAL DIAGNOSTIC DEVICE**
+>
+> GastricPath AI is developed strictly for computational pathology methodology research, academic benchmarking, and educational investigation. It has **NOT** been approved, cleared, or certified as a medical device by the US FDA, European EMA/CE-IVD, China NMPA, or any regulatory body.
+>
+> - **Patch-Level Output:** Model classifications represent patch-level categorical estimates for an isolated $224 \times 224$ pixel tile. The predicted `TUM` probability reflects local tile morphology, **not** patient-level diagnosis or cancer staging.
+> - **Model Confidence:** Softmax probability is a mathematical model output, not clinical certainty.
+> - **Supervision Required:** Model outputs must never substitute for microscopic examination by a board-certified anatomical pathologist.
+>
+> For full details, see [docs/RESEARCH_LIMITATIONS.md](docs/RESEARCH_LIMITATIONS.md) and [docs/VALIDATION_AND_LIMITATIONS.md](docs/VALIDATION_AND_LIMITATIONS.md).
 
-Use Python `3.11` if possible because the PyTorch dependency is most reliable there.
+---
 
+## ✨ Verified Capabilities & Modules
+
+| Module / Capability | Implementation Description | Status |
+| :--- | :--- | :---: |
+| **01. Live Inference & Telemetry** | Interactive single-patch upload, 8-class prediction distribution, latency metrics, and verified telemetry | `Implemented` |
+| **02. Dataset Explorer** | Distribution viewer across 31,096 patches in 8 classes (`TUM`, `STR`, `LYM`, `NOR`, `MUC`, `DEB`, `MUS`, `ADI`) | `Implemented` |
+| **03. Custom CNN-BiLSTM-Attention** | Lightweight custom architecture (~850K params, 3.49 MB) optimized for fast CPU inference | `Implemented` |
+| **04. Foundation Models** | Self-supervised comparative linear probing and nonlinear MLPs with **Phikon** and **DINOv2** | `Implemented` |
+| **05. Model Explainability** | High-resolution Grad-CAM, Integrated Gradients, and sequential recurrent attention maps | `Implemented` |
+| **06. Robustness Evaluation** | Perturbation stress tests against Gaussian noise, motion blur, and stain color jitter | `Implemented` |
+| **07. Uncertainty & OOD** | Temperature scaling calibration, predictive entropy, and Mahalanobis distance OOD detection | `Implemented` |
+| **08. Tissue Segmentation** | 9-class U-Net encoder-decoder infrastructure (Strict integrity: zero synthetic masks) | `Infrastructure Only` |
+| **09. Cellular Morphology** | Ruifrok HED optical density color deconvolution and morphological watershed segmentation | `Implemented` |
+| **10. Spatial Graphs & GNNs** | PyTorch Geometric spatial graph representations modeling cellular topology and Delaunay meshes | `Experimental` |
+| **11. Whole-Slide Imaging (WSI)** | Pure-Python pyramidal tile reading, coordinate mapping, and Attention-MIL patch aggregation | `Implemented` |
+| **12. Error Analysis** | Top false-positive and false-negative misclassification galleries with confusion matrix audits | `Implemented` |
+| **13. Evidence Matrix** | 32-paper verified gastric cancer computational pathology literature database (RIS / BibTeX) | `Implemented` |
+| **14. Clinical Research & PDF Workbench** | Case review, molecular biomarkers (HER-2, MSI/MMR, PD-L1, CLDN18.2), and ReportLab Platypus PDF export | `Implemented` |
+
+---
+
+## 🛠️ Technology Stack
+
+- **Backend & REST Services:** [FastAPI](https://fastapi.tiangolo.com/) (asynchronous REST framework), Pydantic v2, Uvicorn, SQLite
+- **Machine Learning & Vision:** [PyTorch](https://pytorch.org/), [Torch Geometric](https://pyg.org/), OpenCV, NumPy, Pandas, Scikit-learn
+- **Document & PDF Generation:** [ReportLab](https://www.reportlab.com/) Platypus Flowable Architecture (Canvas-level rendering, headers, tables)
+- **Frontend & Workstation UI:** Vanilla ES6+ JavaScript, Modern CSS3 with dark scientific workstation design tokens, SVG iconography (Zero bulky frontend frameworks, zero build steps)
+- **Testing & Quality Assurance:** Pytest (359 passing automated test cases)
+
+---
+
+## 🚀 Quickstart Installation (Windows 11)
+
+### 1. Clone the Repository
 ```powershell
-py -3.11 -m venv .venv
-.venv\Scripts\activate
+git clone https://github.com/DevPandey25/Gastric-Cancer-Path-Detection.git
+cd Gastric-Cancer-Path-Detection
+```
+
+### 2. Configure Virtual Environment & Install Dependencies
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-If `py -3.11` is not available, install Python 3.11 first.
+### 3. Initialize Environment
+```powershell
+Copy-Item .env.example .env
+```
+*(GastricPath AI operates 100% offline and requires zero API keys or external services).*
 
-## Run the dashboard
+### 4. Verify Model Checkpoint
+GastricPath AI includes the certified baseline model checkpoint:
+- Path: `models/checkpoints/gastric_rnn_classifier.pt`
+- Verified SHA-256: `65369ef618ad1d0ad10ecb65b6f15324e932f52e21c8b25a43b71c636726d8b8`
 
 ```powershell
-uvicorn app.main:app --reload
+Get-FileHash models/checkpoints/gastric_rnn_classifier.pt -Algorithm SHA256
 ```
 
-Then open:
-
-`http://127.0.0.1:8000`
-
-In this GitHub-safe copy, the included checkpoint is enabled by default so the upload demo can still work even before the raw dataset is downloaded.
-
-## Train the model checkpoint
-
-Generate a manifest:
-
+### 5. Launch the Web Application
 ```powershell
-python -m training.prepare_manifest
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
+Open **[http://127.0.0.1:8000/](http://127.0.0.1:8000/)** in your browser.
 
-Run training:
+Interactive API Documentation:
+- Swagger UI: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+- ReDoc: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
 
+---
+
+## 🧪 Automated Testing
+
+To run the complete test suite:
 ```powershell
-python -m training.train --epochs 5 --batch-size 32
+python -m pytest tests/ -q
+```
+```
+============================= 359 passed in 105s ==============================
 ```
 
-The trained checkpoint is saved to:
+---
 
-`models/checkpoints/gastric_rnn_classifier.pt`
+## 📁 Repository Structure
 
-## Dataset download for full training and fallback mode
+```
+Gastric-Cancer-Path-Detection/
+├── app/                                 # FastAPI application and presentation views
+│   ├── main.py                          # Application entry point and security middleware
+│   ├── clinical_reporting_api.py        # Case dossier and PDF generation endpoints
+│   ├── research_workbench.py            # 14 Research module endpoint implementations
+│   ├── static/                          # Dark-mode styling and workstation logic (app.js, styles.css)
+│   └── templates/                       # Jinja2 single-page application template
+├── research/                            # 14 Computational pathology research modules
+├── models/checkpoints/                  # Certified baseline model checkpoint (.pt)
+├── data/                                # Clinical tables (HMU-GC-Clinical.csv, Gastric.xlsx)
+├── docs/                                # Technical, architecture, security, and setup guides
+├── tests/                               # Comprehensive automated test suite (359 tests)
+├── .env.example                         # Safe configuration template
+├── .gitignore                           # Research-grade exclusion rules
+├── .gitattributes                       # Line ending normalization
+├── CITATION.cff                         # Academic citation schema
+├── CONTRIBUTING.md                      # Community guidelines
+├── requirements.txt                     # Pinned project dependencies
+└── README.md                            # Primary documentation
+```
 
-The raw image dataset is not bundled in this copy because it is too large for a normal GitHub repository.
+---
 
-Place the extracted dataset at:
+## 📊 Dataset & Model Download References
 
-`data/raw/HMU-GC-HE-30K/all_image`
+- **HMU-GC-HE-30K (GCHTID):** Mendeley Data [DOI: 10.17632/v5w884n43c.1](https://data.mendeley.com/datasets/v5w884n43c/1) | Figshare [DOI: 10.6084/m9.figshare.25954813](https://figshare.com/articles/dataset/Gastric_Cancer_Histopathology_Tissue_Image_Dataset_GCHTID_/25954813)
+- See [docs/DATASET_SETUP.md](docs/DATASET_SETUP.md) for full instructions on extracting the 31,096 images to `data/raw/HMU-GC-HE-30K/all_image/`.
 
-Useful source links:
+---
 
-- Kaggle dataset page: `https://www.kaggle.com/datasets/orvile/gastric-cancer-histopathology-tissue-image-dataset`
-- Figshare archive: `https://figshare.com/articles/dataset/Gastric_Cancer_Histopathology_Tissue_Image_Dataset_GCHTID_/25954813`
+## 📄 Citation
 
-Once the dataset is present, the training scripts and the fallback similarity mode can use the full image collection.
+If you use GastricPath AI in academic studies or computational pathology benchmarks, please cite:
 
-## Suggested presentation flow
+```bibtex
+@software{pandey2026gastricpath,
+  author       = {Dev Prasad Pandey},
+  title        = {GastricPath AI: AI-Assisted Gastric Histopathology Research and Computational Pathology Workbench},
+  year         = {2026},
+  version      = {1.0.0},
+  url          = {https://github.com/DevPandey25/Gastric-Cancer-Path-Detection}
+}
+```
 
-1. Open the dashboard and explain the dataset size and tissue classes.
-2. Show the notebook benchmark confusion matrix and accuracy section.
-3. Explain the CNN + BiLSTM + attention architecture.
-4. Upload a tissue patch and show the predicted tissue class plus estimated cancer percentage.
-5. Show the clinical stage analysis and biomarker table as supporting modules.
-6. Show the SQLite prediction history section to demonstrate storage and traceability.
+---
 
-## Notes
+## 📜 Licensing & Permissions
 
-- This project intentionally avoids ResNet50.
-- The "cancer percentage" is derived from tissue-class probabilities for reporting inside the dashboard.
-- The benchmark numbers displayed in the dashboard come from the provided notebook outputs and confusion matrix.
-- The GitHub-safe copy excludes the raw image dataset, `.venv`, `app.db`, and uploaded sample files.
-- For real medical deployment, the model must be validated further with clinical supervision.
+This repository is maintained for research and educational purposes. Please consult the repository maintainer regarding licensing permissions and collaboration terms.

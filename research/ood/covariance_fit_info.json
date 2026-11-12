@@ -1,0 +1,15 @@
+{
+  "estimator": "Ledoit-Wolf (sklearn.covariance.LedoitWolf)",
+  "shrinkage_coefficient": 0.020205952310743347,
+  "covariance_shape": [
+    768,
+    768
+  ],
+  "min_eigenvalue": 8.611652105714058e-06,
+  "max_eigenvalue": 0.02659686051930601,
+  "condition_number": 3088.473639298352,
+  "all_eigenvalues_positive": true,
+  "n_train_samples": 2177,
+  "n_classes": 8,
+  "embedding_dim": 768
+}

@@ -149,3 +149,4 @@ To maintain strict alignment with scientific reporting integrity:
 - No claim of patient-level generalization or clinical readiness is made.
 - No claim of encoder superiority over pathology-specific models is asserted.
 - All per-class explanations remain plausible morphological hypotheses rather than proven causal mechanisms.
+

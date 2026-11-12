@@ -1,0 +1,45 @@
+{
+  "benchmark_date_utc": "2026-11-07T21:23:07Z",
+  "hardware_environment": {
+    "platform": "Windows-11-10.0.26300-SP0",
+    "processor": "Intel64 Family 6 Model 154 Stepping 4, GenuineIntel",
+    "architecture": "AMD64",
+    "python_version": "3.13.5",
+    "pytorch_version": "2.9.1+cpu",
+    "logical_cpus": 12
+  },
+  "gpu_environment": {
+    "cuda_available": false,
+    "device_count": 0,
+    "device_name": "None (CPU Execution Only)",
+    "status": "Benchmarked on CPU",
+    "scientific_disclosure": "No compatible CUDA GPU detected on host. GPU inference is recorded as not benchmarked to preserve scientific integrity."
+  },
+  "model_specifications": {
+    "model_name": "GastricCancerRNN Baseline Classifier",
+    "architecture": "CNN Backbone + BiLSTM (2 layers, 128 hidden) + Additive Attention Head",
+    "total_parameters": 869640,
+    "trainable_parameters": 869640,
+    "checkpoint_size_mb": 3.33,
+    "checkpoint_sha256": "65369ef618ad1d0ad10ecb65b6f15324e932f52e21c8b25a43b71c636726d8b8"
+  },
+  "performance_metrics": {
+    "model_load_latency_ms": 53.85,
+    "preprocessing_mean_ms": 1.51,
+    "preprocessing_std_ms": 1.31,
+    "cold_start_inference_ms": 64.73,
+    "warm_inference_runs": 25,
+    "warm_mean_latency_ms": 38.56,
+    "warm_median_latency_ms": 36.25,
+    "warm_p95_latency_ms": 50.08,
+    "warm_min_latency_ms": 30.96,
+    "warm_max_latency_ms": 62.46,
+    "throughput_samples_per_second": 25.94
+  },
+  "memory_metrics": {
+    "initial_memory_mb": 198.78,
+    "after_model_load_mb": 208.25,
+    "after_inference_mb": 237.63,
+    "peak_rss_mb": 237.63
+  }
+}

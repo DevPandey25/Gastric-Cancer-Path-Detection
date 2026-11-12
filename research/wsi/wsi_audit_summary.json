@@ -1,0 +1,24 @@
+{
+  "status": "AWAITING_WSI_DATA",
+  "total_wsi_candidates_found": 0,
+  "genuine_wsi_count": 0,
+  "searched_extensions": [
+    ".svs",
+    ".ndpi",
+    ".mrxs",
+    ".scn",
+    ".tif",
+    ".tiff",
+    ".bif",
+    ".vms",
+    ".vmu",
+    ".dcm"
+  ],
+  "searched_roots": [
+    "data",
+    "models",
+    "research"
+  ],
+  "gchtid_dataset_nature": "31,096 isolated 224x224 PNG image patches; zero gigapixel pyramidal slides exist",
+  "genuine_wsi_files": []
+}

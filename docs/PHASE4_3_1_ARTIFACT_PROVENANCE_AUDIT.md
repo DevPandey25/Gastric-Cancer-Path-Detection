@@ -92,3 +92,4 @@ A core finding of Phase 3.2 and Phase 3.3 was that direct comparisons between th
 - [x] Every prediction row in the Phase 2 test cohort ($N=4,665$) aligns path-by-path and index-by-index with `research/splits/manifest_test.csv`.
 - [x] Checkpoint SHA-256 for `gastric_rnn_classifier.pt` matches the reference bit-for-bit.
 - [x] DINOv2 embedding cache files match their reference SHA-256 bit-for-bit.
+

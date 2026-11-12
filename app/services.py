@@ -37,22 +37,37 @@ def create_prediction_record(db: Session, stored_filename: str, result: dict) ->
     db.add(record)
     db.commit()
     db.refresh(record)
-    return serialize_record(record)
+    serialized = serialize_record(record)
+    if "predicted_tum_probability" in result:
+        serialized["predicted_tum_probability"] = result["predicted_tum_probability"]
+    if "disclaimer" in result:
+        serialized["disclaimer"] = result["disclaimer"]
+    return serialized
 
 
 def serialize_record(record: PredictionRecord) -> dict:
+    probs = json.loads(record.class_probabilities_json)
+    tum_prob = next((p["probability"] for p in probs if p.get("class_code") == "TUM"), record.cancer_percentage)
+    disclaimer = (
+        "Predicted TUM class probability represents patch-level histological classification, "
+        "NOT patient-level cancer diagnosis or anatomical tumor area percentage."
+    )
+    from datetime import datetime, timezone
+    created_at = record.created_at or datetime.now(timezone.utc)
     return PredictionRecordRead(
         id=record.id,
         filename=record.filename,
         predicted_class=record.predicted_class,
         predicted_label=record.predicted_label,
         cancer_percentage=record.cancer_percentage,
+        predicted_tum_probability=round(float(tum_prob), 2),
+        disclaimer=disclaimer,
         risk_band=record.risk_band,
         confidence_score=record.confidence_score,
         top_probability=record.top_probability,
         model_source=record.model_source,
-        class_probabilities=json.loads(record.class_probabilities_json),
-        created_at=record.created_at,
+        class_probabilities=probs,
+        created_at=created_at,
     ).model_dump()
 
 

@@ -1,19 +1,135 @@
+# ===========================================================================
+# GastricPath AI — Git Ignore Configuration
+# ===========================================================================
+
+# Byte-compiled / optimized / DLL files
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.pyd
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
 .venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# Environment configurations and secrets
 .env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pkcs12
+*.pfx
+*.p12
+
+# Local SQLite databases and runtime records
 app.db
+*.db
+*.sqlite
+*.sqlite3
+*-wal
+*-shm
+*.db-journal
+
+# Histopathology datasets and images (HMU-GC-HE-30K / GCHTID)
 data/raw/*
 !data/raw/.gitkeep
 !data/raw/README.md
+
+# Uploaded image storage
 data/uploads/*
 !data/uploads/.gitkeep
+uploads/*
+!uploads/.gitkeep
+
+# Temporary plotting and rendering caches
+data/tmp_matplotlib/
+.matplotlib/
+
+# Model checkpoints (Preserve certified baseline: gastric_rnn_classifier.pt)
 models/checkpoints/*
 !models/checkpoints/.gitkeep
 !models/checkpoints/gastric_rnn_classifier.pt
-research/experiments/**/checkpoints/*
+
+# Training and experiment logs
 model_train/logs/*
 !model_train/logs/.gitkeep
 !model_train/logs/training_summary.json
 model_train/runs/*
 !model_train/runs/.gitkeep
+
+# Experiment checkpoints (exceed GitHub size limits)
+research/experiments/**/checkpoints/*
+
+# Foundation model binary embedding caches (.npy arrays exceed recommended git storage)
+research/foundation_models/cache/full/phikon/*
+research/foundation_models/cache/subset10pct/*
+*.npy
+
+# Clinical reporting generated output artifacts
+research/clinical_reporting/output/*.pdf
+research/clinical_reporting/output/figures/*
+!research/clinical_reporting/output/.gitkeep
+
+# Whole-Slide Image (WSI) raw files (Multi-gigabyte formats)
+*.svs
+*.ndpi
+*.mrxs
+*.vms
+*.vmu
+*.scn
+*.tif
+*.tiff
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+
+# Operating System files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.ruff_cache/

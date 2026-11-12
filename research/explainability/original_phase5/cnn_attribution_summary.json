@@ -1,0 +1,101 @@
+{
+  "model_name": "GastricCancerRNN (CNN-BiLSTM-Attention)",
+  "checkpoint_path": "models/checkpoints/gastric_rnn_classifier.pt",
+  "val_accuracy": 0.6485530546623794,
+  "target_conv_layer": "patch_encoder.encoder[8] (Conv2d 64->128)",
+  "gradcam_method": "Channel-pooled gradient weighting across 16 sequential patches",
+  "integrated_gradients_steps": 20,
+  "occlusion_window_size": 28,
+  "occlusion_stride": 28,
+  "mc_dropout_passes": 20,
+  "exemplar_results": [
+    {
+      "class_name": "ADI",
+      "relative_path": "ADI/ADI_1118.png",
+      "predicted_class": "ADI",
+      "confidence": 0.7162,
+      "is_correct": true,
+      "mc_epistemic_variance": 0.000857,
+      "mc_epistemic_entropy": 0.7402,
+      "max_gradcam_activation": 1.0,
+      "mean_gradcam_activation": 0.1365
+    },
+    {
+      "class_name": "DEB",
+      "relative_path": "DEB/DEB_1064.png",
+      "predicted_class": "DEB",
+      "confidence": 0.8863,
+      "is_correct": true,
+      "mc_epistemic_variance": 0.001604,
+      "mc_epistemic_entropy": 0.3795,
+      "max_gradcam_activation": 1.0,
+      "mean_gradcam_activation": 0.1831
+    },
+    {
+      "class_name": "LYM",
+      "relative_path": "LYM/LYM_1061.png",
+      "predicted_class": "NOR",
+      "confidence": 0.5525,
+      "is_correct": false,
+      "mc_epistemic_variance": 0.005176,
+      "mc_epistemic_entropy": 0.8764,
+      "max_gradcam_activation": 1.0,
+      "mean_gradcam_activation": 0.056
+    },
+    {
+      "class_name": "MUC",
+      "relative_path": "MUC/MUC_1007.png",
+      "predicted_class": "MUC",
+      "confidence": 0.5155,
+      "is_correct": true,
+      "mc_epistemic_variance": 0.001032,
+      "mc_epistemic_entropy": 0.9806,
+      "max_gradcam_activation": 1.0,
+      "mean_gradcam_activation": 0.1176
+    },
+    {
+      "class_name": "MUS",
+      "relative_path": "MUS/MUS_1093.png",
+      "predicted_class": "MUS",
+      "confidence": 0.5158,
+      "is_correct": true,
+      "mc_epistemic_variance": 0.00378,
+      "mc_epistemic_entropy": 0.8569,
+      "max_gradcam_activation": 1.0,
+      "mean_gradcam_activation": 0.0488
+    },
+    {
+      "class_name": "NOR",
+      "relative_path": "NOR/NOR_1084.png",
+      "predicted_class": "TUM",
+      "confidence": 0.4019,
+      "is_correct": false,
+      "mc_epistemic_variance": 0.001046,
+      "mc_epistemic_entropy": 1.172,
+      "max_gradcam_activation": 1.0,
+      "mean_gradcam_activation": 0.0457
+    },
+    {
+      "class_name": "STR",
+      "relative_path": "STR/STR_1000.png",
+      "predicted_class": "MUS",
+      "confidence": 0.8886,
+      "is_correct": false,
+      "mc_epistemic_variance": 0.001712,
+      "mc_epistemic_entropy": 0.4977,
+      "max_gradcam_activation": 1.0,
+      "mean_gradcam_activation": 0.0426
+    },
+    {
+      "class_name": "TUM",
+      "relative_path": "TUM/TUM_1047.png",
+      "predicted_class": "TUM",
+      "confidence": 0.9244,
+      "is_correct": true,
+      "mc_epistemic_variance": 0.000493,
+      "mc_epistemic_entropy": 0.3823,
+      "max_gradcam_activation": 1.0,
+      "mean_gradcam_activation": 0.0953
+    }
+  ]
+}

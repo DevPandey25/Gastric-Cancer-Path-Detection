@@ -1,0 +1,261 @@
+{
+  "metadata": {
+    "evaluated_at_utc": "2026-11-07T16:56:00.466471+00:00",
+    "n_samples": 96,
+    "samples_per_class": 12,
+    "seed": 42,
+    "total_runtime_sec": 68.95,
+    "model_architecture": {
+      "model_type": "vit",
+      "image_size": 224,
+      "patch_size": 16,
+      "hidden_size": 768,
+      "num_hidden_layers": 12,
+      "num_attention_heads": 12,
+      "grid_dimensions": [
+        14,
+        14
+      ],
+      "num_spatial_tokens": 196,
+      "total_tokens_with_cls": 197,
+      "quadrant_partition": {
+        "TL": {
+          "row_slice": [
+            0,
+            7
+          ],
+          "col_slice": [
+            0,
+            7
+          ],
+          "num_tokens": 49
+        },
+        "TR": {
+          "row_slice": [
+            0,
+            7
+          ],
+          "col_slice": [
+            7,
+            14
+          ],
+          "num_tokens": 49
+        },
+        "BL": {
+          "row_slice": [
+            7,
+            14
+          ],
+          "col_slice": [
+            0,
+            7
+          ],
+          "num_tokens": 49
+        },
+        "BR": {
+          "row_slice": [
+            7,
+            14
+          ],
+          "col_slice": [
+            7,
+            14
+          ],
+          "num_tokens": 49
+        }
+      }
+    }
+  },
+  "overall": {
+    "total_samples": 96,
+    "classes": [
+      "ADI",
+      "DEB",
+      "LYM",
+      "MUC",
+      "MUS",
+      "NOR",
+      "STR",
+      "TUM"
+    ],
+    "overall_accuracy_on_spatial_cohort": 0.6562,
+    "token_norm_mean_mean": 51.78053,
+    "token_norm_mean_std": 0.59414,
+    "token_norm_std_mean": 1.05765,
+    "token_norm_std_std": 0.34192,
+    "token_norm_dispersion_mean": 0.0204,
+    "token_norm_dispersion_std": 0.00649,
+    "regional_cos_sim_mean_mean": 0.72077,
+    "regional_cos_sim_mean_std": 0.09355,
+    "regional_l2_dist_mean_mean": 0.71946,
+    "regional_l2_dist_mean_std": 0.12996,
+    "regional_dispersion_mean": 0.20942,
+    "regional_dispersion_std": 0.07016,
+    "cos_sim_cls_vs_global_mean_mean": 0.05986,
+    "cos_sim_cls_vs_global_mean_std": 0.07928,
+    "confidence_mean": 0.68984,
+    "confidence_std": 0.21419
+  },
+  "class_summary": {
+    "ADI": {
+      "support": 12,
+      "accuracy": 0.9167,
+      "token_norm_mean_mean": 52.42916,
+      "token_norm_mean_std": 0.42496,
+      "token_norm_std_mean": 1.54552,
+      "token_norm_std_std": 0.2492,
+      "token_norm_dispersion_mean": 0.02946,
+      "token_norm_dispersion_std": 0.00467,
+      "regional_cos_sim_mean_mean": 0.83908,
+      "regional_cos_sim_mean_std": 0.07706,
+      "regional_l2_dist_mean_mean": 0.54,
+      "regional_l2_dist_mean_std": 0.13384,
+      "regional_dispersion_mean": 0.12069,
+      "regional_dispersion_std": 0.0578,
+      "cos_sim_cls_vs_global_mean_mean": 0.00798,
+      "cos_sim_cls_vs_global_mean_std": 0.1156,
+      "confidence_mean": 0.81295,
+      "confidence_std": 0.16425
+    },
+    "DEB": {
+      "support": 12,
+      "accuracy": 0.75,
+      "token_norm_mean_mean": 51.39079,
+      "token_norm_mean_std": 0.64538,
+      "token_norm_std_mean": 0.91041,
+      "token_norm_std_std": 0.22263,
+      "token_norm_dispersion_mean": 0.01774,
+      "token_norm_dispersion_std": 0.00445,
+      "regional_cos_sim_mean_mean": 0.75617,
+      "regional_cos_sim_mean_std": 0.0814,
+      "regional_l2_dist_mean_mean": 0.67523,
+      "regional_l2_dist_mean_std": 0.12591,
+      "regional_dispersion_mean": 0.18287,
+      "regional_dispersion_std": 0.06105,
+      "cos_sim_cls_vs_global_mean_mean": 0.04477,
+      "cos_sim_cls_vs_global_mean_std": 0.05303,
+      "confidence_mean": 0.76595,
+      "confidence_std": 0.18405
+    },
+    "LYM": {
+      "support": 12,
+      "accuracy": 0.6667,
+      "token_norm_mean_mean": 51.82782,
+      "token_norm_mean_std": 0.31944,
+      "token_norm_std_mean": 0.96228,
+      "token_norm_std_std": 0.31069,
+      "token_norm_dispersion_mean": 0.01856,
+      "token_norm_dispersion_std": 0.00598,
+      "regional_cos_sim_mean_mean": 0.70198,
+      "regional_cos_sim_mean_std": 0.06121,
+      "regional_l2_dist_mean_mean": 0.75121,
+      "regional_l2_dist_mean_std": 0.07647,
+      "regional_dispersion_mean": 0.22352,
+      "regional_dispersion_std": 0.0459,
+      "cos_sim_cls_vs_global_mean_mean": 0.11379,
+      "cos_sim_cls_vs_global_mean_std": 0.05786,
+      "confidence_mean": 0.67324,
+      "confidence_std": 0.2566
+    },
+    "MUC": {
+      "support": 12,
+      "accuracy": 0.5833,
+      "token_norm_mean_mean": 51.88177,
+      "token_norm_mean_std": 0.50626,
+      "token_norm_std_mean": 1.23742,
+      "token_norm_std_std": 0.43357,
+      "token_norm_dispersion_mean": 0.02382,
+      "token_norm_dispersion_std": 0.00823,
+      "regional_cos_sim_mean_mean": 0.72902,
+      "regional_cos_sim_mean_std": 0.07122,
+      "regional_l2_dist_mean_mean": 0.70556,
+      "regional_l2_dist_mean_std": 0.08917,
+      "regional_dispersion_mean": 0.20323,
+      "regional_dispersion_std": 0.05342,
+      "cos_sim_cls_vs_global_mean_mean": -0.01061,
+      "cos_sim_cls_vs_global_mean_std": 0.0767,
+      "confidence_mean": 0.68002,
+      "confidence_std": 0.19601
+    },
+    "MUS": {
+      "support": 12,
+      "accuracy": 0.6667,
+      "token_norm_mean_mean": 51.64712,
+      "token_norm_mean_std": 0.61503,
+      "token_norm_std_mean": 0.94315,
+      "token_norm_std_std": 0.23825,
+      "token_norm_dispersion_mean": 0.01824,
+      "token_norm_dispersion_std": 0.00452,
+      "regional_cos_sim_mean_mean": 0.75761,
+      "regional_cos_sim_mean_std": 0.06883,
+      "regional_l2_dist_mean_mean": 0.67782,
+      "regional_l2_dist_mean_std": 0.09791,
+      "regional_dispersion_mean": 0.18179,
+      "regional_dispersion_std": 0.05162,
+      "cos_sim_cls_vs_global_mean_mean": 0.09482,
+      "cos_sim_cls_vs_global_mean_std": 0.05309,
+      "confidence_mean": 0.74677,
+      "confidence_std": 0.20824
+    },
+    "NOR": {
+      "support": 12,
+      "accuracy": 0.3333,
+      "token_norm_mean_mean": 51.76312,
+      "token_norm_mean_std": 0.46234,
+      "token_norm_std_mean": 1.02402,
+      "token_norm_std_std": 0.24963,
+      "token_norm_dispersion_mean": 0.01978,
+      "token_norm_dispersion_std": 0.00479,
+      "regional_cos_sim_mean_mean": 0.6515,
+      "regional_cos_sim_mean_std": 0.08065,
+      "regional_l2_dist_mean_mean": 0.81042,
+      "regional_l2_dist_mean_std": 0.08936,
+      "regional_dispersion_mean": 0.26138,
+      "regional_dispersion_std": 0.06048,
+      "cos_sim_cls_vs_global_mean_mean": 0.08951,
+      "cos_sim_cls_vs_global_mean_std": 0.07329,
+      "confidence_mean": 0.50775,
+      "confidence_std": 0.16829
+    },
+    "STR": {
+      "support": 12,
+      "accuracy": 0.5833,
+      "token_norm_mean_mean": 51.41509,
+      "token_norm_mean_std": 0.70159,
+      "token_norm_std_mean": 1.02086,
+      "token_norm_std_std": 0.24996,
+      "token_norm_dispersion_mean": 0.01984,
+      "token_norm_dispersion_std": 0.00479,
+      "regional_cos_sim_mean_mean": 0.67243,
+      "regional_cos_sim_mean_std": 0.08063,
+      "regional_l2_dist_mean_mean": 0.78577,
+      "regional_l2_dist_mean_std": 0.09707,
+      "regional_dispersion_mean": 0.24568,
+      "regional_dispersion_std": 0.06047,
+      "cos_sim_cls_vs_global_mean_mean": 0.06931,
+      "cos_sim_cls_vs_global_mean_std": 0.06131,
+      "confidence_mean": 0.65778,
+      "confidence_std": 0.2272
+    },
+    "TUM": {
+      "support": 12,
+      "accuracy": 0.75,
+      "token_norm_mean_mean": 51.88939,
+      "token_norm_mean_std": 0.43857,
+      "token_norm_std_mean": 0.8175,
+      "token_norm_std_std": 0.15337,
+      "token_norm_dispersion_mean": 0.01576,
+      "token_norm_dispersion_std": 0.00297,
+      "regional_cos_sim_mean_mean": 0.65838,
+      "regional_cos_sim_mean_std": 0.07646,
+      "regional_l2_dist_mean_mean": 0.80967,
+      "regional_l2_dist_mean_std": 0.09016,
+      "regional_dispersion_mean": 0.25621,
+      "regional_dispersion_std": 0.05734,
+      "cos_sim_cls_vs_global_mean_mean": 0.06929,
+      "cos_sim_cls_vs_global_mean_std": 0.0517,
+      "confidence_mean": 0.67422,
+      "confidence_std": 0.20845
+    }
+  }
+}

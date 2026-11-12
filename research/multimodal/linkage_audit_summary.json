@@ -1,0 +1,95 @@
+{
+  "phase": "Original Phase 10: Multimodal Clinical Research",
+  "audit_title": "Patient-Level Cross-Dataset Provenance and Linkage Audit",
+  "overall_linkage_status": "UNAVAILABLE",
+  "datasets_examined": {
+    "gchtid_tiles": {
+      "path": "research/manifests/manifest_all.csv",
+      "record_count": 31096,
+      "identifier_type": "Tile Class-Sequence Stems (e.g., ADI-001.png)",
+      "has_patient_ids": false
+    },
+    "hmu_gc_clinical": {
+      "path": "data/support/HMU-GC-Clinical.csv",
+      "record_count": 300,
+      "identifier_type": "7-Digit Patient IDs (e.g., 1600097)",
+      "has_patient_ids": true
+    },
+    "gastric_xlsx_biomarker": {
+      "path": "data/support/Gastric.xlsx",
+      "record_count": 3711,
+      "identifier_type": "In-Silico miRNA & Ensembl Gene Accessions",
+      "has_patient_ids": false
+    }
+  },
+  "pairwise_linkages": [
+    {
+      "source_dataset": "GCHTID Histopathology Tiles",
+      "target_dataset": "HMU-GC-Clinical Patient Records",
+      "source_identifier_fields": [
+        "filename",
+        "image_id"
+      ],
+      "target_identifier_fields": [
+        "Patient"
+      ],
+      "identifiers_compatible": false,
+      "explicit_crosswalk_exists": false,
+      "crosswalk_file_path": null,
+      "linked_records_count": 0,
+      "unmatched_records_count": 31096,
+      "match_percentage": 0.0,
+      "linkage_status": "UNAVAILABLE",
+      "blocker_description": "GCHTID tile filenames (e.g. 'ADI-001.png', 'TUM-124.png') consist of generic 3-letter tissue class prefixes followed by sequential integers. They do not encode patient IDs, hospital admission numbers, or slide accession codes. Conversely, HMU-GC-Clinical contains 300 integer patient identifiers in the 1600000 range. No lookup table or crosswalk file exists in the repository connecting tile sequence numbers to patient IDs.",
+      "unblocking_requirements": "Requires an institutional crosswalk mapping each GCHTID image tile (or original WSI file) to its corresponding Harbin Medical University patient identifier (`Patient`)."
+    },
+    {
+      "source_dataset": "HMU-GC-Clinical Patient Records",
+      "target_dataset": "Gastric.xlsx (In-Silico miRNA Predictions)",
+      "source_identifier_fields": [
+        "Patient"
+      ],
+      "target_identifier_fields": [
+        "mature_mirna_acc",
+        "target_symbol",
+        "target_entrez"
+      ],
+      "identifiers_compatible": false,
+      "explicit_crosswalk_exists": false,
+      "crosswalk_file_path": null,
+      "linked_records_count": 0,
+      "unmatched_records_count": 300,
+      "match_percentage": 0.0,
+      "linkage_status": "UNAVAILABLE",
+      "blocker_description": "Gastric.xlsx is a computational target prediction table for microRNA hsa-miR-497-5p across human genes (derived from DIANA-microT, miRanda, TargetScan, etc.). It contains zero patient identifiers, clinical specimens, or patient-level molecular expression data. HMU-GC-Clinical contains patient clinical staging but zero miRNA quantification.",
+      "unblocking_requirements": "Requires patient-matched miRNA expression quantification (e.g., RT-qPCR or miRNA-Seq) measuring hsa-miR-497-5p expression levels in the 300 HMU patients."
+    },
+    {
+      "source_dataset": "GCHTID Histopathology Tiles",
+      "target_dataset": "Gastric.xlsx (In-Silico miRNA Predictions)",
+      "source_identifier_fields": [
+        "filename",
+        "class"
+      ],
+      "target_identifier_fields": [
+        "mature_mirna_acc",
+        "target_symbol"
+      ],
+      "identifiers_compatible": false,
+      "explicit_crosswalk_exists": false,
+      "crosswalk_file_path": null,
+      "linked_records_count": 0,
+      "unmatched_records_count": 31096,
+      "match_percentage": 0.0,
+      "linkage_status": "UNAVAILABLE",
+      "blocker_description": "No biological or specimen linkage exists connecting isolated H&E histological tiles to predicted molecular interactions of hsa-miR-497-5p.",
+      "unblocking_requirements": "Requires spatial transcriptomics or matched tissue molecular profiling of histological slides."
+    }
+  ],
+  "scientific_integrity_rules_enforced": [
+    "Prohibition of heuristic joins by row ordering or sorting",
+    "Prohibition of synthetic patient ID generation",
+    "Prohibition of transferring patch-level labels into patient-level diagnoses",
+    "Prohibition of treating in-silico predicted interactions as patient molecular biomarkers"
+  ]
+}

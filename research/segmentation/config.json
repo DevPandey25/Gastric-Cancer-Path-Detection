@@ -1,0 +1,99 @@
+{
+  "phase": "Original Phase 6",
+  "phase_name": "Tissue Segmentation",
+  "implementation_status": "BLOCKED_BY_DATA_UNTRAINED",
+  "status_summary": "Architecture, QuPath ingestion, losses, and metrics fully operational; awaiting pixel-level pathologist annotations (0 masks present in GCHTID).",
+  "ontology_specification": {
+    "num_classes": 9,
+    "description": "Background/Lumen (Class 0) plus all eight canonical GCHTID histopathology tissue classes (Classes 1..8).",
+    "classes_breakdown": {
+      "0": {"code": "BG", "name": "Background", "tissue_type": "Non-tissue / Lumen / Optical glass"},
+      "1": {"code": "ADI", "name": "Adipose", "tissue_type": "Adipose tissue, adipocytes"},
+      "2": {"code": "DEB", "name": "Debris", "tissue_type": "Necrosis, cellular debris"},
+      "3": {"code": "LYM", "name": "Lymphocytes", "tissue_type": "Lymphocytes, inflammatory infiltrate"},
+      "4": {"code": "MUC", "name": "Mucus", "tissue_type": "Extracellular mucus, mucin pools"},
+      "5": {"code": "MUS", "name": "Muscle", "tissue_type": "Smooth muscle, muscularis propria"},
+      "6": {"code": "NOR", "name": "Normal", "tissue_type": "Normal gastric mucosa, benign glands"},
+      "7": {"code": "STR", "name": "Stroma", "tissue_type": "Cancer-associated stroma, desmoplasia"},
+      "8": {"code": "TUM", "name": "Tumor", "tissue_type": "Malignant adenocarcinoma epithelium"}
+    }
+  },
+  "dataset_audit": {
+    "dataset_name": "HMU-GC-HE-30K (GCHTID)",
+    "total_patches": 31096,
+    "patch_dimensions": [224, 224, 3],
+    "annotation_type": "Patch-level single-label classification",
+    "pixel_segmentation_masks_found": 0,
+    "qupath_geojson_annotations_found": 0,
+    "xml_contour_annotations_found": 0,
+    "audit_conclusion": "Data blocker confirmed. No training executed to preserve scientific integrity."
+  },
+  "classes": {
+    "num_classes": 9,
+    "mapping": {
+      "Background": 0,
+      "ADI": 1,
+      "DEB": 2,
+      "LYM": 3,
+      "MUC": 4,
+      "MUS": 5,
+      "NOR": 6,
+      "STR": 7,
+      "TUM": 8
+    },
+    "qupath_synonyms": {
+      "Background": ["Background", "BG", "Lumen", "Glass", "Void", "Non-tissue"],
+      "ADI": ["ADI", "Adipose", "Adipose Tissue", "Fat", "Adipocytes"],
+      "DEB": ["DEB", "Debris", "Necrosis", "Cellular debris", "Necrotic"],
+      "LYM": ["LYM", "Lymphocytes", "Lymphoid infiltrate", "Inflammatory", "Inflammatory infiltrate", "Immune infiltrate", "INF"],
+      "MUC": ["MUC", "Mucus", "Extracellular mucus", "Mucin pool", "Mucin"],
+      "MUS": ["MUS", "Muscle", "Muscularis propria", "Smooth muscle", "Muscularis mucosae"],
+      "NOR": ["NOR", "NORM", "Normal", "Normal mucosa", "Benign mucosa", "Benign gland"],
+      "STR": ["STR", "Stroma", "Desmoplastic stroma", "Cancer-associated stroma", "Desmoplasia"],
+      "TUM": ["TUM", "Tumor", "Tumour", "Carcinoma", "Adenocarcinoma", "Malignant epithelium"]
+    },
+    "colors_rgb": {
+      "0": [240, 240, 240],
+      "1": [255, 230, 150],
+      "2": [128, 128, 128],
+      "3": [255, 215, 0],
+      "4": [255, 140, 0],
+      "5": [147, 112, 219],
+      "6": [30, 144, 255],
+      "7": [46, 139, 87],
+      "8": [220, 20, 60]
+    }
+  },
+  "model": {
+    "architecture": "UNet",
+    "in_channels": 3,
+    "num_classes": 9,
+    "features": [32, 64, 128, 256],
+    "total_parameters": 7763305,
+    "trainable_parameters": 7763305,
+    "input_resolution": [224, 224]
+  },
+  "loss": {
+    "loss_name": "CombinedDiceCrossEntropyLoss",
+    "ce_weight": 0.5,
+    "dice_weight": 0.5,
+    "smooth": 1e-5
+  },
+  "qupath_ingestion_specification": {
+    "schema_format": "GeoJSON FeatureCollection",
+    "coordinate_system": "Pixel coordinates [0, 224]",
+    "supported_geometries": ["Polygon", "MultiPolygon"],
+    "overlap_resolution_rule": "Priority ordering: TUM (8) > LYM (3) > MUC (4) > STR (7) > DEB (2) > MUS (5) > NOR (6) > ADI (1) > Background (0)",
+    "export_instructions": "In QuPath: File -> Export objects -> GeoJSON FeatureCollection -> check classifications."
+  },
+  "planned_training_hyperparameters": {
+    "optimizer": "AdamW",
+    "learning_rate": 0.0003,
+    "weight_decay": 0.0001,
+    "batch_size": 16,
+    "num_epochs": 50,
+    "lr_scheduler": "CosineAnnealingLR",
+    "early_stopping_patience": 10,
+    "target_metric": "val_mean_dice"
+  }
+}

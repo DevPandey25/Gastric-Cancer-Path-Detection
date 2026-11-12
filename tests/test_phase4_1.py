@@ -4,6 +4,7 @@ import hashlib
 import json
 import sqlite3
 from pathlib import Path
+from unittest.mock import MagicMock, patch
 
 import numpy as np
 import pandas as pd
@@ -235,15 +236,70 @@ def test_visualizations_exist_and_non_empty():
 
 
 def test_resumability_mechanism():
-    """Verify that FullDatasetExtractor detects complete extraction and terminates instantly."""
+    """Verify that FullDatasetExtractor detects complete extraction deterministically without model forward passes."""
     extractor = FullDatasetExtractor()
-    t0 = pytest.importorskip("time").time()
-    summary = extractor.run_extraction()
-    dur = pytest.importorskip("time").time() - t0
 
+    # 1. Deterministic cache artifact existence verification
+    assert extractor.checkpoint_path.exists(), f"Checkpoint missing at {extractor.checkpoint_path}"
+    assert extractor.cls_memmap_path.exists(), f"CLS memmap missing at {extractor.cls_memmap_path}"
+    assert extractor.mean_patch_memmap_path.exists(), f"Patch memmap missing at {extractor.mean_patch_memmap_path}"
+
+    with open(extractor.checkpoint_path, "r", encoding="utf-8") as f:
+        ckpt = json.load(f)
+    assert ckpt.get("completed_images") == 31096, (
+        f"Checkpoint does not reflect full completion: {ckpt.get('completed_images')}"
+    )
+
+    # 2. Deterministic execution verification:
+    # Ensure expensive foundation model loading and image forward passes are NEVER called when cache is valid
+    with patch("research.foundation_models.full_dataset_extractor.load_foundation_encoder") as mock_load_encoder, \
+         patch.object(extractor.preprocessor, "preprocess_image") as mock_preprocess:
+        t0 = pytest.importorskip("time").time()
+        summary = extractor.run_extraction()
+        dur = pytest.importorskip("time").time() - t0
+
+        # Assert expensive extraction paths were completely bypassed
+        assert mock_load_encoder.call_count == 0, (
+            f"load_foundation_encoder called {mock_load_encoder.call_count} times! Resumability failed to bypass model load."
+        )
+        assert mock_preprocess.call_count == 0, (
+            f"preprocess_image called {mock_preprocess.call_count} times! Resumability failed to bypass image processing."
+        )
+
+    # 3. Deterministic return structure verification
     assert summary["status"] == "success"
     assert summary["total_images"] == 31096
-    assert dur < 5.0, f"Resumed validation took unexpectedly long: {dur:.2f}s"
+    assert summary["embedding_dim"] == 384
+    assert summary["cls_l2_norm"]["mean"] == 1.0
+    assert summary["mean_patch_l2_norm"]["mean"] == 1.0
+    assert "cls_embeddings_npy" in summary["storage_megabytes"]
+
+    # 4. Generous runtime diagnostic (secondary diagnostic, not machine-brittle threshold)
+    assert dur < 60.0, f"Resumed validation took unexpectedly long: {dur:.2f}s"
+
+
+def test_resumability_fallback_on_incomplete_checkpoint(tmp_path):
+    """Verify that an incomplete or missing checkpoint deterministically triggers the extraction fallback path."""
+    extractor = FullDatasetExtractor()
+    temp_ckpt = tmp_path / "checkpoint.json"
+    temp_ckpt.write_text(json.dumps({"completed_images": 500}))
+    extractor.checkpoint_path = temp_ckpt
+
+    with patch("research.foundation_models.full_dataset_extractor.load_foundation_encoder") as mock_load_encoder, \
+         patch("research.foundation_models.full_dataset_extractor.build_master_metadata") as mock_meta, \
+         patch("numpy.memmap"):
+        mock_meta.return_value = (pd.DataFrame({"relative_path": ["fake.png"] * 31096}), {})
+        mock_load_encoder.return_value = (MagicMock(), 384)
+
+        try:
+            extractor.run_extraction()
+        except Exception:
+            pass  # Expected to break when loading fake image paths
+
+        # Deterministically verify that incomplete checkpoint triggers model loading
+        assert mock_load_encoder.call_count > 0, (
+            "Incomplete checkpoint failed to trigger load_foundation_encoder fallback!"
+        )
 
 
 def test_baseline_checkpoint_and_database_unmodified():
