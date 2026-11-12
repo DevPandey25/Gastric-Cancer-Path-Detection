@@ -1,0 +1,5 @@
+{"timestamp": "2026-11-05T21:50:22.160588+00:00", "name": "test_accuracy", "value": 0.715, "step": null}
+{"timestamp": "2026-11-05T21:50:22.163447+00:00", "name": "test_macro_f1", "value": 0.7115, "step": null}
+{"timestamp": "2026-11-05T21:50:22.164978+00:00", "name": "test_balanced_accuracy", "value": 0.715, "step": null}
+{"timestamp": "2026-11-05T21:50:22.167193+00:00", "name": "test_brier_score", "value": 0.3806, "step": null}
+{"timestamp": "2026-11-05T21:50:22.168910+00:00", "name": "test_ece", "value": 0.0351, "step": null}

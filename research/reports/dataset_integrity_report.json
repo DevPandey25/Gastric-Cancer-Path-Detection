@@ -1,0 +1,80 @@
+{
+  "dataset_id": "GCHTID",
+  "dataset_root": "C:\\Users\\KIIT0001\\OneDrive\\Desktop\\gastric-cancer-histopathology-dashboard-main\\data\\raw\\HMU-GC-HE-30K\\all_image",
+  "scanned_at_utc": "2026-11-05T21:21:11.945389+00:00",
+  "total_files_scanned": 31096,
+  "total_valid": 31096,
+  "total_corrupt": 0,
+  "total_invalid_dimension": 0,
+  "total_invalid_channels": 0,
+  "expected_classes": [
+    "ADI",
+    "DEB",
+    "LYM",
+    "MUC",
+    "MUS",
+    "NOR",
+    "STR",
+    "TUM"
+  ],
+  "detected_classes": [
+    "ADI",
+    "DEB",
+    "LYM",
+    "MUC",
+    "MUS",
+    "NOR",
+    "STR",
+    "TUM"
+  ],
+  "missing_classes": [],
+  "unexpected_directories": [],
+  "class_counts": {
+    "ADI": 3887,
+    "DEB": 3887,
+    "LYM": 3887,
+    "MUC": 3887,
+    "MUS": 3887,
+    "NOR": 3887,
+    "STR": 3887,
+    "TUM": 3887
+  },
+  "dimensions_distribution": {
+    "224x224": 31096
+  },
+  "format_distribution": {
+    "PNG": 31096
+  },
+  "mode_distribution": {
+    "RGBA": 31096
+  },
+  "file_size_bytes_stats": {
+    "min_bytes": 23373.0,
+    "max_bytes": 140920.0,
+    "mean_bytes": 104395.37184846925,
+    "median_bytes": 110057.0,
+    "total_megabytes": 3095.8924131393433
+  },
+  "rgb_intensity_stats": {
+    "channel_r": {
+      "mean": 193.5482,
+      "std": 52.7771,
+      "min": 0.0,
+      "max": 255.0
+    },
+    "channel_g": {
+      "mean": 154.1481,
+      "std": 68.0078,
+      "min": 0.0,
+      "max": 255.0
+    },
+    "channel_b": {
+      "mean": 179.043,
+      "std": 53.2155,
+      "min": 0.0,
+      "max": 255.0
+    }
+  },
+  "corrupt_files": [],
+  "invalid_dimension_files": []
+}

@@ -1,0 +1,13 @@
+{
+  "completed_images": 31096,
+  "total_images": 31096,
+  "completed_batches": 1944,
+  "total_batches": 1944,
+  "model_name": "dinov2_vits14",
+  "weight_sha256": "b938bf1bc15cd2ec0feacfe3a1bb553fe8ea9ca46a7e1d8d00217f29aef60cd9",
+  "elapsed_seconds": 2752.8,
+  "estimated_remaining_seconds": 0.0,
+  "throughput_img_sec": 11.3,
+  "process_rss_mb": 550.09,
+  "last_updated_utc": "2026-11-06T14:35:38.282038+00:00"
+}

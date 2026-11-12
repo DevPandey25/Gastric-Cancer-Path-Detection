@@ -1,0 +1,18 @@
+{
+  "phase": "Phase 7: Lightweight OOD / Uncertainty Screening",
+  "model": "owkin/phikon ViT-B/16 Mean Patch (768-d, L2-normalized)",
+  "classifier": "LogisticRegression(C=10.0, solver='lbfgs', random_state=42)",
+  "mahalanobis_method": "Class-conditional Gaussian with tied Ledoit-Wolf covariance",
+  "msp_method": "Maximum Softmax Probability (1 - max_prob as OOD score)",
+  "threshold_calibration": "95th percentile of validation in-distribution scores",
+  "proxy_ood_source": "Phase 6 controlled perturbation families",
+  "ood_positive_definition": "Higher score = more OOD-like",
+  "score_direction": "Rejection if score > threshold",
+  "data_isolation": {
+    "train": "Class means and covariance estimation ONLY",
+    "validation": "Threshold calibration ONLY (95th percentile)",
+    "test": "Final evaluation with frozen parameters ONLY"
+  },
+  "executed_at_utc": "2026-11-06T20:43:51.952751+00:00",
+  "total_runtime_sec": 4.53
+}

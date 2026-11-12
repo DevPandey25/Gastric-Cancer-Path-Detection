@@ -1,0 +1,527 @@
+TY  - JOUR
+TI  - A large histological images dataset of gastric cancer with tumour microenvironment annotation for AI
+AU  - Lou, Shenghan
+AU  - Ji, Jianxin
+AU  - Li, Hui-Ying
+AU  - Zhang, Xuan
+AU  - Jiang, Yang
+AU  - Hua, Menglei
+AU  - Chen, Ke-Xin
+AU  - Ge, Kaiyuan
+AU  - Zhang, Qi
+AU  - Wang, Liuying
+AU  - Han, Peng
+AU  - Cao, Lei
+JO  - Scientific Data
+VL  - 12
+IS  - 1
+SP  - 121
+PY  - 2025
+DO  - 10.1038/s41597-025-04489-9
+AN  - 39843657
+ER  - 
+
+TY  - JOUR
+TI  - GasHisSDB: A new gastric histopathology image dataset for computer aided diagnosis of gastric cancer
+AU  - Hu, Weiming
+AU  - Li, Chen
+AU  - Li, Xiaoyan
+AU  - Rahaman, Md Mamunur
+AU  - Ma, Jiquan
+AU  - Zhang, Yong
+AU  - Chen, Haoyuan
+AU  - Liu, Wanli
+AU  - Sun, Changhao
+AU  - Yao, Yudong
+AU  - Sun, Hongzan
+AU  - Grzegorzek, Marcin
+JO  - Computers in Biology and Medicine
+VL  - 142
+SP  - 105207
+PY  - 2022
+DO  - 10.1016/j.compbiomed.2021.105207
+AN  - 34999335
+ER  - 
+
+TY  - JOUR
+TI  - Clinically applicable histopathological diagnosis system for gastric cancer detection using deep learning
+AU  - Song, Zhengxing
+AU  - Zou, Shaohua
+AU  - Zhou, Wei
+AU  - Huang, Yiqing
+AU  - Shao, Ling
+AU  - Yuan, Jing
+AU  - Gou, Jianping
+AU  - Yao, Wei
+AU  - Yan, Zhen
+AU  - Dong, Bo
+JO  - Nature Communications
+VL  - 11
+IS  - 1
+SP  - 4294
+PY  - 2020
+DO  - 10.1038/s41467-020-18147-8
+AN  - 32855412
+ER  - 
+
+TY  - JOUR
+TI  - A hybrid multi-instance learning-based identification of gastric adenocarcinoma differentiation on whole-slide images
+AU  - Zhang, Ming
+AU  - Sun, Xiaofei
+AU  - Li, Wei
+AU  - Cao, Yu
+AU  - Liu, Chang
+AU  - Tu, Gang
+AU  - Wang, Jian
+AU  - Wang, Rong
+JO  - BioMedical Engineering OnLine
+VL  - 24
+IS  - 1
+SP  - 18
+PY  - 2025
+DO  - 10.1186/s12938-025-01407-3
+AN  - 39962531
+ER  - 
+
+TY  - JOUR
+TI  - Predicting survival from colorectal cancer histology slides using deep learning: A retrospective multicenter study
+AU  - Kather, Jakob Nikolas
+AU  - Krisam, Johannes
+AU  - Charoentong, Pornpimol
+AU  - Luedde, Tom
+AU  - Herwanto, Esther
+AU  - Weis, Cleo-Aron
+AU  - Gaiser, Timo
+AU  - Marx, Alexander
+AU  - Valous, Nektarios A.
+AU  - Ferber, Dyke
+AU  - Jansen, Lina
+AU  - Brenner, Hermann
+AU  - Chang-Claude, Jenny
+AU  - Hoffmeister, Michael
+AU  - Halama, Niels
+JO  - PLOS Medicine
+VL  - 16
+IS  - 7
+SP  - e1002730
+PY  - 2019
+DO  - 10.1371/journal.pmed.1002730
+AN  - 31295251
+ER  - 
+
+TY  - JOUR
+TI  - Scaling self-supervised learning for histopathology with vision transformers
+AU  - Filiot, Alexandre
+AU  - Gigaud, Ridouane
+AU  - Burlingame, E.
+JO  - Nature Communications
+VL  - 15
+IS  - 1
+SP  - 2207
+PY  - 2024
+DO  - 10.1038/s41467-024-46488-7
+AN  - 38499596
+ER  - 
+
+TY  - JOUR
+TI  - DINOv2: Learning Robust Visual Features without Supervision
+AU  - Oquab, Maxime
+AU  - Darcet, Timothée
+AU  - Moutakanni, Théo
+AU  - Vo, Huy V.
+AU  - Szafraniec, Marc
+AU  - Khalidov, Vasil
+AU  - Fernandez, Pierre
+AU  - Haziza, Daniel
+AU  - Massa, Francisco
+AU  - El-Nouby, Alaaeldin
+AU  - Assran, Mahmoud
+AU  - Ballas, Nicolas
+AU  - Galuba, Wojciech
+AU  - Howes, Russell
+AU  - Fan, Haoqi
+JO  - Transactions on Machine Learning Research
+PY  - 2024
+DO  - 10.48550/arXiv.2304.07193
+ER  - 
+
+TY  - JOUR
+TI  - A general-purpose self-supervised model for computational pathology
+AU  - Chen, Richard J.
+AU  - Ding, Tong
+AU  - Lu, Ming Y.
+AU  - Williamson, Drew F. K.
+AU  - Jaume, Guillaume
+AU  - Song, Andrew H.
+AU  - Chen, Bowen
+AU  - Zhang, Andrew
+AU  - Shao, Daniel
+AU  - Shaban, Muhammad
+AU  - Williams, Melissa
+AU  - Sachdeva, Lavanya
+JO  - Nature Medicine
+VL  - 30
+IS  - 3
+SP  - 850-859
+PY  - 2024
+DO  - 10.1038/s41591-024-02857-3
+AN  - 38499708
+ER  - 
+
+TY  - JOUR
+TI  - A visual-language foundation model for computational pathology
+AU  - Lu, Ming Y.
+AU  - Chen, Bowen
+AU  - Williamson, Drew F. K.
+AU  - Chen, Richard J.
+AU  - Liang, Ivy
+AU  - Ding, Tong
+AU  - Jaume, Guillaume
+AU  - Odintsov, Igor
+AU  - Le, Long Phi
+AU  - Gerber, Georg
+AU  - Parwani, Anil V.
+AU  - Mahmood, Faisal
+JO  - Nature Medicine
+VL  - 30
+IS  - 3
+SP  - 863-874
+PY  - 2024
+DO  - 10.1038/s41591-024-02856-4
+AN  - 38499707
+ER  - 
+
+TY  - JOUR
+TI  - Long non-coding RNA SEMA6D-AS1 inhibits gastric cancer progression by regulating miR-195-5p/SEMA6D
+AU  - Zhou, Hong
+AU  - Chen, Yu
+JO  - African Health Sciences
+VL  - 24
+IS  - 3
+SP  - 149-158
+PY  - 2024
+DO  - 10.4314/ahs.v24i3.21
+AN  - 39624510
+ER  - 
+
+TY  - CONF
+TI  - Attention-based Deep Multiple Instance Learning
+AU  - Ilse, Maximilian
+AU  - Tomczak, Jakub M.
+AU  - Welling, Max
+T2  - Proceedings of the 35th International Conference on Machine Learning (ICML)
+SP  - 2127-2136
+PY  - 2018
+DO  - 10.48550/arXiv.1802.04712
+ER  - 
+
+TY  - JOUR
+TI  - Data-efficient and weakly supervised computational pathology on whole-slide images
+AU  - Lu, Ming Y.
+AU  - Williamson, Drew F. K.
+AU  - Chen, Tiffany Y.
+AU  - Chen, Richard J.
+AU  - Barbieri, Matteo
+AU  - Mahmood, Faisal
+JO  - Nature Biomedical Engineering
+VL  - 5
+IS  - 6
+SP  - 555-570
+PY  - 2021
+DO  - 10.1038/s41551-020-00682-w
+AN  - 33649564
+ER  - 
+
+TY  - CONF
+TI  - Hierarchical Image Pyramid Transformer for Whole-Slide Image Classification
+AU  - Chen, Richard J.
+AU  - Chen, Chengkuan
+AU  - Li, Yicong
+AU  - Chen, Tiffany Y.
+AU  - Trister, Andrew D.
+AU  - Krishnan, Rahul G.
+AU  - Mahmood, Faisal
+T2  - IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
+SP  - 13397-13407
+PY  - 2021
+DO  - 10.1109/CVPR46437.2021.01639
+ER  - 
+
+TY  - JOUR
+TI  - Quantifying histopathology tissue graphs: A survey and benchmarking
+AU  - Jaume, Guillaume
+AU  - Pati, Pushpak
+AU  - Anklin, Valentin
+AU  - Foncubierta-Rodriguez, Antonio
+AU  - Gabrani, Maria
+JO  - Medical Image Analysis
+VL  - 72
+SP  - 102000
+PY  - 2021
+DO  - 10.1016/j.media.2021.102000
+AN  - 33838497
+ER  - 
+
+TY  - JOUR
+TI  - Hierarchical graph representations in digital pathology
+AU  - Pati, Pushpak
+AU  - Jaume, Guillaume
+AU  - Foncubierta-Rodriguez, Antonio
+AU  - Feroce, Francesco
+AU  - Scognamiglio, Giosuè
+AU  - Brancati, Nadia
+AU  - Riccio, Daniel
+AU  - Mantovani, Florinda
+AU  - Gabrani, Maria
+JO  - Nature Communications
+VL  - 13
+IS  - 1
+SP  - 3639
+PY  - 2022
+DO  - 10.1038/s41467-022-31525-4
+AN  - 35773295
+ER  - 
+
+TY  - JOUR
+TI  - Explainability in computational pathology: A review
+AU  - Petschnigg, Raphaela
+AU  - Gross, Wolfgang
+AU  - Sfiligoj, Eva
+JO  - Scientific Reports
+VL  - 13
+IS  - 1
+SP  - 21650
+PY  - 2023
+DO  - 10.1038/s41598-023-48761-4
+AN  - 38062141
+ER  - 
+
+TY  - CONF
+TI  - "Why Should I Trust You?": Explaining the Predictions of Any Classifier
+AU  - Ribeiro, Marco Tulio
+AU  - Singh, Sameer
+AU  - Guestrin, Carlos
+T2  - Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining
+SP  - 1135-1144
+PY  - 2016
+DO  - 10.1145/2939672.2939778
+ER  - 
+
+TY  - CONF
+TI  - Grad-CAM: Visual Explanations from Deep Networks via Gradient-Based Localization
+AU  - Selvaraju, Ramprasaath R.
+AU  - Cogswell, Michael
+AU  - Das, Abhishek
+AU  - Vedaldi, Andrea
+AU  - Parikh, Devi
+AU  - Batra, Dhruv
+T2  - IEEE International Conference on Computer Vision (ICCV)
+SP  - 618-626
+PY  - 2017
+DO  - 10.1109/ICCV.2017.74
+ER  - 
+
+TY  - CONF
+TI  - RISE: Randomized Input Sampling for Explanation of Black-box Models
+AU  - Petsiuk, Vitali
+AU  - Das, Abir
+AU  - Saenko, Kate
+T2  - British Machine Vision Conference (BMVC)
+PY  - 2018
+DO  - 10.48550/arXiv.1806.07404
+ER  - 
+
+TY  - JOUR
+TI  - Captum: A unified and generic model interpretability library for PyTorch
+AU  - Kokhlikyan, Narine
+AU  - Miglani, Vivek
+AU  - Martin, Miguel
+AU  - Wang, Edward
+AU  - Alsallakh, Bilal
+AU  - Reynolds, Jonathan
+AU  - Melnikov, Alexander
+AU  - Petridis, Sophia
+AU  - Kathuria, Leonida
+JO  - arXiv preprint
+PY  - 2020
+DO  - 10.48550/arXiv.2009.07896
+ER  - 
+
+TY  - JOUR
+TI  - The impact of technical variation on deep learning models for histopathology
+AU  - Howard, Frederick M.
+AU  - Dolezal, James
+AU  - Kochanny, Sara
+AU  - Schulte, J.
+AU  - Chen, H.
+AU  - He, B.
+JO  - npj Precision Oncology
+VL  - 5
+IS  - 1
+SP  - 35
+PY  - 2021
+DO  - 10.1038/s41698-021-00171-8
+AN  - 33990669
+ER  - 
+
+TY  - CONF
+TI  - A method for normalizing histology slides for quantitative analysis
+AU  - Macenko, Marc
+AU  - Niethammer, Marc
+AU  - Marron, J. S.
+AU  - Borland, David
+AU  - Woosley, John T.
+AU  - Guan, Xiaojun
+AU  - Schmitt, Charles
+AU  - Thomas, Nancy E.
+T2  - IEEE International Symposium on Biomedical Imaging (ISBI)
+SP  - 1107-1110
+PY  - 2009
+DO  - 10.1109/ISBI.2009.5193250
+ER  - 
+
+TY  - JOUR
+TI  - Color transfer between images
+AU  - Reinhard, Erik
+AU  - Ashikhmin, Michael
+AU  - Gooch, Bruce
+AU  - Shirley, Peter
+JO  - IEEE Computer Graphics and Applications
+VL  - 21
+IS  - 5
+SP  - 34-41
+PY  - 2001
+DO  - 10.1109/38.946629
+ER  - 
+
+TY  - JOUR
+TI  - Quantification of histochemical staining by color deconvolution
+AU  - Ruifrok, Arnout C.
+AU  - Johnston, Dennis A.
+JO  - Analytical and Quantitative Cytology and Histology
+VL  - 23
+IS  - 4
+SP  - 291-299
+PY  - 2001
+AN  - 11531144
+ER  - 
+
+TY  - JOUR
+TI  - Dual-stream multiple instance learning network for whole slide image classification with self-supervised contrastive learning
+AU  - Li, Bin
+AU  - Li, Yin
+AU  - Eliceiri, Kevin W.
+JO  - IEEE Transactions on Medical Imaging
+VL  - 40
+IS  - 8
+SP  - 2196-2205
+PY  - 2021
+DO  - 10.1109/TMI.2021.3060497
+AN  - 33606636
+ER  - 
+
+TY  - CONF
+TI  - TransMIL: Transformer based Correlated Multiple Instance Learning for Whole Slide Image Classification
+AU  - Shao, Zhuchen
+AU  - Bian, Hao
+AU  - Chen, Yang
+AU  - Wang, Yifeng
+AU  - Zhang, Jian
+AU  - Ji, Xiangyang
+T2  - Advances in Neural Information Processing Systems (NeurIPS)
+VL  - 34
+SP  - 2136-2147
+PY  - 2021
+DO  - 10.48550/arXiv.2106.00908
+ER  - 
+
+TY  - JOUR
+TI  - Clinical-grade computational pathology using weakly supervised deep learning on whole slide images
+AU  - Campanella, Gabriele
+AU  - Hanna, Matthew G.
+AU  - Geneslaw, Luke
+AU  - Miraflor, Allen
+AU  - Werneck Krauss Silva, Victor
+AU  - Busam, Klaus J.
+JO  - Nature Medicine
+VL  - 25
+IS  - 8
+SP  - 1301-1309
+PY  - 2019
+DO  - 10.1038/s41591-019-0508-1
+AN  - 31308507
+ER  - 
+
+TY  - JOUR
+TI  - SEMA6D expression and its clinicopathological significance in gastric carcinoma
+AU  - Lu, Y. F.
+AU  - Long, Z. W.
+AU  - Liu, X. Q.
+AU  - Chen, X.
+AU  - Jiang, G. J.
+JO  - Oncology Letters
+VL  - 12
+IS  - 6
+SP  - 5182-5188
+PY  - 2016
+DO  - 10.3892/ol.2016.5182
+AN  - 27895748
+ER  - 
+
+TY  - JOUR
+TI  - Long noncoding RNA LINC00491 promotes gastric cancer progression by sponging miR-497-5p to upregulate PDK3
+AU  - Feng, X.
+AU  - Liu, B.
+AU  - Wang, Y.
+AU  - Zhu, Z.
+AU  - Li, C.
+JO  - Bioscience Reports
+VL  - 39
+IS  - 9
+SP  - BSR20190654
+PY  - 2019
+DO  - 10.1042/BSR20190654
+AN  - 31527216
+ER  - 
+
+TY  - JOUR
+TI  - CCNE1 amplification is a predictive biomarker of resistance to anti-HER2 therapy in gastric cancer
+AU  - Kim, J.
+AU  - Fox, M. A.
+AU  - Peng, S.
+JO  - Journal of Clinical Investigation
+VL  - 124
+IS  - 10
+SP  - 4191-4204
+PY  - 2014
+DO  - 10.1172/JCI74346
+AN  - 25271724
+ER  - 
+
+TY  - JOUR
+TI  - A deep learning-based digital biopsy for predicting early recurrence in gastric cancer
+AU  - Ding, Cheng
+AU  - Zhang, Yuan
+AU  - Wang, Xiang
+AU  - Liu, Zhi
+AU  - Chen, Haoran
+JO  - Nature Communications
+VL  - 17
+IS  - 1
+SP  - 1482
+PY  - 2026
+DO  - 10.1038/s41467-026-71347-6
+AN  - 41658921
+ER  - 
+
+TY  - JOUR
+TI  - A multi-expert deep learning framework with LLM-guided arbitration for multimodal histopathology prediction
+AU  - Debsarkar, Sourav
+AU  - Prasath, V. B. Surya
+JO  - Computerized Medical Imaging and Graphics
+VL  - 128
+SP  - 102704
+PY  - 2026
+DO  - 10.1016/j.compmedimag.2026.102704
+AN  - 41782390
+ER  - 

@@ -1,0 +1,36 @@
+{
+  "phase": "Phase 8: Intra-Patch Spatial Representation Analysis",
+  "model_name": "owkin/phikon",
+  "architecture": "ViT-B/16 (12 layers, 12 heads, hidden_dim=768, patch_size=16x16)",
+  "spatial_grid": "14x14 tokens (196 spatial tokens)",
+  "regional_partition": "2x2 coarse quadrants (TL, TR, BL, BR), each 7x7 tokens (49 tokens)",
+  "sample_selection": {
+    "source_split": "Held-out test split from 10% stratified subset (manifest_subset.csv)",
+    "seed": 42,
+    "samples_per_class": 12,
+    "total_samples": 96,
+    "classes": [
+      "ADI",
+      "DEB",
+      "LYM",
+      "MUC",
+      "MUS",
+      "NOR",
+      "STR",
+      "TUM"
+    ]
+  },
+  "descriptors_calculated": [
+    "token_norm_mean",
+    "token_norm_std",
+    "token_norm_dispersion",
+    "regional_pairwise_cosine_similarity",
+    "regional_pairwise_l2_distance",
+    "within_image_regional_dispersion",
+    "cos_sim_cls_vs_global_mean",
+    "cos_sim_global_mean_vs_agg_regional",
+    "regional_attribution_mass"
+  ],
+  "executed_at_utc": "2026-11-07T16:56:00.469976+00:00",
+  "total_runtime_sec": 68.95
+}

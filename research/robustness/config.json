@@ -1,0 +1,46 @@
+{
+  "phase": "Phase 6: Controlled Robustness Analysis",
+  "model_name": "owkin/phikon",
+  "classifier": "LogisticRegression(C=10.0, solver='lbfgs', random_state=42)",
+  "evaluation_set": "Held-out GCHTID test split from 10% stratified subset",
+  "n_samples": 467,
+  "classes": [
+    "ADI",
+    "DEB",
+    "LYM",
+    "MUC",
+    "MUS",
+    "NOR",
+    "STR",
+    "TUM"
+  ],
+  "conditions": {
+    "clean": {
+      "description": "Original uncorrupted H&E biopsy tiles"
+    },
+    "brightness_contrast": {
+      "brightness_factor": 1.1,
+      "contrast_factor": 1.1,
+      "library": "PIL.ImageEnhance"
+    },
+    "gaussian_blur": {
+      "ksize": [
+        5,
+        5
+      ],
+      "sigma": 1.0,
+      "library": "cv2.GaussianBlur"
+    },
+    "jpeg_compression": {
+      "quality": 50,
+      "library": "Pillow in-memory JPEG encode/decode"
+    },
+    "stain_hed_variation": {
+      "h_factor": 1.1,
+      "e_factor": 1.1,
+      "dab_factor": 1.0,
+      "method": "Optical density HED decomposition using Ruifrok-Johnston matrix"
+    }
+  },
+  "started_at_utc": "2026-11-06T19:59:24.914732+00:00"
+}

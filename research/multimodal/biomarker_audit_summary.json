@@ -1,0 +1,157 @@
+{
+  "phase": "Original Phase 10: Multimodal Clinical Research",
+  "workbook_file": "data/support/Gastric.xlsx",
+  "sheet_name": "Table s2",
+  "total_interaction_rows": 3711,
+  "mirna_profile": {
+    "mature_mirna_id": "hsa-miR-497-5p",
+    "mature_mirna_acc": "MIMAT0002820",
+    "unique_mirnas_in_file": 1
+  },
+  "target_genes": {
+    "unique_symbols": 3497,
+    "missing_symbols": 51,
+    "missing_symbols_pct": 1.37,
+    "unique_entrez_ids": 3530,
+    "unique_ensembl_ids": 3541
+  },
+  "consensus_distribution": {
+    "1": 2149,
+    "2": 693,
+    "3": 399,
+    "4": 219,
+    "5": 158,
+    "6": 82,
+    "7": 10,
+    "8": 1
+  },
+  "algorithms_evaluated": [
+    "diana_microt",
+    "elmmo",
+    "microcosm",
+    "miranda",
+    "mirdb",
+    "pictar",
+    "pita",
+    "targetscan"
+  ],
+  "algorithm_positive_rates": {
+    "diana_microt": {
+      "positive_count": 1988,
+      "positive_rate_pct": 53.6
+    },
+    "elmmo": {
+      "positive_count": 1914,
+      "positive_rate_pct": 51.6
+    },
+    "microcosm": {
+      "positive_count": 348,
+      "positive_rate_pct": 9.4
+    },
+    "miranda": {
+      "positive_count": 613,
+      "positive_rate_pct": 16.5
+    },
+    "mirdb": {
+      "positive_count": 445,
+      "positive_rate_pct": 12.0
+    },
+    "pictar": {
+      "positive_count": 376,
+      "positive_rate_pct": 10.1
+    },
+    "pita": {
+      "positive_count": 854,
+      "positive_rate_pct": 23.0
+    },
+    "targetscan": {
+      "positive_count": 430,
+      "positive_rate_pct": 11.6
+    }
+  },
+  "top_consensus_targets_count_ge_7": 11,
+  "sample_top_targets": [
+    {
+      "target_symbol": "SEMA6D",
+      "entrez_id": 80031,
+      "ensembl_id": "ENSG00000137872",
+      "algorithm_consensus_count": 8,
+      "total_score_sum": 8
+    },
+    {
+      "target_symbol": "AK4",
+      "entrez_id": 205,
+      "ensembl_id": "ENSG00000162433",
+      "algorithm_consensus_count": 7,
+      "total_score_sum": 7
+    },
+    {
+      "target_symbol": "CCNE1",
+      "entrez_id": 898,
+      "ensembl_id": "ENSG00000105173",
+      "algorithm_consensus_count": 7,
+      "total_score_sum": 7
+    },
+    {
+      "target_symbol": "CD2AP",
+      "entrez_id": 23607,
+      "ensembl_id": "ENSG00000198087",
+      "algorithm_consensus_count": 7,
+      "total_score_sum": 7
+    },
+    {
+      "target_symbol": "CDK17",
+      "entrez_id": 5128,
+      "ensembl_id": "ENSG00000059758",
+      "algorithm_consensus_count": 7,
+      "total_score_sum": 7
+    },
+    {
+      "target_symbol": "FBXW7",
+      "entrez_id": 55294,
+      "ensembl_id": "ENSG00000109670",
+      "algorithm_consensus_count": 7,
+      "total_score_sum": 7
+    },
+    {
+      "target_symbol": "PAFAH1B1",
+      "entrez_id": 5048,
+      "ensembl_id": "ENSG00000007168",
+      "algorithm_consensus_count": 7,
+      "total_score_sum": 7
+    },
+    {
+      "target_symbol": "PLAG1",
+      "entrez_id": 5324,
+      "ensembl_id": "ENSG00000181690",
+      "algorithm_consensus_count": 7,
+      "total_score_sum": 7
+    },
+    {
+      "target_symbol": "PRDM4",
+      "entrez_id": 11108,
+      "ensembl_id": "ENSG00000110851",
+      "algorithm_consensus_count": 7,
+      "total_score_sum": 7
+    },
+    {
+      "target_symbol": "USP15",
+      "entrez_id": 9958,
+      "ensembl_id": "ENSG00000135655",
+      "algorithm_consensus_count": 7,
+      "total_score_sum": 7
+    },
+    {
+      "target_symbol": "ZBTB34",
+      "entrez_id": 403341,
+      "ensembl_id": "ENSG00000177125",
+      "algorithm_consensus_count": 7,
+      "total_score_sum": 7
+    }
+  ],
+  "scientific_disclosures": [
+    "All records in Gastric.xlsx represent in-silico computational predictions, NOT experimentally verified patient biomarkers.",
+    "Zero patient-level molecular expression measurements or clinical specimen linkages exist in this workbook.",
+    "High consensus indicates agreement across bioinformatics algorithms (e.g. TargetScan, miRanda, PicTar), not clinical validation in gastric cancer patients."
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "phase": "Original Phase 7",
+  "phase_name": "Nuclei Detection and Cellular Morphology",
+  "implementation_status": "EXPLORATORY_BASELINE_OPERATIONAL",
+  "deep_models_status": "BLOCKED_BY_PRETRAINED_WEIGHTS_AND_DEPENDENCIES",
+  "selected_detector": {
+    "name": "ClassicalHEDWatershed",
+    "model_variant": "ruifrok_hed_marker_watershed",
+    "architecture": "Color Deconvolution + Distance Transform + Marker-Controlled Watershed",
+    "pretrained_weights": "Analytical / Unsupervised (Ruifrok-Johnston calibration)",
+    "license": "Open / Public Domain Medical Algorithm",
+    "paper": "Ruifrok & Johnston, Anal Quant Cytol Histol 2001",
+    "is_available": true,
+    "status_reason": "Operational (Zero external weight dependencies; runs on native CPU stack)."
+  },
+  "pilot_dataset": {
+    "name": "HMU-GC-HE-30K (GCHTID)",
+    "total_images_processed": 64,
+    "classes_evaluated": 8,
+    "images_per_class": 8,
+    "sampling_seed": 42
+  },
+  "quantitative_findings": {
+    "total_nuclei_detected": 3895,
+    "mean_nuclei_per_tile": 60.86,
+    "median_nuclei_per_tile": 52.0,
+    "mean_nuclear_area_px2": 82.85,
+    "median_nuclear_area_px2": 53.0,
+    "class_level_breakdown": {
+      "ADI": {
+        "sample_count": 8,
+        "mean_nuclei_count": 16.75,
+        "std_nuclei_count": 12.58,
+        "mean_nuclear_area_px2": 86.86,
+        "mean_circularity": 0.737,
+        "mean_eccentricity": 0.819,
+        "mean_density_per_kpx": 0.3338
+      },
+      "DEB": {
+        "sample_count": 8,
+        "mean_nuclei_count": 70.88,
+        "std_nuclei_count": 44.6,
+        "mean_nuclear_area_px2": 100.47,
+        "mean_circularity": 0.799,
+        "mean_eccentricity": 0.752,
+        "mean_density_per_kpx": 1.4125
+      },
+      "LYM": {
+        "sample_count": 8,
+        "mean_nuclei_count": 132.88,
+        "std_nuclei_count": 24.15,
+        "mean_nuclear_area_px2": 70.65,
+        "mean_circularity": 0.836,
+        "mean_eccentricity": 0.73,
+        "mean_density_per_kpx": 2.6482
+      },
+      "MUC": {
+        "sample_count": 8,
+        "mean_nuclei_count": 24.88,
+        "std_nuclei_count": 24.72,
+        "mean_nuclear_area_px2": 85.35,
+        "mean_circularity": 0.762,
+        "mean_eccentricity": 0.765,
+        "mean_density_per_kpx": 0.4958
+      },
+      "MUS": {
+        "sample_count": 8,
+        "mean_nuclei_count": 32.12,
+        "std_nuclei_count": 21.74,
+        "mean_nuclear_area_px2": 53.84,
+        "mean_circularity": 0.824,
+        "mean_eccentricity": 0.795,
+        "mean_density_per_kpx": 0.6402
+      },
+      "NOR": {
+        "sample_count": 8,
+        "mean_nuclei_count": 80.0,
+        "std_nuclei_count": 28.46,
+        "mean_nuclear_area_px2": 92.64,
+        "mean_circularity": 0.778,
+        "mean_eccentricity": 0.774,
+        "mean_density_per_kpx": 1.5944
+      },
+      "STR": {
+        "sample_count": 8,
+        "mean_nuclei_count": 61.75,
+        "std_nuclei_count": 33.27,
+        "mean_nuclear_area_px2": 125.16,
+        "mean_circularity": 0.797,
+        "mean_eccentricity": 0.774,
+        "mean_density_per_kpx": 1.2307
+      },
+      "TUM": {
+        "sample_count": 8,
+        "mean_nuclei_count": 67.62,
+        "std_nuclei_count": 43.11,
+        "mean_nuclear_area_px2": 225.43,
+        "mean_circularity": 0.684,
+        "mean_eccentricity": 0.74,
+        "mean_density_per_kpx": 1.3478
+      }
+    }
+  },
+  "telemetry": {
+    "total_runtime_seconds": 9.12,
+    "mean_seconds_per_image": 0.142,
+    "rss_memory_start_mb": 131.19,
+    "rss_memory_end_mb": 142.27
+  },
+  "scientific_disclaimer": "All nuclear instance detections and morphology measurements were derived using an automated, unvalidated color-deconvolved watershed baseline. Without pathologist-verified manual nuclear ground truth annotations, these values represent computational image descriptors and must NOT be interpreted as verified biological differences between tissue classes."
+}

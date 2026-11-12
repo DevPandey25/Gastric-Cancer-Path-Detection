@@ -1,0 +1,99 @@
+{
+  "phase_name": "Original Phase 8: Spatial Graph and GNN Engine",
+  "terminology": "candidate-object graph",
+  "data_provenance": {
+    "source_manifest": "research/cellular/cellular_sample_manifest.csv",
+    "instance_features": "research/cellular/instance_features.csv",
+    "num_samples": 64,
+    "samples_per_class": 8,
+    "canonical_classes": ["ADI", "DEB", "LYM", "MUC", "MUS", "NOR", "STR", "TUM"]
+  },
+  "graph_construction": {
+    "method": "symmetric_k_nearest_neighbors",
+    "k": 6,
+    "distance_metric": "euclidean",
+    "bidirectional": true,
+    "add_self_loops": true,
+    "tile_size_px": 224.0,
+    "tile_diagonal_px": 316.7838,
+    "node_features": [
+      "centroid_x_norm",
+      "centroid_y_norm",
+      "log_area",
+      "perimeter_norm",
+      "equivalent_diameter_norm",
+      "aspect_ratio",
+      "eccentricity",
+      "solidity",
+      "circularity",
+      "sin_2orient",
+      "cos_2orient",
+      "intensity_r_norm",
+      "intensity_g_norm",
+      "intensity_b_norm",
+      "hematoxylin_od",
+      "eosin_od"
+    ],
+    "node_feature_dimension": 16,
+    "aggregated_feature_dimension": 48
+  },
+  "models": {
+    "gcn": {
+      "name": "Graph Convolutional Network",
+      "reference": "Kipf & Welling (ICLR 2017)",
+      "num_layers": 2,
+      "hidden_channels": 32,
+      "readout": "global_mean_pool",
+      "dropout": 0.2,
+      "num_classes": 8
+    },
+    "gat": {
+      "name": "Graph Attention Network",
+      "reference": "Veličković et al. (ICLR 2018)",
+      "num_layers": 2,
+      "heads": 2,
+      "hidden_channels": 32,
+      "readout": "global_mean_pool",
+      "dropout": 0.2,
+      "num_classes": 8
+    },
+    "sage": {
+      "name": "GraphSAGE",
+      "reference": "Hamilton et al. (NeurIPS 2017)",
+      "num_layers": 2,
+      "aggr": "mean",
+      "hidden_channels": 32,
+      "readout": "global_mean_pool",
+      "dropout": 0.2,
+      "num_classes": 8
+    },
+    "mlp": {
+      "name": "Morphology MLP Baseline",
+      "description": "Non-graph multi-layer perceptron over image-level aggregated morphology statistics",
+      "in_dim": 48,
+      "hidden_dim": 64,
+      "dropout": 0.2,
+      "num_classes": 8
+    }
+  },
+  "training_and_evaluation": {
+    "validation_protocol": "Stratified 5-Fold Cross-Validation",
+    "n_splits": 5,
+    "shuffle": true,
+    "random_state": 42,
+    "scaler": "StandardScaler (fitted strictly on training fold nodes to prevent data leakage)",
+    "optimizer": "Adam",
+    "learning_rate": 0.01,
+    "weight_decay": 0.0001,
+    "epochs": 30,
+    "loss": "CrossEntropyLoss",
+    "metrics": [
+      "accuracy",
+      "balanced_accuracy",
+      "macro_f1",
+      "per_class_recall",
+      "confusion_matrix"
+    ]
+  }
+}
+

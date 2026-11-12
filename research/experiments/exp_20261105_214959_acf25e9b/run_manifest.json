@@ -1,0 +1,149 @@
+{
+  "run_id": "exp_20261105_214959_acf25e9b",
+  "name": "GastricCancerRNN Baseline Evaluation",
+  "status": "COMPLETED",
+  "created_at": "2026-11-05T21:49:59.337652+00:00",
+  "completed_at": "2026-11-05T21:50:22.225932+00:00",
+  "seed": 42,
+  "model_architecture": "GastricCancerRNN",
+  "dataset_info": {
+    "name": "GCHTID",
+    "split": "test"
+  },
+  "provenance": {
+    "python_version": "3.13.5",
+    "torch_version": "2.9.1+cpu",
+    "numpy_version": "2.2.6",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "processor": "Intel64 Family 6 Model 154 Stepping 4, GenuineIntel",
+    "cpu_count": 12,
+    "cuda_available": false,
+    "gpu_info": null,
+    "git_commit": "0ef2257afcdb73f76a3c82b11fda21e22a5bbda3"
+  },
+  "config": {
+    "project": {
+      "name": "GastricPath AI",
+      "description": "Explainable, Spatially-Aware Computational Pathology Platform for Gastric Cancer",
+      "version": "1.0.0"
+    },
+    "environment": {
+      "seed": 42,
+      "deterministic": true,
+      "device": "auto",
+      "num_workers": 0,
+      "pin_memory": false,
+      "mixed_precision": false
+    },
+    "paths": {
+      "workspace_root": "C:\\Users\\KIIT0001\\OneDrive\\Desktop\\gastric-cancer-histopathology-dashboard-main",
+      "raw_dataset_dir": "C:\\Users\\KIIT0001\\OneDrive\\Desktop\\gastric-cancer-histopathology-dashboard-main\\data\\raw\\HMU-GC-HE-30K\\all_image",
+      "support_dir": "C:\\Users\\KIIT0001\\OneDrive\\Desktop\\gastric-cancer-histopathology-dashboard-main\\data\\support",
+      "manifest_output_dir": "C:\\Users\\KIIT0001\\OneDrive\\Desktop\\gastric-cancer-histopathology-dashboard-main\\model_train\\runs",
+      "experiment_dir": "C:\\Users\\KIIT0001\\OneDrive\\Desktop\\gastric-cancer-histopathology-dashboard-main\\research\\experiments",
+      "registry_dir": "C:\\Users\\KIIT0001\\OneDrive\\Desktop\\gastric-cancer-histopathology-dashboard-main\\research\\registry",
+      "checkpoint_dir": "C:\\Users\\KIIT0001\\OneDrive\\Desktop\\gastric-cancer-histopathology-dashboard-main\\models\\checkpoints",
+      "test_artifacts_dir": "C:\\Users\\KIIT0001\\OneDrive\\Desktop\\gastric-cancer-histopathology-dashboard-main\\research\\test_artifacts",
+      "splits_dir": "C:\\Users\\KIIT0001\\OneDrive\\Desktop\\gastric-cancer-histopathology-dashboard-main\\research\\splits",
+      "reports_dir": "C:\\Users\\KIIT0001\\OneDrive\\Desktop\\gastric-cancer-histopathology-dashboard-main\\research\\reports"
+    },
+    "dataset": {
+      "name": "GCHTID",
+      "full_name": "Gastric Cancer Histopathology Tissue Image Dataset",
+      "total_classes": 8,
+      "classes": [
+        "ADI",
+        "DEB",
+        "LYM",
+        "MUC",
+        "MUS",
+        "NOR",
+        "STR",
+        "TUM"
+      ],
+      "split_ratios": {
+        "train": 0.7,
+        "val": 0.15,
+        "test": 0.15
+      },
+      "stratified": true,
+      "split_seed": 42
+    },
+    "preprocessing": {
+      "image_size": 224,
+      "channels": 3,
+      "patch_size": 56,
+      "sequence_length": 16,
+      "normalization": "min_max_255"
+    },
+    "baseline_model": {
+      "model_id": "baseline_gastric_rnn",
+      "architecture": "GastricCancerRNN",
+      "feature_dim": 128,
+      "hidden_dim": 128,
+      "num_layers": 2,
+      "dropout": 0.2,
+      "checkpoint_file": "C:\\Users\\KIIT0001\\OneDrive\\Desktop\\gastric-cancer-histopathology-dashboard-main\\models\\checkpoints\\gastric_rnn_classifier.pt"
+    },
+    "training": {
+      "batch_size": 32,
+      "learning_rate": 0.001,
+      "weight_decay": 1e-05,
+      "epochs": 5,
+      "early_stopping": {
+        "enabled": true,
+        "patience": 3,
+        "monitor": "val_accuracy",
+        "mode": "max"
+      }
+    },
+    "evaluation": {
+      "metrics": [
+        "accuracy",
+        "macro_f1",
+        "balanced_accuracy",
+        "per_class_precision",
+        "per_class_recall",
+        "confusion_matrix"
+      ],
+      "uncertainty": {
+        "calibration_bins": 10,
+        "temperature_scaling": false
+      }
+    }
+  },
+  "metrics_summary": {
+    "test_accuracy": 0.715,
+    "test_macro_f1": 0.7115,
+    "test_balanced_accuracy": 0.715,
+    "test_brier_score": 0.3806,
+    "test_ece": 0.0351
+  },
+  "artifacts": [
+    {
+      "name": "metrics.json",
+      "path": "C:\\Users\\KIIT0001\\OneDrive\\Desktop\\gastric-cancer-histopathology-dashboard-main\\research\\experiments\\exp_20261105_214959_acf25e9b\\artifacts\\metrics.json",
+      "size_bytes": 4647
+    },
+    {
+      "name": "predictions_test.csv",
+      "path": "C:\\Users\\KIIT0001\\OneDrive\\Desktop\\gastric-cancer-histopathology-dashboard-main\\research\\experiments\\exp_20261105_214959_acf25e9b\\artifacts\\predictions_test.csv",
+      "size_bytes": 37487
+    },
+    {
+      "name": "confusion_matrix.csv",
+      "path": "C:\\Users\\KIIT0001\\OneDrive\\Desktop\\gastric-cancer-histopathology-dashboard-main\\research\\experiments\\exp_20261105_214959_acf25e9b\\artifacts\\confusion_matrix.csv",
+      "size_bytes": 264
+    },
+    {
+      "name": "classification_report.csv",
+      "path": "C:\\Users\\KIIT0001\\OneDrive\\Desktop\\gastric-cancer-histopathology-dashboard-main\\research\\experiments\\exp_20261105_214959_acf25e9b\\artifacts\\classification_report.csv",
+      "size_bytes": 423
+    },
+    {
+      "name": "experiment_summary.md",
+      "path": "C:\\Users\\KIIT0001\\OneDrive\\Desktop\\gastric-cancer-histopathology-dashboard-main\\research\\experiments\\exp_20261105_214959_acf25e9b\\artifacts\\experiment_summary.md",
+      "size_bytes": 1142
+    }
+  ]
+}

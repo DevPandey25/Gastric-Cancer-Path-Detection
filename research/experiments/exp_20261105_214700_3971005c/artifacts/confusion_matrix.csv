@@ -1,0 +1,9 @@
+actual_class,pred_ADI,pred_DEB,pred_LYM,pred_MUC,pred_MUS,pred_NOR,pred_STR,pred_TUM
+ADI,0,0,0,0,0,0,0,2
+DEB,0,0,0,0,0,0,0,2
+LYM,0,0,0,0,0,0,0,2
+MUC,0,0,0,0,0,0,0,2
+MUS,0,0,0,0,0,0,0,2
+NOR,0,0,0,0,0,0,0,2
+STR,0,0,0,0,0,0,0,2
+TUM,0,0,0,0,0,0,0,2

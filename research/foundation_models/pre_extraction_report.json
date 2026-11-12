@@ -1,0 +1,38 @@
+{
+  "system_resources": {
+    "total_ram_gb": 15.72,
+    "available_ram_gb": 2.31,
+    "free_disk_space_gb": 39.12,
+    "initial_cpu_percent": 17.4
+  },
+  "model_provenance": {
+    "model_name": "dinov2_vits14",
+    "weights_file": "C:\\Users\\KIIT0001\\.cache\\torch\\hub\\checkpoints\\dinov2_vits14_pretrain.pth",
+    "weights_sha256": "b938bf1bc15cd2ec0feacfe3a1bb553fe8ea9ca46a7e1d8d00217f29aef60cd9",
+    "embedding_dim": 384,
+    "encoder_load_seconds": 0.605,
+    "model_ram_footprint_mb": 187.21
+  },
+  "benchmark_128_images": {
+    "batch_size_8": {
+      "batch_size": 8,
+      "duration_sec": 14.257,
+      "throughput_img_per_sec": 8.98,
+      "latency_ms_per_image": 111.39,
+      "process_rss_mb": 582.23,
+      "ram_delta_mb": 25.58,
+      "extrapolated_full_dataset_minutes": 57.73
+    },
+    "batch_size_16": {
+      "batch_size": 16,
+      "duration_sec": 11.154,
+      "throughput_img_per_sec": 11.48,
+      "latency_ms_per_image": 87.14,
+      "process_rss_mb": 664.25,
+      "ram_delta_mb": 31.18,
+      "extrapolated_full_dataset_minutes": 45.16
+    }
+  },
+  "selected_batch_size": 16,
+  "projected_duration_minutes": 45.16
+}

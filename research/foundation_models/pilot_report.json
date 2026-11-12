@@ -1,0 +1,27 @@
+{
+  "model_name": "dinov2_vits14",
+  "embedding_dim": 384,
+  "pilot_images_evaluated": 32,
+  "model_loading_latency_seconds": 0.5097,
+  "inference_latency_per_image_seconds": 0.0784,
+  "inference_latency_per_image_ms": 78.41,
+  "throughput_images_per_second": 12.75,
+  "peak_process_rss_mb": 485.69,
+  "model_ram_footprint_mb": 187.11,
+  "single_embedding_size_bytes": 1536,
+  "cache_size_for_pilot_bytes": 49280,
+  "full_dataset_extrapolations": {
+    "total_images": 31096,
+    "estimated_extraction_duration_seconds": 2438.31,
+    "estimated_extraction_duration_minutes": 40.64,
+    "estimated_extraction_duration_hours": 0.68,
+    "estimated_raw_matrix_storage_mb": 45.55,
+    "estimated_manifest_storage_mb": 7.41,
+    "total_estimated_storage_mb": 52.96
+  },
+  "retrieval_verification": {
+    "self_match_excluded": true,
+    "duplicate_hash_excluded": true,
+    "backend": "NumPy Vectorized Cosine Search"
+  }
+}

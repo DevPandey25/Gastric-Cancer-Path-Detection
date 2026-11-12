@@ -1,0 +1,87 @@
+# GastricPath AI - Base Research Configuration
+# Schema Version: 1.0.0
+
+project:
+  name: "GastricPath AI"
+  description: "Explainable, Spatially-Aware Computational Pathology Platform for Gastric Cancer"
+  version: "1.0.0"
+
+environment:
+  seed: 42
+  deterministic: true
+  device: "auto" # "auto", "cpu", "cuda"
+  num_workers: 0
+  pin_memory: false
+  mixed_precision: false # Disabled on CPU; optional on CUDA
+
+paths:
+  workspace_root: "."
+  raw_dataset_dir: "data/raw/HMU-GC-HE-30K/all_image"
+  support_dir: "data/support"
+  manifest_output_dir: "model_train/runs"
+  experiment_dir: "research/experiments"
+  registry_dir: "research/registry"
+  checkpoint_dir: "models/checkpoints"
+  test_artifacts_dir: "research/test_artifacts"
+  splits_dir: "research/splits"
+  reports_dir: "research/reports"
+
+dataset:
+  name: "GCHTID"
+  full_name: "Gastric Cancer Histopathology Tissue Image Dataset"
+  total_classes: 8
+  classes:
+    - "ADI"
+    - "DEB"
+    - "LYM"
+    - "MUC"
+    - "MUS"
+    - "NOR"
+    - "STR"
+    - "TUM"
+  split_ratios:
+    train: 0.70
+    val: 0.15
+    test: 0.15
+  stratified: true
+  split_seed: 42
+
+preprocessing:
+  image_size: 224
+  channels: 3
+  patch_size: 56
+  sequence_length: 16
+  normalization: "min_max_255" # [0, 1] range; future: "imagenet", "stain_norm"
+
+baseline_model:
+  model_id: "baseline_gastric_rnn"
+  architecture: "GastricCancerRNN"
+  feature_dim: 128
+  hidden_dim: 128
+  num_layers: 2
+  dropout: 0.2
+  checkpoint_file: "models/checkpoints/gastric_rnn_classifier.pt"
+
+training:
+  batch_size: 32
+  learning_rate: 0.001
+  weight_decay: 0.00001
+  epochs: 5
+  early_stopping:
+    enabled: true
+    patience: 3
+    monitor: "val_accuracy"
+    mode: "max"
+
+evaluation:
+  metrics:
+    - "accuracy"
+    - "macro_f1"
+    - "balanced_accuracy"
+    - "per_class_precision"
+    - "per_class_recall"
+    - "confusion_matrix"
+  uncertainty:
+    calibration_bins: 10
+    temperature_scaling: false
+

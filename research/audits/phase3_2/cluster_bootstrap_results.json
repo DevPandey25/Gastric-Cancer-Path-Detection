@@ -1,0 +1,38 @@
+{
+  "resampling_unit": "exact/dHash duplicate cluster (indivisible group)",
+  "total_test_images": 4665,
+  "total_clusters": 4496,
+  "multimember_clusters": 136,
+  "singleton_clusters": 4360,
+  "bootstrap_replicates": 1000,
+  "random_seed": 42,
+  "cluster_bootstrap_intervals": {
+    "accuracy_95": [
+      0.6969,
+      0.7245
+    ],
+    "balanced_accuracy_95": [
+      0.6963,
+      0.7239
+    ],
+    "macro_f1_95": [
+      0.6973,
+      0.725
+    ]
+  },
+  "iid_file_bootstrap_intervals": {
+    "accuracy_95": [
+      0.6972,
+      0.7232
+    ],
+    "balanced_accuracy_95": [
+      0.698,
+      0.7225
+    ],
+    "macro_f1_95": [
+      0.6984,
+      0.7235
+    ]
+  },
+  "methodological_disclosure": "Cluster bootstrap resamples whole duplicate clusters with replacement, preserving intra-cluster correlation. These intervals apply strictly to image/cluster sampling variability in the GCHTID dataset and cannot be claimed as patient-level clinical confidence intervals."
+}

@@ -1,0 +1,572 @@
+{
+  "phikon_mean_patch_calibration": {
+    "model_name": "Phikon ViT-B/16 Mean Patch",
+    "optimal_temperature_T": 1.0,
+    "test_accuracy": 0.6638,
+    "validation_metrics": {
+      "uncalibrated": {
+        "ece": 0.0429,
+        "brier_score": 0.412,
+        "nll": 0.8288
+      },
+      "calibrated": {
+        "ece": 0.0429,
+        "brier_score": 0.412,
+        "nll": 0.8288
+      }
+    },
+    "test_metrics": {
+      "uncalibrated": {
+        "ece": 0.0524,
+        "brier_score": 0.4487,
+        "nll": 0.8802
+      },
+      "calibrated": {
+        "ece": 0.0524,
+        "brier_score": 0.4487,
+        "nll": 0.8802
+      }
+    },
+    "test_bin_stats_uncalibrated": [
+      {
+        "bin_idx": 0,
+        "range": [
+          0.0,
+          0.1
+        ],
+        "count": 0,
+        "proportion": 0.0,
+        "accuracy": 0.0,
+        "confidence": 0.0,
+        "calibration_gap": 0.0
+      },
+      {
+        "bin_idx": 1,
+        "range": [
+          0.1,
+          0.2
+        ],
+        "count": 0,
+        "proportion": 0.0,
+        "accuracy": 0.0,
+        "confidence": 0.0,
+        "calibration_gap": 0.0
+      },
+      {
+        "bin_idx": 2,
+        "range": [
+          0.2,
+          0.3
+        ],
+        "count": 15,
+        "proportion": 0.0321,
+        "accuracy": 0.2,
+        "confidence": 0.2733,
+        "calibration_gap": 0.0733
+      },
+      {
+        "bin_idx": 3,
+        "range": [
+          0.3,
+          0.4
+        ],
+        "count": 44,
+        "proportion": 0.0942,
+        "accuracy": 0.3182,
+        "confidence": 0.3555,
+        "calibration_gap": 0.0373
+      },
+      {
+        "bin_idx": 4,
+        "range": [
+          0.4,
+          0.5
+        ],
+        "count": 54,
+        "proportion": 0.1156,
+        "accuracy": 0.5,
+        "confidence": 0.4554,
+        "calibration_gap": -0.0446
+      },
+      {
+        "bin_idx": 5,
+        "range": [
+          0.5,
+          0.6
+        ],
+        "count": 60,
+        "proportion": 0.1285,
+        "accuracy": 0.5167,
+        "confidence": 0.5415,
+        "calibration_gap": 0.0249
+      },
+      {
+        "bin_idx": 6,
+        "range": [
+          0.6,
+          0.7
+        ],
+        "count": 73,
+        "proportion": 0.1563,
+        "accuracy": 0.6849,
+        "confidence": 0.6502,
+        "calibration_gap": -0.0348
+      },
+      {
+        "bin_idx": 7,
+        "range": [
+          0.7,
+          0.8
+        ],
+        "count": 57,
+        "proportion": 0.1221,
+        "accuracy": 0.614,
+        "confidence": 0.7536,
+        "calibration_gap": 0.1395
+      },
+      {
+        "bin_idx": 8,
+        "range": [
+          0.8,
+          0.9
+        ],
+        "count": 67,
+        "proportion": 0.1435,
+        "accuracy": 0.9104,
+        "confidence": 0.8583,
+        "calibration_gap": -0.0521
+      },
+      {
+        "bin_idx": 9,
+        "range": [
+          0.9,
+          1.0
+        ],
+        "count": 97,
+        "proportion": 0.2077,
+        "accuracy": 0.9175,
+        "confidence": 0.957,
+        "calibration_gap": 0.0395
+      }
+    ],
+    "test_bin_stats_calibrated": [
+      {
+        "bin_idx": 0,
+        "range": [
+          0.0,
+          0.1
+        ],
+        "count": 0,
+        "proportion": 0.0,
+        "accuracy": 0.0,
+        "confidence": 0.0,
+        "calibration_gap": 0.0
+      },
+      {
+        "bin_idx": 1,
+        "range": [
+          0.1,
+          0.2
+        ],
+        "count": 0,
+        "proportion": 0.0,
+        "accuracy": 0.0,
+        "confidence": 0.0,
+        "calibration_gap": 0.0
+      },
+      {
+        "bin_idx": 2,
+        "range": [
+          0.2,
+          0.3
+        ],
+        "count": 15,
+        "proportion": 0.0321,
+        "accuracy": 0.2,
+        "confidence": 0.2733,
+        "calibration_gap": 0.0733
+      },
+      {
+        "bin_idx": 3,
+        "range": [
+          0.3,
+          0.4
+        ],
+        "count": 44,
+        "proportion": 0.0942,
+        "accuracy": 0.3182,
+        "confidence": 0.3555,
+        "calibration_gap": 0.0373
+      },
+      {
+        "bin_idx": 4,
+        "range": [
+          0.4,
+          0.5
+        ],
+        "count": 54,
+        "proportion": 0.1156,
+        "accuracy": 0.5,
+        "confidence": 0.4554,
+        "calibration_gap": -0.0446
+      },
+      {
+        "bin_idx": 5,
+        "range": [
+          0.5,
+          0.6
+        ],
+        "count": 60,
+        "proportion": 0.1285,
+        "accuracy": 0.5167,
+        "confidence": 0.5415,
+        "calibration_gap": 0.0249
+      },
+      {
+        "bin_idx": 6,
+        "range": [
+          0.6,
+          0.7
+        ],
+        "count": 73,
+        "proportion": 0.1563,
+        "accuracy": 0.6849,
+        "confidence": 0.6502,
+        "calibration_gap": -0.0348
+      },
+      {
+        "bin_idx": 7,
+        "range": [
+          0.7,
+          0.8
+        ],
+        "count": 57,
+        "proportion": 0.1221,
+        "accuracy": 0.614,
+        "confidence": 0.7536,
+        "calibration_gap": 0.1395
+      },
+      {
+        "bin_idx": 8,
+        "range": [
+          0.8,
+          0.9
+        ],
+        "count": 67,
+        "proportion": 0.1435,
+        "accuracy": 0.9104,
+        "confidence": 0.8583,
+        "calibration_gap": -0.0521
+      },
+      {
+        "bin_idx": 9,
+        "range": [
+          0.9,
+          1.0
+        ],
+        "count": 97,
+        "proportion": 0.2077,
+        "accuracy": 0.9175,
+        "confidence": 0.957,
+        "calibration_gap": 0.0395
+      }
+    ]
+  },
+  "gastric_cancer_rnn_calibration": {
+    "model_name": "GastricCancerRNN (CNN-BiLSTM)",
+    "optimal_temperature_T": 1.0,
+    "test_accuracy": 0.7088,
+    "validation_metrics": {
+      "uncalibrated": {
+        "ece": 0.0569,
+        "brier_score": 0.3789,
+        "nll": 0.7169
+      },
+      "calibrated": {
+        "ece": 0.0569,
+        "brier_score": 0.3789,
+        "nll": 0.7169
+      }
+    },
+    "test_metrics": {
+      "uncalibrated": {
+        "ece": 0.0314,
+        "brier_score": 0.4073,
+        "nll": 0.7846
+      },
+      "calibrated": {
+        "ece": 0.0314,
+        "brier_score": 0.4073,
+        "nll": 0.7846
+      }
+    },
+    "test_bin_stats_uncalibrated": [
+      {
+        "bin_idx": 0,
+        "range": [
+          0.0,
+          0.1
+        ],
+        "count": 0,
+        "proportion": 0.0,
+        "accuracy": 0.0,
+        "confidence": 0.0,
+        "calibration_gap": 0.0
+      },
+      {
+        "bin_idx": 1,
+        "range": [
+          0.1,
+          0.2
+        ],
+        "count": 0,
+        "proportion": 0.0,
+        "accuracy": 0.0,
+        "confidence": 0.0,
+        "calibration_gap": 0.0
+      },
+      {
+        "bin_idx": 2,
+        "range": [
+          0.2,
+          0.3
+        ],
+        "count": 2,
+        "proportion": 0.0043,
+        "accuracy": 0.5,
+        "confidence": 0.2965,
+        "calibration_gap": -0.2035
+      },
+      {
+        "bin_idx": 3,
+        "range": [
+          0.3,
+          0.4
+        ],
+        "count": 26,
+        "proportion": 0.0557,
+        "accuracy": 0.3462,
+        "confidence": 0.351,
+        "calibration_gap": 0.0048
+      },
+      {
+        "bin_idx": 4,
+        "range": [
+          0.4,
+          0.5
+        ],
+        "count": 50,
+        "proportion": 0.1071,
+        "accuracy": 0.58,
+        "confidence": 0.4545,
+        "calibration_gap": -0.1255
+      },
+      {
+        "bin_idx": 5,
+        "range": [
+          0.5,
+          0.6
+        ],
+        "count": 93,
+        "proportion": 0.1991,
+        "accuracy": 0.5484,
+        "confidence": 0.5461,
+        "calibration_gap": -0.0023
+      },
+      {
+        "bin_idx": 6,
+        "range": [
+          0.6,
+          0.7
+        ],
+        "count": 71,
+        "proportion": 0.152,
+        "accuracy": 0.6479,
+        "confidence": 0.6557,
+        "calibration_gap": 0.0078
+      },
+      {
+        "bin_idx": 7,
+        "range": [
+          0.7,
+          0.8
+        ],
+        "count": 69,
+        "proportion": 0.1478,
+        "accuracy": 0.8116,
+        "confidence": 0.7459,
+        "calibration_gap": -0.0657
+      },
+      {
+        "bin_idx": 8,
+        "range": [
+          0.8,
+          0.9
+        ],
+        "count": 71,
+        "proportion": 0.152,
+        "accuracy": 0.8169,
+        "confidence": 0.8452,
+        "calibration_gap": 0.0283
+      },
+      {
+        "bin_idx": 9,
+        "range": [
+          0.9,
+          1.0
+        ],
+        "count": 85,
+        "proportion": 0.182,
+        "accuracy": 0.9529,
+        "confidence": 0.9592,
+        "calibration_gap": 0.0062
+      }
+    ],
+    "test_bin_stats_calibrated": [
+      {
+        "bin_idx": 0,
+        "range": [
+          0.0,
+          0.1
+        ],
+        "count": 0,
+        "proportion": 0.0,
+        "accuracy": 0.0,
+        "confidence": 0.0,
+        "calibration_gap": 0.0
+      },
+      {
+        "bin_idx": 1,
+        "range": [
+          0.1,
+          0.2
+        ],
+        "count": 0,
+        "proportion": 0.0,
+        "accuracy": 0.0,
+        "confidence": 0.0,
+        "calibration_gap": 0.0
+      },
+      {
+        "bin_idx": 2,
+        "range": [
+          0.2,
+          0.3
+        ],
+        "count": 2,
+        "proportion": 0.0043,
+        "accuracy": 0.5,
+        "confidence": 0.2965,
+        "calibration_gap": -0.2035
+      },
+      {
+        "bin_idx": 3,
+        "range": [
+          0.3,
+          0.4
+        ],
+        "count": 26,
+        "proportion": 0.0557,
+        "accuracy": 0.3462,
+        "confidence": 0.351,
+        "calibration_gap": 0.0048
+      },
+      {
+        "bin_idx": 4,
+        "range": [
+          0.4,
+          0.5
+        ],
+        "count": 50,
+        "proportion": 0.1071,
+        "accuracy": 0.58,
+        "confidence": 0.4545,
+        "calibration_gap": -0.1255
+      },
+      {
+        "bin_idx": 5,
+        "range": [
+          0.5,
+          0.6
+        ],
+        "count": 93,
+        "proportion": 0.1991,
+        "accuracy": 0.5484,
+        "confidence": 0.5461,
+        "calibration_gap": -0.0023
+      },
+      {
+        "bin_idx": 6,
+        "range": [
+          0.6,
+          0.7
+        ],
+        "count": 71,
+        "proportion": 0.152,
+        "accuracy": 0.6479,
+        "confidence": 0.6557,
+        "calibration_gap": 0.0078
+      },
+      {
+        "bin_idx": 7,
+        "range": [
+          0.7,
+          0.8
+        ],
+        "count": 69,
+        "proportion": 0.1478,
+        "accuracy": 0.8116,
+        "confidence": 0.7459,
+        "calibration_gap": -0.0657
+      },
+      {
+        "bin_idx": 8,
+        "range": [
+          0.8,
+          0.9
+        ],
+        "count": 71,
+        "proportion": 0.152,
+        "accuracy": 0.8169,
+        "confidence": 0.8452,
+        "calibration_gap": 0.0283
+      },
+      {
+        "bin_idx": 9,
+        "range": [
+          0.9,
+          1.0
+        ],
+        "count": 85,
+        "proportion": 0.182,
+        "accuracy": 0.9529,
+        "confidence": 0.9592,
+        "calibration_gap": 0.0062
+      }
+    ]
+  },
+  "abstention_selective_classification": {
+    "operating_point_a_90pct_coverage": {
+      "name": "Operating Point A (Target: ~90% Validation Coverage)",
+      "calibrated_threshold": 0.4,
+      "val_coverage": 0.882,
+      "val_accuracy": 0.7494,
+      "test_coverage": 0.8736616702355461,
+      "test_retained_samples": 408,
+      "test_abstained_samples": 59,
+      "test_selective_accuracy": 0.7181372549019608,
+      "accuracy_gain_pp": 5.43
+    },
+    "operating_point_b_80pct_accuracy": {
+      "name": "Operating Point B (Target: >=80% Validation Selective Accuracy)",
+      "calibrated_threshold": 0.525,
+      "val_coverage": 0.7017,
+      "val_accuracy": 0.8043,
+      "test_coverage": 0.7109207708779444,
+      "test_retained_samples": 332,
+      "test_abstained_samples": 135,
+      "test_selective_accuracy": 0.7680722891566265,
+      "accuracy_gain_pp": 10.43
+    }
+  }
+}

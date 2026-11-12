@@ -1,0 +1,175 @@
+{
+  "baseline_gastric_rnn": {
+    "model_id": "baseline_gastric_rnn",
+    "name": "GastricCancerRNN Baseline Classifier",
+    "architecture": "GastricCancerRNN (CNN + BiLSTM + Additive Attention)",
+    "checkpoint_path": "models\\checkpoints\\gastric_rnn_classifier.pt",
+    "checkpoint_hash": "65369ef618ad1d0ad10ecb65b6f15324e932f52e21c8b25a43b71c636726d8b8",
+    "dataset_info": {
+      "name": "GCHTID",
+      "total_classes": 8,
+      "classes": [
+        "ADI",
+        "DEB",
+        "LYM",
+        "MUC",
+        "MUS",
+        "NOR",
+        "STR",
+        "TUM"
+      ],
+      "total_images": 31096,
+      "split_level": "patch-level (patient IDs not available in filenames)"
+    },
+    "training_config": {
+      "optimizer": "Adam",
+      "loss_function": "CrossEntropyLoss",
+      "patch_size": 56,
+      "sequence_length": 16,
+      "feature_dim": 128,
+      "hidden_dim": 128,
+      "num_layers": 2
+    },
+    "evaluation_metrics": {
+      "val_accuracy": 0.6486,
+      "test_accuracy": 0.5682,
+      "test_loss": 1.2732,
+      "source": "Trained PyTorch Checkpoint & Notebook Benchmark"
+    },
+    "class_labels": [
+      "ADI",
+      "DEB",
+      "LYM",
+      "MUC",
+      "MUS",
+      "NOR",
+      "STR",
+      "TUM"
+    ],
+    "input_preprocessing": {
+      "image_size": 224,
+      "patch_size": 56,
+      "sequence_length": 16,
+      "normalization": "min_max_255"
+    },
+    "git_commit": "873d4a0874a2e8028d17ec0903d33bc5a31c17a3",
+    "model_limitations": [
+      "Trained on patch-level GCHTID images without patient-level clustering.",
+      "Does not compute anatomical tumor area; class probabilities reflect model confidence.",
+      "Intended solely for computational pathology research; not a medical diagnostic device."
+    ],
+    "status": "baseline",
+    "registered_at": "2026-11-05T20:28:10.477286+00:00"
+  },
+  "baseline_evaluated_exp_20261105_214959_acf25e9b": {
+    "model_id": "baseline_evaluated_exp_20261105_214959_acf25e9b",
+    "name": "GastricCancerRNN Baseline Verified",
+    "architecture": "GastricCancerRNN (CNN-BiLSTM-Attention)",
+    "checkpoint_path": "C:\\Users\\KIIT0001\\OneDrive\\Desktop\\gastric-cancer-histopathology-dashboard-main\\models\\checkpoints\\gastric_rnn_classifier.pt",
+    "checkpoint_hash": "65369ef618ad1d0ad10ecb65b6f15324e932f52e21c8b25a43b71c636726d8b8",
+    "dataset_info": {
+      "name": "GCHTID",
+      "total_classes": 8,
+      "classes": [
+        "ADI",
+        "DEB",
+        "LYM",
+        "MUC",
+        "MUS",
+        "NOR",
+        "STR",
+        "TUM"
+      ],
+      "test_samples": 400
+    },
+    "training_config": {},
+    "evaluation_metrics": {
+      "test_accuracy": 0.715,
+      "test_macro_f1": 0.7115,
+      "test_balanced_accuracy": 0.715,
+      "cohen_kappa": 0.6743,
+      "ece": 0.0351
+    },
+    "class_labels": [
+      "ADI",
+      "DEB",
+      "LYM",
+      "MUC",
+      "MUS",
+      "NOR",
+      "STR",
+      "TUM"
+    ],
+    "input_preprocessing": {},
+    "git_commit": "unknown",
+    "model_limitations": [
+      "Evaluated strictly on image-level group-stratified splits.",
+      "Does not output clinical tumor burden; probabilities represent model confidence."
+    ],
+    "status": "baseline",
+    "registered_at": "2026-11-05T21:50:22.266586+00:00"
+  },
+  "baseline_evaluated_exp_20261105_221027_2463a2de": {
+    "model_id": "baseline_evaluated_exp_20261105_221027_2463a2de",
+    "name": "GastricCancerRNN Full Test Verified",
+    "architecture": "GastricCancerRNN (CNN-BiLSTM-Attention)",
+    "checkpoint_path": "C:\\Users\\KIIT0001\\OneDrive\\Desktop\\gastric-cancer-histopathology-dashboard-main\\models\\checkpoints\\gastric_rnn_classifier.pt",
+    "checkpoint_hash": "65369ef618ad1d0ad10ecb65b6f15324e932f52e21c8b25a43b71c636726d8b8",
+    "dataset_info": {
+      "name": "GCHTID",
+      "total_classes": 8,
+      "classes": [
+        "ADI",
+        "DEB",
+        "LYM",
+        "MUC",
+        "MUS",
+        "NOR",
+        "STR",
+        "TUM"
+      ],
+      "test_samples": 4665
+    },
+    "training_config": {},
+    "evaluation_metrics": {
+      "test_accuracy": 0.7104,
+      "test_accuracy_ci_95": [
+        0.6972,
+        0.7232
+      ],
+      "test_macro_f1": 0.7114,
+      "test_macro_f1_ci_95": [
+        0.6984,
+        0.7235
+      ],
+      "test_balanced_accuracy": 0.7104,
+      "test_balanced_accuracy_ci_95": [
+        0.698,
+        0.7225
+      ],
+      "cohen_kappa": 0.669,
+      "macro_auroc": 0.9593,
+      "weighted_auroc": 0.9593,
+      "ece": 0.0167,
+      "brier_score": 0.388
+    },
+    "class_labels": [
+      "ADI",
+      "DEB",
+      "LYM",
+      "MUC",
+      "MUS",
+      "NOR",
+      "STR",
+      "TUM"
+    ],
+    "input_preprocessing": {},
+    "git_commit": "unknown",
+    "model_limitations": [
+      "Evaluated strictly on image-level group-stratified splits.",
+      "Does not output clinical tumor burden; probabilities represent model confidence."
+    ],
+    "status": "baseline",
+    "registered_at": "2026-11-05T22:13:33.881198+00:00"
+  }
+}

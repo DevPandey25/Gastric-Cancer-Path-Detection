@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you utilize GastricPath AI in academic publications, computational pathology research, or educational benchmarks, please cite it as below."
+authors:
+  - family-names: "Pandey"
+    given-names: "Dev Prasad"
+    affiliation: "GastricPath AI Research Initiative"
+    orcid: "https://orcid.org/0009-0000-0000-0000"
+title: "GastricPath AI: AI-Assisted Gastric Histopathology Research and Computational Pathology Workbench"
+version: 1.0.0
+date-released: 2026-11-12
+url: "https://github.com/DevPandey25/Gastric-Cancer-Path-Detection"
+repository-code: "https://github.com/DevPandey25/Gastric-Cancer-Path-Detection"
+keywords:
+  - computational pathology
+  - gastric cancer
+  - histopathology
+  - deep learning
+  - digital pathology
+  - whole slide imaging
+  - explainable AI
+  - bi-lstm
+abstract: "A computational pathology platform for gastric cancer research."

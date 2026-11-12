@@ -1,0 +1,207 @@
+{
+  "embedding_type": "mean_patch",
+  "model_name": "dinov2_vits14",
+  "evaluated_queries": 4665,
+  "gallery_reference_count": 21767,
+  "gallery_coverage_count": 14830,
+  "gallery_coverage_percent": 68.13,
+  "audit_exclusions": {
+    "self_matches_blocked": 0,
+    "exact_sha256_duplicates_blocked": 0,
+    "dhash_clusters_blocked": 0,
+    "leakage_status": "ZERO_LEAKAGE_VERIFIED"
+  },
+  "metrics_by_k": {
+    "k_1": {
+      "k": 1,
+      "mean_class_consistency_p_at_k": 0.4733,
+      "std_class_consistency": 0.4993,
+      "majority_agreement_at_k": 0.4733,
+      "hit_at_1": 0.4733,
+      "similarity_stats": {
+        "mean": 0.9413,
+        "median": 0.949,
+        "std": 0.0307,
+        "p25": 0.9301,
+        "p75": 0.9618,
+        "min": 0.69,
+        "max": 0.9826
+      },
+      "per_class_consistency": {
+        "ADI": 0.6724,
+        "DEB": 0.4151,
+        "LYM": 0.6432,
+        "MUC": 0.339,
+        "MUS": 0.4511,
+        "NOR": 0.3293,
+        "STR": 0.446,
+        "TUM": 0.4906
+      },
+      "per_class_majority_agreement": {
+        "ADI": 0.6724,
+        "DEB": 0.4151,
+        "LYM": 0.6432,
+        "MUC": 0.339,
+        "MUS": 0.4511,
+        "NOR": 0.3293,
+        "STR": 0.446,
+        "TUM": 0.4906
+      }
+    },
+    "k_5": {
+      "k": 5,
+      "mean_class_consistency_p_at_k": 0.4528,
+      "std_class_consistency": 0.3278,
+      "majority_agreement_at_k": 0.5233,
+      "hit_at_1": null,
+      "similarity_stats": {
+        "mean": 0.9359,
+        "median": 0.9446,
+        "std": 0.0333,
+        "p25": 0.9235,
+        "p75": 0.9581,
+        "min": 0.6162,
+        "max": 0.9826
+      },
+      "per_class_consistency": {
+        "ADI": 0.6583,
+        "DEB": 0.3664,
+        "LYM": 0.5973,
+        "MUC": 0.3599,
+        "MUS": 0.4508,
+        "NOR": 0.3262,
+        "STR": 0.4237,
+        "TUM": 0.4401
+      },
+      "per_class_majority_agreement": {
+        "ADI": 0.7033,
+        "DEB": 0.4305,
+        "LYM": 0.6981,
+        "MUC": 0.411,
+        "MUS": 0.5094,
+        "NOR": 0.3448,
+        "STR": 0.5249,
+        "TUM": 0.5643
+      }
+    },
+    "k_10": {
+      "k": 10,
+      "mean_class_consistency_p_at_k": 0.4382,
+      "std_class_consistency": 0.292,
+      "majority_agreement_at_k": 0.5513,
+      "hit_at_1": null,
+      "similarity_stats": {
+        "mean": 0.9327,
+        "median": 0.9419,
+        "std": 0.035,
+        "p25": 0.9201,
+        "p75": 0.956,
+        "min": 0.5225,
+        "max": 0.9826
+      },
+      "per_class_consistency": {
+        "ADI": 0.6412,
+        "DEB": 0.3472,
+        "LYM": 0.5894,
+        "MUC": 0.3546,
+        "MUS": 0.4338,
+        "NOR": 0.3111,
+        "STR": 0.4166,
+        "TUM": 0.4115
+      },
+      "per_class_majority_agreement": {
+        "ADI": 0.729,
+        "DEB": 0.4305,
+        "LYM": 0.7581,
+        "MUC": 0.4418,
+        "MUS": 0.5317,
+        "NOR": 0.3619,
+        "STR": 0.5763,
+        "TUM": 0.5815
+      }
+    }
+  },
+  "top1_confusion_matrix": {
+    "ADI": {
+      "ADI": 392,
+      "DEB": 14,
+      "LYM": 7,
+      "MUC": 90,
+      "MUS": 46,
+      "NOR": 27,
+      "STR": 0,
+      "TUM": 7
+    },
+    "DEB": {
+      "ADI": 15,
+      "DEB": 242,
+      "LYM": 78,
+      "MUC": 34,
+      "MUS": 35,
+      "NOR": 38,
+      "STR": 62,
+      "TUM": 79
+    },
+    "LYM": {
+      "ADI": 1,
+      "DEB": 72,
+      "LYM": 375,
+      "MUC": 9,
+      "MUS": 15,
+      "NOR": 23,
+      "STR": 51,
+      "TUM": 37
+    },
+    "MUC": {
+      "ADI": 130,
+      "DEB": 51,
+      "LYM": 10,
+      "MUC": 198,
+      "MUS": 47,
+      "NOR": 66,
+      "STR": 33,
+      "TUM": 49
+    },
+    "MUS": {
+      "ADI": 32,
+      "DEB": 63,
+      "LYM": 21,
+      "MUC": 42,
+      "MUS": 263,
+      "NOR": 29,
+      "STR": 116,
+      "TUM": 17
+    },
+    "NOR": {
+      "ADI": 32,
+      "DEB": 55,
+      "LYM": 58,
+      "MUC": 55,
+      "MUS": 13,
+      "NOR": 192,
+      "STR": 58,
+      "TUM": 120
+    },
+    "STR": {
+      "ADI": 1,
+      "DEB": 51,
+      "LYM": 60,
+      "MUC": 18,
+      "MUS": 81,
+      "NOR": 44,
+      "STR": 260,
+      "TUM": 68
+    },
+    "TUM": {
+      "ADI": 9,
+      "DEB": 81,
+      "LYM": 36,
+      "MUC": 21,
+      "MUS": 10,
+      "NOR": 74,
+      "STR": 66,
+      "TUM": 286
+    }
+  },
+  "evaluated_at_utc": "2026-11-06T14:39:05.569556+00:00"
+}

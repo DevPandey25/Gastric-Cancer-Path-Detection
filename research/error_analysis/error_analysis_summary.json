@@ -1,0 +1,234 @@
+{
+  "metadata": {
+    "evaluated_at_utc": "2026-11-07T17:12:58.262495+00:00",
+    "model_name": "owkin/phikon (ViT-B/16, Mean Patch Pooling)",
+    "linear_probe_C": 10.0,
+    "evaluation_population": 467,
+    "total_correct": 310,
+    "total_errors": 157,
+    "overall_accuracy": 0.6638
+  },
+  "confidence_statistics": {
+    "overall_mean_confidence": 0.68,
+    "correct_mean_confidence": 0.7485,
+    "correct_std_confidence": 0.1952,
+    "error_mean_confidence": 0.5448,
+    "error_std_confidence": 0.1826
+  },
+  "class_metrics": [
+    {
+      "class_name": "ADI",
+      "support": 59,
+      "tp": 43,
+      "fp": 11,
+      "fn": 16,
+      "tn": 397,
+      "precision": 0.7963,
+      "recall": 0.7288,
+      "f1_score": 0.7611,
+      "specificity": 0.973
+    },
+    {
+      "class_name": "DEB",
+      "support": 59,
+      "tp": 33,
+      "fp": 19,
+      "fn": 26,
+      "tn": 389,
+      "precision": 0.6346,
+      "recall": 0.5593,
+      "f1_score": 0.5946,
+      "specificity": 0.9534
+    },
+    {
+      "class_name": "LYM",
+      "support": 59,
+      "tp": 39,
+      "fp": 9,
+      "fn": 20,
+      "tn": 399,
+      "precision": 0.8125,
+      "recall": 0.661,
+      "f1_score": 0.729,
+      "specificity": 0.9779
+    },
+    {
+      "class_name": "MUC",
+      "support": 58,
+      "tp": 36,
+      "fp": 18,
+      "fn": 22,
+      "tn": 391,
+      "precision": 0.6667,
+      "recall": 0.6207,
+      "f1_score": 0.6429,
+      "specificity": 0.956
+    },
+    {
+      "class_name": "MUS",
+      "support": 58,
+      "tp": 39,
+      "fp": 16,
+      "fn": 19,
+      "tn": 393,
+      "precision": 0.7091,
+      "recall": 0.6724,
+      "f1_score": 0.6903,
+      "specificity": 0.9609
+    },
+    {
+      "class_name": "NOR",
+      "support": 58,
+      "tp": 39,
+      "fp": 30,
+      "fn": 19,
+      "tn": 379,
+      "precision": 0.5652,
+      "recall": 0.6724,
+      "f1_score": 0.6142,
+      "specificity": 0.9267
+    },
+    {
+      "class_name": "STR",
+      "support": 58,
+      "tp": 40,
+      "fp": 30,
+      "fn": 18,
+      "tn": 379,
+      "precision": 0.5714,
+      "recall": 0.6897,
+      "f1_score": 0.625,
+      "specificity": 0.9267
+    },
+    {
+      "class_name": "TUM",
+      "support": 58,
+      "tp": 41,
+      "fp": 24,
+      "fn": 17,
+      "tn": 385,
+      "precision": 0.6308,
+      "recall": 0.7069,
+      "f1_score": 0.6667,
+      "specificity": 0.9413
+    },
+    {
+      "class_name": "Macro Average",
+      "support": 467,
+      "tp": 310,
+      "fp": 157,
+      "fn": 157,
+      "tn": 3112,
+      "precision": 0.6733,
+      "recall": 0.6639,
+      "f1_score": 0.6655,
+      "specificity": 0.952
+    },
+    {
+      "class_name": "Weighted Average",
+      "support": 467,
+      "tp": 310,
+      "fp": 157,
+      "fn": 157,
+      "tn": 3112,
+      "precision": 0.6738,
+      "recall": 0.6638,
+      "f1_score": 0.6657,
+      "specificity": 0.9521
+    }
+  ],
+  "top_confusion_pairs": [
+    {
+      "true_class": "ADI",
+      "predicted_class": "MUC",
+      "error_count": 9,
+      "pct_of_true_class": 15.25,
+      "pct_of_all_errors": 5.73
+    },
+    {
+      "true_class": "NOR",
+      "predicted_class": "TUM",
+      "error_count": 9,
+      "pct_of_true_class": 15.52,
+      "pct_of_all_errors": 5.73
+    },
+    {
+      "true_class": "MUS",
+      "predicted_class": "STR",
+      "error_count": 8,
+      "pct_of_true_class": 13.79,
+      "pct_of_all_errors": 5.1
+    },
+    {
+      "true_class": "STR",
+      "predicted_class": "MUS",
+      "error_count": 8,
+      "pct_of_true_class": 13.79,
+      "pct_of_all_errors": 5.1
+    },
+    {
+      "true_class": "LYM",
+      "predicted_class": "DEB",
+      "error_count": 7,
+      "pct_of_true_class": 11.86,
+      "pct_of_all_errors": 4.46
+    },
+    {
+      "true_class": "TUM",
+      "predicted_class": "STR",
+      "error_count": 7,
+      "pct_of_true_class": 12.07,
+      "pct_of_all_errors": 4.46
+    },
+    {
+      "true_class": "MUC",
+      "predicted_class": "NOR",
+      "error_count": 6,
+      "pct_of_true_class": 10.34,
+      "pct_of_all_errors": 3.82
+    },
+    {
+      "true_class": "DEB",
+      "predicted_class": "STR",
+      "error_count": 6,
+      "pct_of_true_class": 10.17,
+      "pct_of_all_errors": 3.82
+    },
+    {
+      "true_class": "LYM",
+      "predicted_class": "TUM",
+      "error_count": 6,
+      "pct_of_true_class": 10.17,
+      "pct_of_all_errors": 3.82
+    },
+    {
+      "true_class": "DEB",
+      "predicted_class": "NOR",
+      "error_count": 5,
+      "pct_of_true_class": 8.47,
+      "pct_of_all_errors": 3.18
+    }
+  ],
+  "cross_phase_summary": {
+    "phase5_overlap_count": 32,
+    "phase5_accuracy": 0.71875,
+    "phase6_perturbation_flips": {
+      "brightness_contrast_flips": 70,
+      "gaussian_blur_flips": 44,
+      "jpeg_compression_flips": 78,
+      "stain_hed_variation_flips": 12
+    },
+    "phase7_mahalanobis_scores": {
+      "correct_mean": 756.9711867741935,
+      "error_mean": 808.845350955414
+    },
+    "phase8_spatial_overlap_count": 96,
+    "phase8_spatial_accuracy": 0.65625
+  },
+  "gallery_manifest": {
+    "total_selected": 48,
+    "correct_selected": 24,
+    "incorrect_selected": 24,
+    "samples_per_class": 6
+  }
+}

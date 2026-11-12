@@ -1,0 +1,108 @@
+{
+  "dataset_id": "GCHTID",
+  "created_at_utc": "2026-11-05T21:21:34.203052+00:00",
+  "random_seed": 42,
+  "target_proportions": {
+    "train": 0.7,
+    "val": 0.15,
+    "test": 0.15
+  },
+  "actual_proportions": {
+    "train": 70.0,
+    "val": 15.0,
+    "test": 15.0
+  },
+  "total_samples": 31096,
+  "train_count": 21767,
+  "val_count": 4664,
+  "test_count": 4665,
+  "excluded_count": 0,
+  "class_distribution": {
+    "ADI": {
+      "train_count": 2721,
+      "val_count": 583,
+      "test_count": 583,
+      "total_count": 3887,
+      "train_pct": 70.0,
+      "val_pct": 15.0,
+      "test_pct": 15.0
+    },
+    "DEB": {
+      "train_count": 2721,
+      "val_count": 583,
+      "test_count": 583,
+      "total_count": 3887,
+      "train_pct": 70.0,
+      "val_pct": 15.0,
+      "test_pct": 15.0
+    },
+    "LYM": {
+      "train_count": 2721,
+      "val_count": 583,
+      "test_count": 583,
+      "total_count": 3887,
+      "train_pct": 70.0,
+      "val_pct": 15.0,
+      "test_pct": 15.0
+    },
+    "MUC": {
+      "train_count": 2720,
+      "val_count": 583,
+      "test_count": 584,
+      "total_count": 3887,
+      "train_pct": 69.98,
+      "val_pct": 15.0,
+      "test_pct": 15.02
+    },
+    "MUS": {
+      "train_count": 2721,
+      "val_count": 583,
+      "test_count": 583,
+      "total_count": 3887,
+      "train_pct": 70.0,
+      "val_pct": 15.0,
+      "test_pct": 15.0
+    },
+    "NOR": {
+      "train_count": 2721,
+      "val_count": 583,
+      "test_count": 583,
+      "total_count": 3887,
+      "train_pct": 70.0,
+      "val_pct": 15.0,
+      "test_pct": 15.0
+    },
+    "STR": {
+      "train_count": 2721,
+      "val_count": 583,
+      "test_count": 583,
+      "total_count": 3887,
+      "train_pct": 70.0,
+      "val_pct": 15.0,
+      "test_pct": 15.0
+    },
+    "TUM": {
+      "train_count": 2721,
+      "val_count": 583,
+      "test_count": 583,
+      "total_count": 3887,
+      "train_pct": 70.0,
+      "val_pct": 15.0,
+      "test_pct": 15.0
+    }
+  },
+  "manifest_source_hash": "8d9c38a9dde58f53728f83475644cca3ca817ed396d2d8e1d5bf078f280c53b4",
+  "split_manifest_hashes": {
+    "manifest_train.csv": "f120813da8561039e1bbaef53b45d2ca18306e93a153d2da575ad768cb49b123",
+    "manifest_val.csv": "5688205ee837dabb772fb31e899a774d8ae7e98a8c242f47b898d4aa9f6301a7",
+    "manifest_test.csv": "3d22de382f70e7c3878a3c60bf39b993254dc59b1282efceb4102fdcef67d157"
+  },
+  "leakage_safeguards": {
+    "exact_duplicates_grouped": true,
+    "group_level_indivisibility": true,
+    "conflicted_groups_count": 0,
+    "mutual_exclusivity_verified": true,
+    "split_overlap_count": 0
+  },
+  "scientific_disclosure": "SCIENTIFIC INTEGRITY DISCLOSURE (Image-Level Splitting): The GCHTID dataset filenames (e.g. TUM_1.png) do not contain patient, hospital, or slide identifiers. Consequently, this split is strictly IMAGE-LEVEL, not PATIENT-LEVEL or SLIDE-LEVEL. While exact bitwise duplicates and high-confidence perceptual near-duplicates have been grouped into single splits to prevent trivial leakage, different patches from the same patient may still exist across training and evaluation sets. Generalization performance estimates must be reported as image-level patch classification metrics and cannot be claimed as patient-level clinical diagnostic accuracy."
+}

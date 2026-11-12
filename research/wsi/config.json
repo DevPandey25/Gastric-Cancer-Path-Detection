@@ -1,0 +1,82 @@
+{
+  "phase_name": "Original Phase 9: Whole-Slide Image Processing and Multiple Instance Learning",
+  "status": "Infrastructure Implemented / Blocked by Data",
+  "audit": {
+    "genuine_wsi_count": 0,
+    "formats_searched": [
+      ".svs",
+      ".ndpi",
+      ".mrxs",
+      ".scn",
+      ".tif",
+      ".tiff",
+      ".bif",
+      ".vms",
+      ".vmu",
+      ".dcm"
+    ],
+    "gchtid_dataset_nature": "31,096 isolated 224x224 PNG image tiles; unlinked to slide IDs or patient IDs",
+    "clinical_csv": "HMU-GC-Clinical.csv (300 patients; unlinked to GCHTID image tiles)"
+  },
+  "environment": {
+    "platform": "Windows 11",
+    "python_version": "3.13.5",
+    "openslide_python": "Not installed (requires native OpenSlide C DLLs not present in system PATH)",
+    "pil_version": "12.0.0",
+    "opencv_version": "4.12.0",
+    "pytorch_version": "2.9.1+cpu"
+  },
+  "slide_reading": {
+    "coordinate_system": "Level-0 reference coordinate invariance (read_region location is strictly in Level-0 pixels)",
+    "supported_adapters": [
+      "OpenSlideAdapter",
+      "SyntheticPyramidSlideReader"
+    ]
+  },
+  "tissue_detection": {
+    "method": "Thumbnail HSV saturation/value thresholding with morphological opening and closing",
+    "sat_threshold": 15,
+    "val_threshold": 245,
+    "kernel_size": 5,
+    "min_tissue_percentage": 0.5,
+    "acceleration": "2D Integral Image (summed-area table) for O(1) region queries"
+  },
+  "patch_extraction": {
+    "patch_width": 224,
+    "patch_height": 224,
+    "target_level": 0,
+    "stride_x": 224,
+    "stride_y": 224,
+    "discard_partial_boundaries": true,
+    "manifest_columns": [
+      "slide_id",
+      "patch_id",
+      "level",
+      "level0_x",
+      "level0_y",
+      "patch_width",
+      "patch_height",
+      "downsample",
+      "tissue_percentage",
+      "mpp_x",
+      "mpp_y",
+      "magnification",
+      "relative_patch_path",
+      "source_slide_provenance"
+    ]
+  },
+  "embedding_integration": {
+    "encoder": "Phikon ViT-B/16 (768-D Mean Patch)",
+    "preprocessing": "ImageNet bicubic resize (224x224) + normalization",
+    "status": "Interface implemented; extraction blocked awaiting genuine WSI data (fake embedding generation prohibited)"
+  },
+  "multiple_instance_learning": {
+    "models": [
+      "GatedAttentionMIL (Ilse et al. ICML 2018)",
+      "MeanPoolingMILBaseline"
+    ],
+    "bag_isolation": "Strictly one bag per slide; zero inter-slide patch mixing",
+    "training_status": "Blocked awaiting genuine WSIs and verified slide-level diagnosis labels"
+  }
+}
+

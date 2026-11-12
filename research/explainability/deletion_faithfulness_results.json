@@ -1,0 +1,399 @@
+{
+  "experiment": "Phase 5 Faithfulness Deletion Test",
+  "evaluated_at_utc": "2026-11-06T19:43:35.158205+00:00",
+  "samples_count": 8,
+  "mask_baseline_color": [
+    128,
+    128,
+    128
+  ],
+  "deletion_levels_pct": [
+    0,
+    25,
+    50,
+    75
+  ],
+  "aggregate_curves": {
+    "levels_pct": [
+      0,
+      25,
+      50,
+      75
+    ],
+    "mif_mean_probs": [
+      0.689,
+      0.4339,
+      0.2036,
+      0.191
+    ],
+    "rnd_mean_probs": [
+      0.689,
+      0.5841,
+      0.4048,
+      0.2427
+    ],
+    "lif_mean_probs": [
+      0.689,
+      0.7509,
+      0.6319,
+      0.27
+    ],
+    "mif_mean_drops": [
+      0.0,
+      0.2551,
+      0.4855,
+      0.498
+    ],
+    "rnd_mean_drops": [
+      0.0,
+      0.1049,
+      0.2843,
+      0.4463
+    ],
+    "lif_mean_drops": [
+      0.0,
+      -0.0619,
+      0.0571,
+      0.419
+    ]
+  },
+  "per_sample_results": [
+    {
+      "sample_id": "EXP_00_ADI",
+      "relative_path": "ADI/ADI_1118.png",
+      "true_class": "ADI",
+      "target_class": "ADI",
+      "base_prob": 0.6575,
+      "is_correct": true,
+      "deletions": {
+        "0": {
+          "mif_prob": 0.6575,
+          "rnd_prob": 0.6575,
+          "lif_prob": 0.6575,
+          "mif_drop": 0.0,
+          "rnd_drop": 0.0,
+          "lif_drop": 0.0
+        },
+        "25": {
+          "mif_prob": 0.6156,
+          "rnd_prob": 0.6684,
+          "lif_prob": 0.683,
+          "mif_drop": 0.0419,
+          "rnd_drop": -0.0109,
+          "lif_drop": -0.0255
+        },
+        "50": {
+          "mif_prob": 0.7875,
+          "rnd_prob": 0.7433,
+          "lif_prob": 0.6625,
+          "mif_drop": -0.13,
+          "rnd_drop": -0.0858,
+          "lif_drop": -0.005
+        },
+        "75": {
+          "mif_prob": 0.8652,
+          "rnd_prob": 0.7794,
+          "lif_prob": 0.4197,
+          "mif_drop": -0.2077,
+          "rnd_drop": -0.1219,
+          "lif_drop": 0.2378
+        }
+      }
+    },
+    {
+      "sample_id": "EXP_04_DEB",
+      "relative_path": "DEB/DEB_1064.png",
+      "true_class": "DEB",
+      "target_class": "DEB",
+      "base_prob": 0.8696,
+      "is_correct": true,
+      "deletions": {
+        "0": {
+          "mif_prob": 0.8696,
+          "rnd_prob": 0.8696,
+          "lif_prob": 0.8696,
+          "mif_drop": 0.0,
+          "rnd_drop": 0.0,
+          "lif_drop": 0.0
+        },
+        "25": {
+          "mif_prob": 0.7215,
+          "rnd_prob": 0.8613,
+          "lif_prob": 0.9517,
+          "mif_drop": 0.1481,
+          "rnd_drop": 0.0083,
+          "lif_drop": -0.0821
+        },
+        "50": {
+          "mif_prob": 0.3555,
+          "rnd_prob": 0.6896,
+          "lif_prob": 0.9266,
+          "mif_drop": 0.5142,
+          "rnd_drop": 0.18,
+          "lif_drop": -0.057
+        },
+        "75": {
+          "mif_prob": 0.0634,
+          "rnd_prob": 0.3142,
+          "lif_prob": 0.5657,
+          "mif_drop": 0.8062,
+          "rnd_drop": 0.5554,
+          "lif_drop": 0.3039
+        }
+      }
+    },
+    {
+      "sample_id": "EXP_08_LYM",
+      "relative_path": "LYM/LYM_1061.png",
+      "true_class": "LYM",
+      "target_class": "NOR",
+      "base_prob": 0.5457,
+      "is_correct": false,
+      "deletions": {
+        "0": {
+          "mif_prob": 0.5457,
+          "rnd_prob": 0.5457,
+          "lif_prob": 0.5457,
+          "mif_drop": 0.0,
+          "rnd_drop": 0.0,
+          "lif_drop": 0.0
+        },
+        "25": {
+          "mif_prob": 0.4399,
+          "rnd_prob": 0.5375,
+          "lif_prob": 0.6426,
+          "mif_drop": 0.1059,
+          "rnd_drop": 0.0082,
+          "lif_drop": -0.0969
+        },
+        "50": {
+          "mif_prob": 0.1026,
+          "rnd_prob": 0.3504,
+          "lif_prob": 0.5212,
+          "mif_drop": 0.4431,
+          "rnd_drop": 0.1953,
+          "lif_drop": 0.0245
+        },
+        "75": {
+          "mif_prob": 0.0461,
+          "rnd_prob": 0.0836,
+          "lif_prob": 0.0911,
+          "mif_drop": 0.4996,
+          "rnd_drop": 0.4621,
+          "lif_drop": 0.4547
+        }
+      }
+    },
+    {
+      "sample_id": "EXP_12_MUC",
+      "relative_path": "MUC/MUC_1007.png",
+      "true_class": "MUC",
+      "target_class": "ADI",
+      "base_prob": 0.372,
+      "is_correct": false,
+      "deletions": {
+        "0": {
+          "mif_prob": 0.372,
+          "rnd_prob": 0.372,
+          "lif_prob": 0.372,
+          "mif_drop": 0.0,
+          "rnd_drop": 0.0,
+          "lif_drop": 0.0
+        },
+        "25": {
+          "mif_prob": 0.2873,
+          "rnd_prob": 0.4244,
+          "lif_prob": 0.5628,
+          "mif_drop": 0.0847,
+          "rnd_drop": -0.0524,
+          "lif_drop": -0.1908
+        },
+        "50": {
+          "mif_prob": 0.2254,
+          "rnd_prob": 0.4613,
+          "lif_prob": 0.7721,
+          "mif_drop": 0.1466,
+          "rnd_drop": -0.0893,
+          "lif_drop": -0.4001
+        },
+        "75": {
+          "mif_prob": 0.5122,
+          "rnd_prob": 0.5307,
+          "lif_prob": 0.443,
+          "mif_drop": -0.1402,
+          "rnd_drop": -0.1587,
+          "lif_drop": -0.071
+        }
+      }
+    },
+    {
+      "sample_id": "EXP_16_MUS",
+      "relative_path": "MUS/MUS_1093.png",
+      "true_class": "MUS",
+      "target_class": "MUS",
+      "base_prob": 0.8956,
+      "is_correct": true,
+      "deletions": {
+        "0": {
+          "mif_prob": 0.8956,
+          "rnd_prob": 0.8956,
+          "lif_prob": 0.8956,
+          "mif_drop": 0.0,
+          "rnd_drop": 0.0,
+          "lif_drop": 0.0
+        },
+        "25": {
+          "mif_prob": 0.438,
+          "rnd_prob": 0.4921,
+          "lif_prob": 0.7598,
+          "mif_drop": 0.4576,
+          "rnd_drop": 0.4034,
+          "lif_drop": 0.1358
+        },
+        "50": {
+          "mif_prob": 0.0584,
+          "rnd_prob": 0.0899,
+          "lif_prob": 0.2431,
+          "mif_drop": 0.8372,
+          "rnd_drop": 0.8057,
+          "lif_drop": 0.6525
+        },
+        "75": {
+          "mif_prob": 0.0099,
+          "rnd_prob": 0.0171,
+          "lif_prob": 0.0552,
+          "mif_drop": 0.8857,
+          "rnd_drop": 0.8785,
+          "lif_drop": 0.8404
+        }
+      }
+    },
+    {
+      "sample_id": "EXP_20_NOR",
+      "relative_path": "NOR/NOR_1084.png",
+      "true_class": "NOR",
+      "target_class": "TUM",
+      "base_prob": 0.5787,
+      "is_correct": false,
+      "deletions": {
+        "0": {
+          "mif_prob": 0.5787,
+          "rnd_prob": 0.5787,
+          "lif_prob": 0.5787,
+          "mif_drop": 0.0,
+          "rnd_drop": 0.0,
+          "lif_drop": 0.0
+        },
+        "25": {
+          "mif_prob": 0.1639,
+          "rnd_prob": 0.5812,
+          "lif_prob": 0.8065,
+          "mif_drop": 0.4148,
+          "rnd_drop": -0.0025,
+          "lif_drop": -0.2277
+        },
+        "50": {
+          "mif_prob": 0.0524,
+          "rnd_prob": 0.3675,
+          "lif_prob": 0.6811,
+          "mif_drop": 0.5263,
+          "rnd_drop": 0.2112,
+          "lif_drop": -0.1024
+        },
+        "75": {
+          "mif_prob": 0.0155,
+          "rnd_prob": 0.0908,
+          "lif_prob": 0.2456,
+          "mif_drop": 0.5632,
+          "rnd_drop": 0.4879,
+          "lif_drop": 0.3332
+        }
+      }
+    },
+    {
+      "sample_id": "EXP_24_STR",
+      "relative_path": "STR/STR_1000.png",
+      "true_class": "STR",
+      "target_class": "MUS",
+      "base_prob": 0.6173,
+      "is_correct": false,
+      "deletions": {
+        "0": {
+          "mif_prob": 0.6173,
+          "rnd_prob": 0.6173,
+          "lif_prob": 0.6173,
+          "mif_drop": 0.0,
+          "rnd_drop": 0.0,
+          "lif_drop": 0.0
+        },
+        "25": {
+          "mif_prob": 0.0898,
+          "rnd_prob": 0.2166,
+          "lif_prob": 0.6697,
+          "mif_drop": 0.5274,
+          "rnd_drop": 0.4007,
+          "lif_drop": -0.0525
+        },
+        "50": {
+          "mif_prob": 0.0149,
+          "rnd_prob": 0.0555,
+          "lif_prob": 0.3551,
+          "mif_drop": 0.6024,
+          "rnd_drop": 0.5618,
+          "lif_drop": 0.2622
+        },
+        "75": {
+          "mif_prob": 0.0073,
+          "rnd_prob": 0.0192,
+          "lif_prob": 0.0645,
+          "mif_drop": 0.61,
+          "rnd_drop": 0.5981,
+          "lif_drop": 0.5528
+        }
+      }
+    },
+    {
+      "sample_id": "EXP_28_TUM",
+      "relative_path": "TUM/TUM_1047.png",
+      "true_class": "TUM",
+      "target_class": "TUM",
+      "base_prob": 0.9758,
+      "is_correct": true,
+      "deletions": {
+        "0": {
+          "mif_prob": 0.9758,
+          "rnd_prob": 0.9758,
+          "lif_prob": 0.9758,
+          "mif_drop": 0.0,
+          "rnd_drop": 0.0,
+          "lif_drop": 0.0
+        },
+        "25": {
+          "mif_prob": 0.7153,
+          "rnd_prob": 0.8916,
+          "lif_prob": 0.9309,
+          "mif_drop": 0.2605,
+          "rnd_drop": 0.0842,
+          "lif_drop": 0.0449
+        },
+        "50": {
+          "mif_prob": 0.032,
+          "rnd_prob": 0.4807,
+          "lif_prob": 0.8938,
+          "mif_drop": 0.9438,
+          "rnd_drop": 0.4951,
+          "lif_drop": 0.0821
+        },
+        "75": {
+          "mif_prob": 0.0085,
+          "rnd_prob": 0.1066,
+          "lif_prob": 0.2753,
+          "mif_drop": 0.9673,
+          "rnd_drop": 0.8693,
+          "lif_drop": 0.7005
+        }
+      }
+    }
+  ],
+  "runtime_seconds": 53.858
+}

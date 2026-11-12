@@ -1,0 +1,313 @@
+{
+  "phase": "Original Phase 10: Multimodal Clinical Research",
+  "cohort_name": "HMU-GC-Clinical Gastric Cancer Cohort",
+  "total_patient_records": 300,
+  "total_retained_columns": 15,
+  "dropped_empty_columns": [
+    "Unnamed: 15",
+    "Unnamed: 16"
+  ],
+  "patient_identifier_uniqueness": true,
+  "age_summary": {
+    "mean": 60.766666666666666,
+    "std": 9.088871262427041,
+    "min": 33,
+    "max": 79,
+    "median": 61.0
+  },
+  "sex_distribution": {
+    "Male": 236,
+    "Female": 64
+  },
+  "her2_distribution": {
+    "0": 140,
+    "1": 86,
+    "2": 48,
+    "3": 26
+  },
+  "fields_with_missingness": {
+    "lauren_classification": 18.333333333333332,
+    "lymphovascular_invasion": 16.666666666666664,
+    "venous_invasion": 27.666666666666668,
+    "perineural_invasion": 17.333333333333336,
+    "stroma_quantity": 6.0,
+    "tumor_infiltration_pattern": 6.666666666666667
+  },
+  "survival_outcome_fields_present": false,
+  "survival_blocker_reason": "HMU-GC-Clinical.csv contains strictly cross-sectional pathological staging, biopsy histology, and immunohistochemistry. It contains zero follow-up duration fields, zero vital status / death indicators, and zero censoring times. Survival modeling cannot be performed.",
+  "field_definitions": [
+    {
+      "standard_name": "patient_id",
+      "raw_name": "Patient",
+      "observed_dtype": "int64",
+      "variable_type": "Identifier",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_count": 300,
+      "value_range_or_categories": [
+        "1600097",
+        "1502891",
+        "1606490",
+        "1422911",
+        "1434665",
+        "1438368",
+        "1432013",
+        "1512980"
+      ],
+      "clinical_interpretation": "Unique patient admission identifier at Harbin Medical University (HMU)",
+      "proposed_preprocessing": "Exclude from feature matrix; retain strictly as grouping key for leakage prevention",
+      "suitable_for_modeling": false
+    },
+    {
+      "standard_name": "sex",
+      "raw_name": "Sex",
+      "observed_dtype": "object",
+      "variable_type": "Categorical Nominal",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_count": 2,
+      "value_range_or_categories": [
+        "Male",
+        "Female"
+      ],
+      "clinical_interpretation": "Biological sex of patient (Male / Female)",
+      "proposed_preprocessing": "Binary one-hot encoding (Male=1, Female=0)",
+      "suitable_for_modeling": true
+    },
+    {
+      "standard_name": "age",
+      "raw_name": "Age",
+      "observed_dtype": "int64",
+      "variable_type": "Numerical",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_count": 41,
+      "value_range_or_categories": [
+        "45",
+        "48",
+        "76",
+        "72",
+        "69",
+        "62",
+        "64",
+        "57"
+      ],
+      "clinical_interpretation": "Patient age at clinical diagnosis (years)",
+      "proposed_preprocessing": "Median imputation (if missing) + StandardScaler normalization",
+      "suitable_for_modeling": true
+    },
+    {
+      "standard_name": "t_stage",
+      "raw_name": "T staging",
+      "observed_dtype": "object",
+      "variable_type": "Categorical Ordinal",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_count": 6,
+      "value_range_or_categories": [
+        "T1b",
+        "T3",
+        "T4b",
+        "T4a",
+        "T2",
+        "T1a"
+      ],
+      "clinical_interpretation": "Pathological tumor depth of invasion (T1a, T1b, T2, T3, T4a, T4b; AJCC 7th/8th)",
+      "proposed_preprocessing": "Ordinal integer encoding or One-Hot encoding",
+      "suitable_for_modeling": true
+    },
+    {
+      "standard_name": "n_stage",
+      "raw_name": "N staging",
+      "observed_dtype": "object",
+      "variable_type": "Categorical Ordinal",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_count": 5,
+      "value_range_or_categories": [
+        "N0",
+        "N2",
+        "N3a",
+        "N1",
+        "N3b"
+      ],
+      "clinical_interpretation": "Regional lymph node metastasis stage (N0, N1, N2, N3a, N3b)",
+      "proposed_preprocessing": "Ordinal integer encoding or One-Hot encoding",
+      "suitable_for_modeling": true
+    },
+    {
+      "standard_name": "m_stage",
+      "raw_name": "M staging",
+      "observed_dtype": "object",
+      "variable_type": "Binary Indicator",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_count": 2,
+      "value_range_or_categories": [
+        "M0",
+        "M1"
+      ],
+      "clinical_interpretation": "Distant metastasis (M0=Negative, M1=Positive)",
+      "proposed_preprocessing": "Binary indicator (M0=0, M1=1)",
+      "suitable_for_modeling": true
+    },
+    {
+      "standard_name": "comprehensive_stage",
+      "raw_name": "Comprehensive Staging",
+      "observed_dtype": "object",
+      "variable_type": "Categorical Ordinal",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_count": 8,
+      "value_range_or_categories": [
+        "\u2160A",
+        "\u2162A",
+        "\u2162B",
+        "\u2161B",
+        "\u2161A",
+        "\u2162C",
+        "\u2160B",
+        "\u2163"
+      ],
+      "clinical_interpretation": "AJCC/UICC Comprehensive Tumor Stage (\u2160A to \u2163)",
+      "proposed_preprocessing": "Ordinal encoding or grouping into Early (I/II) vs Advanced (III/IV)",
+      "suitable_for_modeling": true
+    },
+    {
+      "standard_name": "histological_type",
+      "raw_name": "Histological Type",
+      "observed_dtype": "object",
+      "variable_type": "Categorical Nominal",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_count": 5,
+      "value_range_or_categories": [
+        "Mucinous adenocarcinoma",
+        "Tubular adenocarcinoma",
+        "Poorly differentiated adenocarcinoma",
+        "Adenocarcinoma",
+        "Papillary adenocarcinoma"
+      ],
+      "clinical_interpretation": "WHO Histopathological subtype (Tubular, Mucinous, Poorly diff, etc.)",
+      "proposed_preprocessing": "One-Hot encoding with rare class grouping",
+      "suitable_for_modeling": true
+    },
+    {
+      "standard_name": "lauren_classification",
+      "raw_name": "Lauren classification(Intestinal=0, Mixed=1, Diffuse=2)",
+      "observed_dtype": "float64",
+      "variable_type": "Categorical Nominal",
+      "missing_count": 55,
+      "missing_pct": 18.333333333333332,
+      "unique_count": 3,
+      "value_range_or_categories": [
+        "0.0",
+        "1.0",
+        "2.0"
+      ],
+      "clinical_interpretation": "Lauren Histological Classification: 0=Intestinal, 1=Mixed, 2=Diffuse",
+      "proposed_preprocessing": "One-Hot encoding with dedicated 'missing' indicator",
+      "suitable_for_modeling": true
+    },
+    {
+      "standard_name": "lymphovascular_invasion",
+      "raw_name": "Lymphovascular Invasion(Negative=0\uff0cPositive=1)",
+      "observed_dtype": "float64",
+      "variable_type": "Binary Indicator",
+      "missing_count": 50,
+      "missing_pct": 16.666666666666664,
+      "unique_count": 2,
+      "value_range_or_categories": [
+        "1.0",
+        "0.0"
+      ],
+      "clinical_interpretation": "Presence of tumor cells within lymphatic or blood vascular spaces (0=Neg, 1=Pos)",
+      "proposed_preprocessing": "Binary imputation with missing indicator",
+      "suitable_for_modeling": true
+    },
+    {
+      "standard_name": "venous_invasion",
+      "raw_name": "Venous Invasion(Negative=0\uff0cPositive=1)",
+      "observed_dtype": "float64",
+      "variable_type": "Binary Indicator",
+      "missing_count": 83,
+      "missing_pct": 27.666666666666668,
+      "unique_count": 2,
+      "value_range_or_categories": [
+        "1.0",
+        "0.0"
+      ],
+      "clinical_interpretation": "Invasion of venous vascular walls (0=Negative, 1=Positive)",
+      "proposed_preprocessing": "Binary imputation with missing indicator",
+      "suitable_for_modeling": true
+    },
+    {
+      "standard_name": "perineural_invasion",
+      "raw_name": "Perineural Invasion(Negative=0\uff0cPositive=1)",
+      "observed_dtype": "float64",
+      "variable_type": "Binary Indicator",
+      "missing_count": 52,
+      "missing_pct": 17.333333333333336,
+      "unique_count": 2,
+      "value_range_or_categories": [
+        "1.0",
+        "0.0"
+      ],
+      "clinical_interpretation": "Tumor infiltration along nerve sheaths (0=Negative, 1=Positive)",
+      "proposed_preprocessing": "Binary imputation with missing indicator",
+      "suitable_for_modeling": true
+    },
+    {
+      "standard_name": "stroma_quantity",
+      "raw_name": "Stroma Quantity(Medullary=0\uff0cIntermediate=1\uff0cScirrhous=2)",
+      "observed_dtype": "float64",
+      "variable_type": "Categorical Ordinal",
+      "missing_count": 18,
+      "missing_pct": 6.0,
+      "unique_count": 3,
+      "value_range_or_categories": [
+        "1.0",
+        "2.0",
+        "0.0"
+      ],
+      "clinical_interpretation": "Relative stroma volume: 0=Medullary, 1=Intermediate, 2=Scirrhous",
+      "proposed_preprocessing": "Ordinal encoding with median imputation",
+      "suitable_for_modeling": true
+    },
+    {
+      "standard_name": "tumor_infiltration_pattern",
+      "raw_name": "Tumor Infiltration Pattern",
+      "observed_dtype": "object",
+      "variable_type": "Categorical Nominal",
+      "missing_count": 20,
+      "missing_pct": 6.666666666666667,
+      "unique_count": 3,
+      "value_range_or_categories": [
+        "INFc",
+        "INFb",
+        "INFa"
+      ],
+      "clinical_interpretation": "Tumor Infiltration Pattern (INFa=Expanding, INFb=Intermediate, INFc=Infiltrating)",
+      "proposed_preprocessing": "One-Hot encoding with missing indicator",
+      "suitable_for_modeling": true
+    },
+    {
+      "standard_name": "her2_status",
+      "raw_name": "HER-2(Negative=0\uff0c1=1+\uff0c2=2+\uff0c3=3+)",
+      "observed_dtype": "int64",
+      "variable_type": "Categorical Ordinal",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_count": 4,
+      "value_range_or_categories": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "clinical_interpretation": "HER2 protein expression on immunohistochemistry (0=Neg, 1=1+, 2=2+, 3=3+)",
+      "proposed_preprocessing": "Target variable (e.g. Overexpression 2+/3+ vs Neg/1+) or ordinal feature",
+      "suitable_for_modeling": true
+    }
+  ]
+}

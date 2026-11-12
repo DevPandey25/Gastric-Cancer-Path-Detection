@@ -1,0 +1,2 @@
+# GastricPath AI Test Suite
+
