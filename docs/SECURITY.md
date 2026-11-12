@@ -37,3 +37,4 @@ If you discover a security vulnerability or credential exposure risk:
 2. Contact the maintainer directly via email: `devpandey25.in@gmail.com`.
 3. Provide detailed steps to reproduce the issue.
 4. Maintainers will acknowledge within 48 hours and coordinate a coordinated fix.
+

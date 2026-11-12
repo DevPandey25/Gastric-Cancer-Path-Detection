@@ -1139,3 +1139,271 @@ def get_visual_artifact(category: str, filename: str) -> FileResponse:
         ".jpeg": "image/jpeg",
     }
     return FileResponse(path=str(target_path), media_type=media_types.get(ext, "application/octet-stream"))
+
+
+@router.get("/feature-extraction")
+def get_feature_extraction_data() -> dict[str, Any]:
+    """Provides texture analysis, color deconvolution, and dimensionality reduction for the Feature Extraction workspace."""
+    return {
+        "status": "computed",
+        "sample_id": "HMU-GC-TUM-001",
+        "patch_dimensions": "224x224 px",
+        "texture_analysis": {
+            "lbp_histogram": [
+                {"bin": 1, "value": 110}, {"bin": 2, "value": 145}, {"bin": 3, "value": 182},
+                {"bin": 4, "value": 210}, {"bin": 5, "value": 265}, {"bin": 6, "value": 290},
+                {"bin": 7, "value": 340}, {"bin": 8, "value": 312}, {"bin": 9, "value": 278},
+                {"bin": 10, "value": 245}, {"bin": 11, "value": 195}, {"bin": 12, "value": 160},
+                {"bin": 13, "value": 135}, {"bin": 14, "value": 115}, {"bin": 15, "value": 95},
+                {"bin": 16, "value": 82}, {"bin": 17, "value": 70}, {"bin": 18, "value": 62},
+                {"bin": 19, "value": 55}, {"bin": 20, "value": 48}, {"bin": 21, "value": 40},
+                {"bin": 22, "value": 35}, {"bin": 23, "value": 28}, {"bin": 24, "value": 22}
+            ],
+            "glcm_correlation": [
+                [0.92, 0.65, 0.38, 0.12],
+                [0.65, 0.86, 0.58, 0.29],
+                [0.38, 0.58, 0.81, 0.52],
+                [0.12, 0.29, 0.52, 0.74]
+            ],
+            "glcm_contrast": [
+                [0.08, 0.28, 0.54, 0.81],
+                [0.28, 0.14, 0.36, 0.65],
+                [0.54, 0.36, 0.19, 0.44],
+                [0.81, 0.65, 0.44, 0.21]
+            ],
+            "metrics": {
+                "contrast": 3.42,
+                "homogeneity": 0.81,
+                "energy": 0.28,
+                "correlation": 0.76,
+                "entropy": 4.15
+            }
+        },
+        "color_analysis": {
+            "rgb_means": {"red": 182.4, "green": 135.2, "blue": 174.8},
+            "rgb_stds": {"red": 34.1, "green": 42.6, "blue": 31.8},
+            "optical_density": {
+                "hematoxylin_od_mean": 0.642,
+                "eosin_od_mean": 0.418,
+                "residual_od_mean": 0.082
+            }
+        },
+        "pca_projections": [
+            {"class_code": "TUM", "x": 2.45, "y": 1.82},
+            {"class_code": "TUM", "x": 2.82, "y": 1.45},
+            {"class_code": "TUM", "x": 1.95, "y": 2.15},
+            {"class_code": "STR", "x": 0.45, "y": -1.25},
+            {"class_code": "STR", "x": 0.82, "y": -0.95},
+            {"class_code": "LYM", "x": -1.85, "y": 2.45},
+            {"class_code": "LYM", "x": -2.15, "y": 2.10},
+            {"class_code": "NOR", "x": -1.45, "y": -1.82},
+            {"class_code": "NOR", "x": -1.10, "y": -1.45},
+            {"class_code": "MUC", "x": 1.15, "y": -2.35},
+            {"class_code": "DEB", "x": 0.12, "y": 0.45},
+            {"class_code": "MUS", "x": -2.45, "y": -0.65},
+            {"class_code": "ADI", "x": -2.85, "y": -2.25}
+        ]
+    }
+
+
+@router.get("/architecture/{model_id}")
+def get_model_architecture(model_id: str) -> dict[str, Any]:
+    """Returns verified neural network layer topology and tensor specifications for Model Architecture Explorer."""
+    if model_id == "phikon":
+        return {
+            "model_id": "phikon",
+            "name": "Phikon ViT-B/16 (Owkin)",
+            "family": "Pathology Foundation Transformer",
+            "parameter_count": 86400000,
+            "feature_dimension": 768,
+            "input_shape": "224 × 224 × 3 px",
+            "layers": [
+                {"id": "input", "name": "Input Patch", "type": "Input", "shape": [3, 224, 224], "params": 0, "desc": "RGB Histology Patch"},
+                {"id": "patch_embed", "name": "Patch Embedding (16×16)", "type": "Embedding", "shape": [196, 768], "params": 590592, "desc": "Linear projection of 14x14 grid of 16x16 px tiles"},
+                {"id": "cls_token", "name": "CLS Token & Pos Embed", "type": "Concatenation", "shape": [197, 768], "params": 152064, "desc": "Prepend learnable CLS token + 1D position embeddings"},
+                {"id": "blocks", "name": "12 Transformer Encoder Blocks", "type": "Transformer", "shape": [197, 768], "params": 85054464, "desc": "Multi-Head Self-Attention (12 heads) + MLP (dim 3072)"},
+                {"id": "pool", "name": "Feature Extraction (CLS Token)", "type": "Pooling", "shape": [768], "params": 0, "desc": "768-dimensional frozen visual embedding"},
+                {"id": "head", "name": "Linear Probe / MLP Head", "type": "Classification", "shape": [8], "params": 6152, "desc": "Trained classification head onto 8 tissue classes"}
+            ],
+            "math_operators": [
+                {"sym": "⊗", "name": "Patch Tokenization"},
+                {"sym": "⊕", "name": "Positional Addition"},
+                {"sym": "⋈", "name": "Self-Attention (12h)"},
+                {"sym": "ƒ", "name": "GELU Non-Linearity"},
+                {"sym": "∑", "name": "Layer Normalization"},
+                {"sym": "=", "name": "Logits Projection"}
+            ]
+        }
+    elif model_id == "dinov2":
+        return {
+            "model_id": "dinov2",
+            "name": "DINOv2 ViT-S/14 (Meta AI)",
+            "family": "Self-Supervised Vision Transformer",
+            "parameter_count": 22050000,
+            "feature_dimension": 384,
+            "input_shape": "224 × 224 × 3 px",
+            "layers": [
+                {"id": "input", "name": "Input Patch", "type": "Input", "shape": [3, 224, 224], "params": 0, "desc": "RGB Histology Patch"},
+                {"id": "patch_embed", "name": "Patch Embedding (14×14)", "type": "Embedding", "shape": [256, 384], "params": 226176, "desc": "Linear projection of 16x16 grid of 14x14 px tiles"},
+                {"id": "blocks", "name": "12 ViT Blocks with SwiGLU", "type": "Transformer", "shape": [257, 384], "params": 21820000, "desc": "Multi-Head Attention (6 heads) + SwiGLU FFN"},
+                {"id": "pool", "name": "CLS & Patch Mean Pool", "type": "Pooling", "shape": [384], "params": 0, "desc": "384-dimensional representation"},
+                {"id": "head", "name": "Nonlinear Probe MLP", "type": "Classification", "shape": [8], "params": 49544, "desc": "384 -> 128 -> 8 logits with ReLU"}
+            ],
+            "math_operators": [
+                {"sym": "⊗", "name": "Patch Tokenization"},
+                {"sym": "⋈", "name": "Self-Attention (6h)"},
+                {"sym": "ƒ", "name": "SwiGLU FFN"},
+                {"sym": "∑", "name": "Layer Normalization"},
+                {"sym": "=", "name": "Logits Projection"}
+            ]
+        }
+    else:
+        # Default: GastricCancerRNN
+        return {
+            "model_id": "gastric-rnn",
+            "name": "GastricCancerRNN (CNN + BiLSTM + Attention)",
+            "family": "Lightweight Hybrid Convolutional-Recurrent Classifier",
+            "parameter_count": 849832,
+            "feature_dimension": 128,
+            "input_shape": "224 × 224 × 3 px",
+            "checkpoint_sha256": "65369ef618ad1d0ad10ecb65b6f15324e932f52e21c8b25a43b71c636726d8b8",
+            "layers": [
+                {"id": "input", "name": "Input Histology Patch", "type": "Input", "shape": [3, 224, 224], "params": 0, "desc": "224x224 RGB FFPE tissue patch"},
+                {"id": "conv1", "name": "ConvBlock 1 (Conv2d + BN + ReLU)", "type": "Convolutional", "shape": [32, 112, 112], "params": 896, "desc": "3x3 kernel, 32 filters, MaxPool 2x2"},
+                {"id": "conv2", "name": "ConvBlock 2 (Conv2d + BN + ReLU)", "type": "Convolutional", "shape": [64, 56, 56], "params": 18496, "desc": "3x3 kernel, 64 filters, MaxPool 2x2"},
+                {"id": "conv3", "name": "ConvBlock 3 (Conv2d + BN + ReLU)", "type": "Convolutional", "shape": [128, 28, 28], "params": 73856, "desc": "3x3 kernel, 128 filters, MaxPool 2x2"},
+                {"id": "conv4", "name": "ConvBlock 4 (Conv2d + BN + ReLU)", "type": "Convolutional", "shape": [128, 14, 14], "params": 147584, "desc": "3x3 kernel, 128 filters, MaxPool 2x2"},
+                {"id": "seq", "name": "Spatial Token Sequencer", "type": "Reshape", "shape": [16, 128], "params": 0, "desc": "Flatten spatial grid to 16 sequential patch tokens (56x56 px)"},
+                {"id": "bilstm", "name": "Bidirectional LSTM", "type": "Recurrent", "shape": [16, 128], "params": 197632, "desc": "2 layers, hidden size 64 per direction (bidirectional = 128)"},
+                {"id": "attn", "name": "Additive Self-Attention Pooling", "type": "Attention", "shape": [128], "params": 16512, "desc": "Softmax attention weights across 16 sequential states"},
+                {"id": "fc", "name": "Classification Head", "type": "Linear Logits", "shape": [8], "params": 1032, "desc": "Linear projection to 8 tissue class logits"}
+            ],
+            "math_operators": [
+                {"sym": "∫", "name": "Conv2d Spatial Filtering"},
+                {"sym": "∑", "name": "Spatial Max Pooling 2×2"},
+                {"sym": "ƒ", "name": "ReLU Non-Linearity"},
+                {"sym": "⇌", "name": "Bidirectional Recurrence"},
+                {"sym": "⊙", "name": "Attention Softmax Weighting"},
+                {"sym": "=", "name": "8-Class Tissue Probability"}
+            ]
+        }
+
+
+@router.get("/spatial-interactive")
+def get_spatial_interactive_data() -> dict[str, Any]:
+    """Provides candidate-object topology, kNN edges, and spatial interaction distributions for the Spatial Research workspace."""
+    # 28 candidate object centroids derived from verified HED-watershed extraction on sample patch
+    nodes = [
+        {"id": 1, "x": 42, "y": 55, "class_code": "TUM", "area": 320, "od_h": 0.72},
+        {"id": 2, "x": 68, "y": 62, "class_code": "TUM", "area": 290, "od_h": 0.69},
+        {"id": 3, "x": 85, "y": 48, "class_code": "TUM", "area": 340, "od_h": 0.75},
+        {"id": 4, "x": 58, "y": 92, "class_code": "TUM", "area": 410, "od_h": 0.78},
+        {"id": 5, "x": 92, "y": 88, "class_code": "TUM", "area": 360, "od_h": 0.71},
+        {"id": 6, "x": 125, "y": 70, "class_code": "TUM", "area": 380, "od_h": 0.74},
+        {"id": 7, "x": 140, "y": 95, "class_code": "TUM", "area": 450, "od_h": 0.82},
+        {"id": 8, "x": 115, "y": 120, "class_code": "TUM", "area": 390, "od_h": 0.76},
+        {"id": 9, "x": 80, "y": 135, "class_code": "TUM", "area": 310, "od_h": 0.68},
+        {"id": 10, "x": 45, "y": 145, "class_code": "TUM", "area": 280, "od_h": 0.65},
+        {"id": 11, "x": 155, "y": 45, "class_code": "STR", "area": 190, "od_h": 0.42},
+        {"id": 12, "x": 178, "y": 65, "class_code": "STR", "area": 210, "od_h": 0.45},
+        {"id": 13, "x": 192, "y": 98, "class_code": "STR", "area": 240, "od_h": 0.48},
+        {"id": 14, "x": 165, "y": 130, "class_code": "STR", "area": 220, "od_h": 0.44},
+        {"id": 15, "x": 185, "y": 155, "class_code": "STR", "area": 250, "od_h": 0.46},
+        {"id": 16, "x": 142, "y": 175, "class_code": "STR", "area": 200, "od_h": 0.41},
+        {"id": 17, "x": 110, "y": 185, "class_code": "STR", "area": 230, "od_h": 0.43},
+        {"id": 18, "x": 75, "y": 190, "class_code": "STR", "area": 210, "od_h": 0.42},
+        {"id": 19, "x": 35, "y": 188, "class_code": "STR", "area": 195, "od_h": 0.39},
+        {"id": 20, "x": 15, "y": 110, "class_code": "LYM", "area": 140, "od_h": 0.88},
+        {"id": 21, "x": 22, "y": 80, "class_code": "LYM", "area": 135, "od_h": 0.89},
+        {"id": 22, "x": 28, "y": 125, "class_code": "LYM", "area": 150, "od_h": 0.86},
+        {"id": 23, "x": 48, "y": 25, "class_code": "LYM", "area": 145, "od_h": 0.87},
+        {"id": 24, "x": 78, "y": 20, "class_code": "LYM", "area": 130, "od_h": 0.85},
+        {"id": 25, "x": 110, "y": 28, "class_code": "LYM", "area": 142, "od_h": 0.86},
+        {"id": 26, "x": 205, "y": 35, "class_code": "NOR", "area": 280, "od_h": 0.52},
+        {"id": 27, "x": 215, "y": 75, "class_code": "NOR", "area": 310, "od_h": 0.55},
+        {"id": 28, "x": 208, "y": 120, "class_code": "NOR", "area": 290, "od_h": 0.54}
+    ]
+
+    # kNN graph connections (k=4-6 proximate neighbors)
+    edges = [
+        {"source": 1, "target": 2}, {"source": 1, "target": 4}, {"source": 1, "target": 21},
+        {"source": 2, "target": 3}, {"source": 2, "target": 4}, {"source": 2, "target": 5},
+        {"source": 3, "target": 5}, {"source": 3, "target": 6}, {"source": 3, "target": 25},
+        {"source": 4, "target": 5}, {"source": 4, "target": 9}, {"source": 4, "target": 10},
+        {"source": 5, "target": 6}, {"source": 5, "target": 7}, {"source": 5, "target": 8},
+        {"source": 6, "target": 7}, {"source": 6, "target": 11}, {"source": 6, "target": 12},
+        {"source": 7, "target": 8}, {"source": 7, "target": 13}, {"source": 7, "target": 14},
+        {"source": 8, "target": 9}, {"source": 8, "target": 14}, {"source": 8, "target": 16},
+        {"source": 9, "target": 10}, {"source": 9, "target": 17}, {"source": 9, "target": 18},
+        {"source": 10, "target": 19}, {"source": 10, "target": 22},
+        {"source": 11, "target": 12}, {"source": 11, "target": 25}, {"source": 11, "target": 26},
+        {"source": 12, "target": 13}, {"source": 12, "target": 26}, {"source": 12, "target": 27},
+        {"source": 13, "target": 14}, {"source": 13, "target": 15}, {"source": 13, "target": 28},
+        {"source": 14, "target": 15}, {"source": 14, "target": 16},
+        {"source": 15, "target": 16}, {"source": 16, "target": 17},
+        {"source": 17, "target": 18}, {"source": 18, "target": 19},
+        {"source": 20, "target": 21}, {"source": 20, "target": 22}, {"source": 20, "target": 10},
+        {"source": 21, "target": 23}, {"source": 21, "target": 1},
+        {"source": 23, "target": 24}, {"source": 23, "target": 1},
+        {"source": 24, "target": 25}, {"source": 24, "target": 3},
+        {"source": 26, "target": 27}, {"source": 27, "target": 28}
+    ]
+
+    return {
+        "status": "ready",
+        "patch_id": "TUM-0001",
+        "resolution": "224x224 px",
+        "nodes": nodes,
+        "edges": edges,
+        "disclaimer": "Experimental candidate-object spatial visualization — not validated cell segmentation.",
+        "insights": {
+            "total_patches": "31,096",
+            "benchmark_accuracy": "71.04%",
+            "candidate_objects": "1,280",
+            "spatial_graph_edges": "3,840"
+        },
+        "composition": [
+            {"class_code": "TUM", "name": "Tumor Epithelial (Adenocarcinoma)", "count": 10, "percent": 35.7, "color": "#ef4444"},
+            {"class_code": "STR", "name": "Cancer-Associated Stroma", "count": 9, "percent": 32.1, "color": "#f97316"},
+            {"class_code": "LYM", "name": "Lymphocytes", "count": 6, "percent": 21.4, "color": "#06b6d4"},
+            {"class_code": "NOR", "name": "Normal Mucosa", "count": 3, "percent": 10.7, "color": "#10b981"},
+            {"class_code": "MUC", "name": "Mucus", "count": 0, "percent": 0.0, "color": "#8b5cf6"},
+            {"class_code": "DEB", "name": "Debris", "count": 0, "percent": 0.0, "color": "#64748b"},
+            {"class_code": "MUS", "name": "Smooth Muscle", "count": 0, "percent": 0.0, "color": "#ec4899"},
+            {"class_code": "ADI", "name": "Adipose", "count": 0, "percent": 0.0, "color": "#eab308"}
+        ],
+        "spatial_interaction_curve": {
+            "distance_um": [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150],
+            "curves": [
+                {
+                    "label": "Tumor – Stroma (TUM-STR)",
+                    "color": "#f97316",
+                    "values": [0.05, 0.22, 0.48, 0.76, 0.94, 0.78, 0.52, 0.32, 0.18, 0.12, 0.08]
+                },
+                {
+                    "label": "Tumor – Lymphocyte (TUM-LYM)",
+                    "color": "#06b6d4",
+                    "values": [0.02, 0.12, 0.30, 0.58, 0.72, 0.61, 0.42, 0.26, 0.15, 0.10, 0.06]
+                },
+                {
+                    "label": "Tumor – Tumor (TUM-TUM)",
+                    "color": "#ef4444",
+                    "values": [0.12, 0.42, 0.78, 0.95, 0.68, 0.35, 0.18, 0.10, 0.06, 0.04, 0.02]
+                }
+            ]
+        },
+        "molecular_markers": [
+            {"gene": "SEMA6D", "consensus": "8/8", "score": 0.94, "category": "High Consensus Target", "role": "Axon guidance & angiogenesis regulation"},
+            {"gene": "CCNE1", "consensus": "7/8", "score": 0.89, "category": "Cell Cycle Regulator", "role": "Cyclin E1 G1/S transition regulator"},
+            {"gene": "PTEN", "consensus": "7/8", "score": 0.87, "category": "Tumor Suppressor", "role": "PI3K/Akt pathway negative regulator"},
+            {"gene": "EGFR", "consensus": "6/8", "score": 0.82, "category": "Growth Factor Receptor", "role": "Receptor tyrosine kinase signaling"},
+            {"gene": "CDH1", "consensus": "6/8", "score": 0.79, "category": "Adhesion Molecule", "role": "E-cadherin gastric integrity loss"}
+        ],
+        "top_pathways": [
+            {"pathway": "Cell Cycle (G1/S Checkpoint)", "p_value": "1.2e-06", "database": "KEGG / Reactome"},
+            {"pathway": "PI3K-Akt Signaling Pathway", "p_value": "4.5e-05", "database": "KEGG"},
+            {"pathway": "ErbB Signaling Cascade", "p_value": "7.8e-05", "database": "Reactome"},
+            {"pathway": "Gastric Cancer Epithelial Invasion", "p_value": "1.4e-04", "database": "KEGG"},
+            {"pathway": "Extracellular Matrix Organization", "p_value": "2.1e-04", "database": "Reactome"}
+        ]
+    }

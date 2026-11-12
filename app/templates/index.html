@@ -6,16 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ app_name }} — Computational Pathology Platform</title>
     <link rel="icon" href="/static/assets/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/static/styles.css?v=20261112v2">
+    <link rel="stylesheet" href="/static/styles.css?v=20261113a">
 </head>
 
 <body>
     <div class="workstation-app">
 
         <!-- ===================================================================
-             LEFT SIDEBAR: IDENTITY & NAVIGATION
+             LEFT SIDEBAR: COLLAPSIBLE WORKSTATION NAVIGATION (REF 2 INSPIRED)
              =================================================================== -->
-        <aside class="workstation-sidebar" aria-label="Main Navigation">
+        <aside class="workstation-sidebar" id="workstation-sidebar" aria-label="Main Navigation">
             <!-- Sidebar Brand Header -->
             <div class="sidebar-brand">
                 <div class="brand-icon-wrap" aria-hidden="true">
@@ -28,13 +28,18 @@
                     <h1>GastricPath AI</h1>
                     <span class="brand-tagline">Pathology Workstation</span>
                 </div>
+                <button type="button" class="sidebar-collapse-btn" id="sidebar-toggle-btn" title="Toggle Sidebar">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6" />
+                    </svg>
+                </button>
             </div>
 
-            <!-- Sidebar Navigation Links -->
+            <!-- Sidebar Navigation Links Organized by Research Groups -->
             <div class="sidebar-nav-container">
 
-                <!-- SECTION 1: PRIMARY WORKSPACE -->
-                <div class="nav-group-title">Primary Workspace</div>
+                <!-- GROUP 1: OVERVIEW -->
+                <div class="nav-group-title">Overview</div>
                 <ul class="sidebar-nav-list">
                     <li>
                         <button id="nav-live-inference" class="nav-item-btn active" type="button" onclick="switchView('live')">
@@ -43,8 +48,19 @@
                                 <path d="m21 21-4.3-4.3" />
                                 <circle cx="11" cy="11" r="3" />
                             </svg>
-                            <span>Live Inference Dashboard</span>
+                            <span>Live Classifier &amp; HUD</span>
                             <span class="nav-badge-pill badge-implemented">Live</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button id="nav-spatial-research" class="nav-item-btn" type="button" onclick="switchView('spatial')">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                                <polyline points="2 17 12 22 22 17" />
+                                <polyline points="2 12 12 17 22 12" />
+                            </svg>
+                            <span>Spatial Research Console</span>
+                            <span class="nav-badge-pill badge-evaluated">2D/3D</span>
                         </button>
                     </li>
                     <li>
@@ -57,6 +73,92 @@
                             <span class="nav-badge-pill badge-evaluated">14</span>
                         </button>
                     </li>
+                </ul>
+
+                <!-- GROUP 2: HISTOPATHOLOGY -->
+                <div class="nav-group-title">Histopathology</div>
+                <ul class="sidebar-nav-list">
+                    <li>
+                        <button class="nav-item-btn subnav-btn" data-module="dataset" type="button" onclick="switchModule('dataset')">
+                            <span class="nav-item-num">02</span>
+                            <span>Dataset Explorer</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item-btn subnav-btn" data-module="explainability" type="button" onclick="switchModule('explainability')">
+                            <span class="nav-item-num">05</span>
+                            <span>Heatmaps &amp; Grad-CAM</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item-btn subnav-btn" data-module="similarity" type="button" onclick="switchModule('similarity')">
+                            <span class="nav-item-num">10</span>
+                            <span>Similarity Search</span>
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- GROUP 3: AI MODELS -->
+                <div class="nav-group-title">AI Models</div>
+                <ul class="sidebar-nav-list">
+                    <li>
+                        <button class="nav-item-btn subnav-btn" data-module="models" type="button" onclick="switchModule('models')">
+                            <span class="nav-item-num">03</span>
+                            <span>GastricCancerRNN (CNN-BiLSTM)</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item-btn subnav-btn" data-module="foundation" type="button" onclick="switchModule('foundation')">
+                            <span class="nav-item-num">04</span>
+                            <span>Phikon &amp; DINOv2 Transformers</span>
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- GROUP 4: RESEARCH ANALYTICS -->
+                <div class="nav-group-title">Research Analytics</div>
+                <ul class="sidebar-nav-list" id="sidebar-module-list">
+                    <li>
+                        <button class="nav-item-btn subnav-btn" data-module="segmentation" type="button" onclick="switchModule('segmentation')">
+                            <span class="nav-item-num">06</span>
+                            <span>Tissue Segmentation (U-Net)</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item-btn subnav-btn" data-module="cellular" type="button" onclick="switchModule('cellular')">
+                            <span class="nav-item-num">07</span>
+                            <span>Cellular Morphology (HED)</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item-btn subnav-btn" data-module="spatial-graphs" type="button" onclick="switchModule('spatial-graphs')">
+                            <span class="nav-item-num">08</span>
+                            <span>Spatial Graphs &amp; GNNs</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item-btn subnav-btn" data-module="wsi" type="button" onclick="switchModule('wsi')">
+                            <span class="nav-item-num">09</span>
+                            <span>Whole-Slide (WSI Pyramid)</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item-btn subnav-btn" data-module="uncertainty" type="button" onclick="switchModule('uncertainty')">
+                            <span class="nav-item-num">11</span>
+                            <span>Calibration &amp; OOD Detection</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item-btn subnav-btn" data-module="experiments" type="button" onclick="switchModule('experiments')">
+                            <span class="nav-item-num">12</span>
+                            <span>Robustness Perturbations</span>
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- GROUP 5: RESEARCH TOOLS & REPORTING -->
+                <div class="nav-group-title">Tools &amp; Reporting</div>
+                <ul class="sidebar-nav-list">
                     <li>
                         <button id="nav-clinical-reporting" class="nav-item-btn" type="button" onclick="switchView('clinical-reporting')">
                             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -66,97 +168,40 @@
                                 <line x1="16" y1="17" x2="8" y2="17" />
                                 <polyline points="10 9 9 9 8 9" />
                             </svg>
-                            <span>Clinical Research &amp; PDF Workbench</span>
+                            <span>Clinical Research &amp; PDF</span>
                             <span class="nav-badge-pill badge-implemented" style="background: rgba(13, 148, 136, 0.2); color: #2dd4bf; border: 1px solid rgba(45, 212, 191, 0.3);">PDF</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item-btn subnav-btn" data-module="reports" type="button" onclick="switchModule('reports')">
+                            <span class="nav-item-num">14</span>
+                            <span>Scientific Reports Catalog</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item-btn" id="sidebar-copilot-trigger" type="button" onclick="toggleCopilotDrawer()">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--teal-400);">
+                                <path d="M12 2a8 8 0 0 0-8 8c0 3.37 2.1 6.26 5.09 7.4.4.07.55-.17.55-.38v-1.34c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.88-1.17-.88-1.17-.72-.49.06-.48.06-.48.8.06 1.22.82 1.22.82.71 1.21 1.87.86 2.33.66.07-.52.28-.86.51-1.06-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.65 7.65 0 0 1 12 6.84c.68.01 1.36.09 2 .27 1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .22.15.46.55.38A8.01 8.01 0 0 0 20 10a8 8 0 0 0-8-8z" />
+                            </svg>
+                            <span>Research Copilot</span>
+                            <span class="nav-badge-pill" style="background: rgba(139, 92, 246, 0.2); color: #c084fc; border: 1px solid rgba(192, 132, 252, 0.3);">AI</span>
                         </button>
                     </li>
                 </ul>
 
-                <!-- SECTION 2: 14 RESEARCH MODULES -->
-                <div class="nav-group-title" style="margin-top: 10px;">Research Modules</div>
-                <ul class="sidebar-nav-list" id="sidebar-module-list">
+                <!-- GROUP 6: SYSTEM -->
+                <div class="nav-group-title">System &amp; Registry</div>
+                <ul class="sidebar-nav-list">
                     <li>
-                        <button class="nav-item-btn subnav-btn" data-module="overview" type="button">
-                            <span class="nav-item-num">01</span>
-                            <span>Overview</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="nav-item-btn subnav-btn" data-module="dataset" type="button">
-                            <span class="nav-item-num">02</span>
-                            <span>Dataset Explorer</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="nav-item-btn subnav-btn" data-module="models" type="button">
-                            <span class="nav-item-num">03</span>
-                            <span>Model Lab</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="nav-item-btn subnav-btn" data-module="foundation" type="button">
-                            <span class="nav-item-num">04</span>
-                            <span>Foundation Models</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="nav-item-btn subnav-btn" data-module="explainability" type="button">
-                            <span class="nav-item-num">05</span>
-                            <span>Explainability</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="nav-item-btn subnav-btn" data-module="segmentation" type="button">
-                            <span class="nav-item-num">06</span>
-                            <span>Segmentation</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="nav-item-btn subnav-btn" data-module="cellular" type="button">
-                            <span class="nav-item-num">07</span>
-                            <span>Cell Analysis</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="nav-item-btn subnav-btn" data-module="spatial-graphs" type="button">
-                            <span class="nav-item-num">08</span>
-                            <span>Spatial Graphs</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="nav-item-btn subnav-btn" data-module="wsi" type="button">
-                            <span class="nav-item-num">09</span>
-                            <span>Whole-Slide (WSI)</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="nav-item-btn subnav-btn" data-module="similarity" type="button">
-                            <span class="nav-item-num">10</span>
-                            <span>Similarity Search</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="nav-item-btn subnav-btn" data-module="uncertainty" type="button">
-                            <span class="nav-item-num">11</span>
-                            <span>Uncertainty & OOD</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="nav-item-btn subnav-btn" data-module="experiments" type="button">
-                            <span class="nav-item-num">12</span>
-                            <span>Experiments</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="nav-item-btn subnav-btn" data-module="validation" type="button">
+                        <button class="nav-item-btn subnav-btn" data-module="validation" type="button" onclick="switchModule('validation')">
                             <span class="nav-item-num">13</span>
-                            <span>Validation</span>
+                            <span>Reproducibility &amp; Roadmap</span>
                         </button>
                     </li>
                     <li>
-                        <button class="nav-item-btn subnav-btn" data-module="reports" type="button">
-                            <span class="nav-item-num">14</span>
-                            <span>Reports Catalog</span>
+                        <button class="nav-item-btn subnav-btn" data-module="overview" type="button" onclick="switchModule('overview')">
+                            <span class="nav-item-num">01</span>
+                            <span>System Architecture</span>
                         </button>
                     </li>
                 </ul>
@@ -184,7 +229,7 @@
             <header class="workstation-topbar">
                 <div class="topbar-left">
                     <div class="topbar-breadcrumb">
-                        <span class="crumb-parent">Platform</span>
+                        <span class="crumb-parent">GastricPath AI</span>
                         <span class="crumb-separator">/</span>
                         <span id="topbar-crumb-active" class="crumb-active">Live Inference Dashboard</span>
                     </div>
@@ -197,11 +242,11 @@
                         <strong id="model-mode">GastricCancerRNN</strong>
                     </div>
                     <div class="topbar-metric-chip" title="Validated Baseline Checkpoint (val_accuracy = 64.86%)">
-                        <span>Checkpoint Val Acc:</span>
-                        <strong id="checkpoint-accuracy" style="color: var(--cyan-400);">64.86%</strong>
+                        <span>Val Acc:</span>
+                        <strong id="checkpoint-accuracy" style="color: var(--teal-400);">64.86%</strong>
                     </div>
                     <div class="topbar-metric-chip" title="Historical Benchmark on Full Test Split (N=4,665, Original Phase 3)">
-                        <span>Historical Benchmark:</span>
+                        <span>Benchmark:</span>
                         <strong id="benchmark-accuracy">71.04% (N=4,665)</strong>
                     </div>
                     <div class="topbar-metric-chip" title="HMU-GC-HE-30K Canonical Dataset Cohort">
@@ -209,10 +254,18 @@
                         <strong id="dataset-total">31,096 Patches</strong>
                     </div>
 
-                    <!-- Hidden elements preserved for compatibility -->
-                    <span id="tests-total" class="hidden">336/336</span>
+                    <!-- Hidden elements preserved for script compatibility -->
+                    <span id="tests-total" class="hidden">359/359</span>
                     <span id="model-note" class="hidden">Checking checkpoint availability.</span>
                     <span id="clinical-total" class="hidden">300</span>
+
+                    <!-- AI Analysis Button (Ref 2 Style) -->
+                    <button type="button" class="topbar-btn btn-ai-analysis" id="btn-topbar-copilot" onclick="toggleCopilotDrawer()" title="Open Research Copilot AI Analysis">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2a8 8 0 0 0-8 8c0 3.37 2.1 6.26 5.09 7.4.4.07.55-.17.55-.38v-1.34c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.88-1.17-.88-1.17-.72-.49.06-.48.06-.48.8.06 1.22.82 1.22.82.71 1.21 1.87.86 2.33.66.07-.52.28-.86.51-1.06-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.65 7.65 0 0 1 12 6.84c.68.01 1.36.09 2 .27 1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .22.15.46.55.38A8.01 8.01 0 0 0 20 10a8 8 0 0 0-8-8z" />
+                        </svg>
+                        <span>AI Analysis</span>
+                    </button>
 
                     <a href="/docs" target="_blank" class="topbar-btn" title="Open Swagger API Explorer">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -222,10 +275,6 @@
                             <line x1="16" y1="17" x2="8" y2="17" />
                         </svg>
                         <span>Swagger</span>
-                    </a>
-
-                    <a href="/redoc" target="_blank" class="topbar-btn" title="Open ReDoc API Specification">
-                        <span>ReDoc</span>
                     </a>
 
                     <button id="refresh-btn" type="button" class="topbar-btn" title="Refresh Live Predictions and Cache">
@@ -244,7 +293,7 @@
             <main class="workstation-content">
 
                 <!-- ===============================================================
-                     VIEW 1: LIVE INFERENCE DASHBOARD
+                     VIEW 1: LIVE INFERENCE & WORKSTATION (REFERENCE 1 INSPIRED)
                      =============================================================== -->
                 <div id="live-dashboard-view">
 
@@ -256,80 +305,126 @@
                             <line x1="12" y1="17" x2="12.01" y2="17" />
                         </svg>
                         <div>
-                            <strong>Scientific Safeguard & Clinical Disclaimer:</strong>
+                            <strong>Scientific Safeguard &amp; Clinical Disclaimer:</strong>
                             Patch-level tissue classification is for research and exploratory evaluation only.
                             <strong>Predicted TUM class probability represents patch-level model output, NOT a patient-level cancer diagnosis, tumour area percentage, or clinical risk stratification.</strong>
                             Not certified or approved for primary diagnostic or therapeutic use.
                         </div>
                     </div>
 
-                    <!-- HERO WORKSPACE: MICROSCOPE INSPECTION STAGE (2 COLUMNS) -->
-                    <div class="stage-grid-layout">
+                    <!-- ===========================================================
+                         REFERENCE 1: 4-QUADRANT MASTER WORKSTATION GRID
+                         =========================================================== -->
+                    <div class="ref1-quadrant-grid">
 
-                        <!-- Left Column: Interactive Microscope Viewer -->
-                        <div class="microscope-viewer-panel">
-                            <!-- HUD Info Header: Verified Pixel Dimensions & Calibration Disclosure -->
-                            <div class="microscope-hud-bar">
+                        <!-- QUADRANT 1 (TOP LEFT): HISTOPATHOLOGY IMAGE EXPLORER -->
+                        <div class="workstation-panel ref1-panel">
+                            <div class="panel-header">
+                                <div class="panel-header-titles">
+                                    <p class="eyebrow">Microscope Stage &amp; Explainability</p>
+                                    <h2 id="ref1-sample-title">Gastric Adenocarcinoma Tissue Sample</h2>
+                                </div>
+                                <div class="panel-actions">
+                                    <span class="badge badge-implemented" id="ref1-sample-badge">TUM-001</span>
+                                </div>
+                            </div>
+
+                            <!-- Dual-Column Stage: Left Big Viewer, Right Thumbnail Strip -->
+                            <div class="ref1-viewer-layout">
+                                <!-- Main Stage -->
+                                <div class="ref1-viewer-stage" id="microscope-viewport">
+                                    <div class="microscope-reticle-overlay" id="microscope-reticle"></div>
+                                    <img id="microscope-img" class="microscope-image-stage" src="/api/research/artifacts/benchmarks/confusion_matrix_historical.png" alt="Histology patch" onerror="this.onerror=null; this.src='/static/placeholder.png';">
+                                    <canvas id="heatmap-overlay-canvas" class="ref1-heatmap-canvas" width="224" height="224"></canvas>
+                                    
+                                    <div id="microscope-placeholder" class="microscope-empty-placeholder hidden">
+                                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                            <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+                                            <circle cx="9" cy="9" r="2" />
+                                            <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+                                        </svg>
+                                        <div>
+                                            <strong style="color: var(--text-secondary); display: block; margin-bottom: 4px;">Tissue Patch Loaded</strong>
+                                            <span style="font-size: 0.8rem;">Select thumbnail or upload image below.</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Pixel Scale Indicator -->
+                                    <div class="microscope-scale-bar" title="Physical optical calibration unavailable">
+                                        <div class="microscope-scale-bar-line"></div>
+                                        <span>50 px • Physical calibration unavailable</span>
+                                    </div>
+                                </div>
+
+                                <!-- Vertical Derivative Thumbnail Strip (Ref 1 Style) -->
+                                <div class="ref1-thumb-column" id="ref1-thumbnail-strip">
+                                    <button type="button" class="ref1-thumb-btn active" data-view="original" title="View Original H&E Patch" onclick="selectRef1View('original')">
+                                        <span class="thumb-preview" style="background: url('/api/research/artifacts/benchmarks/confusion_matrix_historical.png') center/cover;"></span>
+                                        <span class="thumb-label">Original</span>
+                                    </button>
+                                    <button type="button" class="ref1-thumb-btn" data-view="gradcam" title="View Grad-CAM Attribution Overlay" onclick="selectRef1View('gradcam')">
+                                        <span class="thumb-preview thumb-gradcam"></span>
+                                        <span class="thumb-label">Grad-CAM</span>
+                                    </button>
+                                    <button type="button" class="ref1-thumb-btn" data-view="integrated" title="View Integrated Gradients Map" onclick="selectRef1View('integrated')">
+                                        <span class="thumb-preview thumb-integrated"></span>
+                                        <span class="thumb-label">Integrated</span>
+                                    </button>
+                                    <button type="button" class="ref1-thumb-btn" data-view="grid" title="Toggle 28px Reticle Grid" onclick="selectRef1View('grid')">
+                                        <span class="thumb-preview thumb-grid"></span>
+                                        <span class="thumb-label">Grid Reticle</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Heat Probability Gradient Legend (Ref 1 Exact Design) -->
+                            <div class="ref1-heat-legend-row">
+                                <span class="heat-legend-title">Heat probability: <strong>TUM (Cancer)</strong></span>
+                                <div class="ref1-heat-bar"></div>
+                                <span class="heat-legend-high">High</span>
+                                <div class="ref1-opacity-control">
+                                    <label for="heatmap-opacity-slider">Blend: <strong id="opacity-val">65%</strong></label>
+                                    <input type="range" id="heatmap-opacity-slider" min="0" max="100" value="65" oninput="updateHeatmapOpacity(this.value)">
+                                </div>
+                            </div>
+
+                            <!-- Viewport Controls & Upload Bar -->
+                            <div class="microscope-hud-bar" style="margin-top: 10px;">
                                 <div class="hud-specs">
                                     <span>Dimensions: <strong>224 × 224 px</strong></span>
                                     <span>•</span>
-                                    <span>Viewport Zoom: <strong id="hud-mag">100%</strong></span>
-                                    <span>•</span>
-                                    <span>Calibration: <strong style="color: var(--text-muted); font-size: 0.74rem;">Physical calibration unavailable</strong></span>
+                                    <span>Zoom: <strong id="hud-mag">100%</strong></span>
                                 </div>
                                 <div class="hud-controls">
-                                    <button id="btn-zoom-in" type="button" class="hud-btn" title="Zoom In (+)">Zoom +</button>
-                                    <button id="btn-zoom-out" type="button" class="hud-btn" title="Zoom Out (-)">Zoom -</button>
-                                    <button id="btn-zoom-reset" type="button" class="hud-btn" title="Reset Zoom to 100%">100%</button>
-                                    <button id="btn-toggle-reticle" type="button" class="hud-btn" title="Toggle 28px Pixel Grid Overlay">Grid Overlay</button>
+                                    <button id="btn-zoom-in" type="button" class="hud-btn" title="Zoom In (+)">+</button>
+                                    <button id="btn-zoom-out" type="button" class="hud-btn" title="Zoom Out (-)">-</button>
+                                    <button id="btn-zoom-reset" type="button" class="hud-btn" title="Reset Zoom">100%</button>
+                                    <button id="btn-toggle-reticle" type="button" class="hud-btn" title="Toggle Grid">Reticle</button>
                                 </div>
                             </div>
 
-                            <!-- Canvas Stage -->
-                            <div class="microscope-canvas-viewport" id="microscope-viewport">
-                                <div class="microscope-reticle-overlay" id="microscope-reticle"></div>
-                                <img id="microscope-img" class="microscope-image-stage hidden" src="" alt="Loaded histopathology patch">
-                                <div id="microscope-placeholder" class="microscope-empty-placeholder">
-                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                        <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
-                                        <circle cx="9" cy="9" r="2" />
-                                        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-                                    </svg>
-                                    <div>
-                                        <strong style="color: var(--text-secondary); display: block; margin-bottom: 4px;">No Tissue Patch Loaded</strong>
-                                        <span style="font-size: 0.8rem;">Select a file below or load a verified sample patch to inspect.</span>
-                                    </div>
-                                </div>
-                                <!-- Pixel coordinate scale indicator with calibration disclaimer -->
-                                <div class="microscope-scale-bar" title="Physical optical calibration unavailable for this dataset">
-                                    <div class="microscope-scale-bar-line"></div>
-                                    <span>50 px • Physical calibration unavailable</span>
-                                </div>
-                            </div>
-
-                            <!-- Upload Action Bar -->
+                            <!-- Upload Form & Quick Samples -->
                             <div class="microscope-controls-bar">
                                 <form id="upload-form" class="upload-action-row">
                                     <label class="upload-dropzone-label" for="file-input" id="upload-dropzone">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                                             <polyline points="17 8 12 3 7 8" />
                                             <line x1="12" y1="3" x2="12" y2="15" />
                                         </svg>
-                                        <span id="file-label-text">Select / Drop Histopathology Image (PNG, JPG)</span>
+                                        <span id="file-label-text">Select / Drop Histopathology Patch (PNG, JPG)</span>
                                         <input id="file-input" name="file" type="file" accept="image/*" required>
                                     </label>
                                     <button type="submit" class="btn-run-prediction" id="submit-prediction-btn">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                             <polygon points="5 3 19 12 5 21 5 3" />
                                         </svg>
                                         <span>Run Inference</span>
                                     </button>
                                 </form>
 
-                                <!-- Quick Real Sample Patches -->
                                 <div class="quick-sample-row">
-                                    <span>Load Sample Patch:</span>
+                                    <span>Quick Sample:</span>
                                     <button type="button" class="quick-sample-btn" data-sample="TUM">
                                         <span class="sample-dot" style="background: var(--class-tum);"></span>
                                         <span>TUM (Tumor)</span>
@@ -344,98 +439,376 @@
                                     </button>
                                     <button type="button" class="quick-sample-btn" data-sample="LYM">
                                         <span class="sample-dot" style="background: var(--class-lym);"></span>
-                                        <span>LYM (Lymphocyte)</span>
+                                        <span>LYM (Lymph)</span>
                                     </button>
-                                    <button type="button" class="quick-sample-btn" data-sample="MUS">
-                                        <span class="sample-dot" style="background: var(--class-mus);"></span>
-                                        <span>MUS (Muscle)</span>
-                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- QUADRANT 2 (TOP RIGHT): MODEL ARCHITECTURE EXPLORER -->
+                        <div class="workstation-panel ref1-panel">
+                            <div class="panel-header">
+                                <div class="panel-header-titles">
+                                    <p class="eyebrow">Deep Neural Architecture</p>
+                                    <h2 id="ref1-arch-title">GastricCancerRNN (CNN + BiLSTM + Attention)</h2>
+                                </div>
+                                <div class="panel-actions">
+                                    <select id="arch-model-selector" class="select-input compact-select" onchange="switchArchitectureModel(this.value)">
+                                        <option value="gastric-rnn" selected>GastricCancerRNN (849K params)</option>
+                                        <option value="phikon">Phikon ViT-B/16 (86.4M params)</option>
+                                        <option value="dinov2">DINOv2 ViT-S/14 (22.1M params)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Interactive Neural Architecture Flowchart -->
+                            <div class="ref1-arch-flowchart" id="arch-flowchart-container">
+                                <!-- Generated Dynamically by JS -->
+                                <div class="arch-layer-card active" title="Input Histology Patch: 224x224 RGB">
+                                    <div class="layer-header">
+                                        <span class="layer-type">Input</span>
+                                        <span class="layer-shape">3 × 224 × 224</span>
+                                    </div>
+                                    <div class="layer-name">Input Histology Tile</div>
+                                </div>
+                                <div class="arch-flow-arrow">➔</div>
+                                <div class="arch-layer-card" title="4 Convolutional Blocks with BatchNorm, ReLU & MaxPool">
+                                    <div class="layer-header">
+                                        <span class="layer-type">ConvBlocks 1-4</span>
+                                        <span class="layer-shape">128 × 14 × 14</span>
+                                    </div>
+                                    <div class="layer-name">Spatial Feature Extractor</div>
+                                    <div class="layer-params">240,832 params</div>
+                                </div>
+                                <div class="arch-flow-arrow">➔</div>
+                                <div class="arch-layer-card" title="Reshape spatial feature map into 16 sequential patch tokens">
+                                    <div class="layer-header">
+                                        <span class="layer-type">Sequencer</span>
+                                        <span class="layer-shape">16 × 128</span>
+                                    </div>
+                                    <div class="layer-name">Patch Tokenizer</div>
+                                </div>
+                                <div class="arch-flow-arrow">➔</div>
+                                <div class="arch-layer-card highlight-card" title="Bidirectional LSTM: 2 layers, hidden dimension 64 per direction">
+                                    <div class="layer-header">
+                                        <span class="layer-type">BiLSTM (2L)</span>
+                                        <span class="layer-shape">16 × 128</span>
+                                    </div>
+                                    <div class="layer-name">Spatial Sequence Recurrence</div>
+                                    <div class="layer-params">197,632 params</div>
+                                </div>
+                                <div class="arch-flow-arrow">➔</div>
+                                <div class="arch-layer-card" title="Additive Attention Layer calculating softmax weights across 16 states">
+                                    <div class="layer-header">
+                                        <span class="layer-type">Self-Attention</span>
+                                        <span class="layer-shape">128-D Vector</span>
+                                    </div>
+                                    <div class="layer-name">Attention Pooling</div>
+                                    <div class="layer-params">16,512 params</div>
+                                </div>
+                                <div class="arch-flow-arrow">➔</div>
+                                <div class="arch-layer-card" title="Linear Logits Projection to 8 Tissue Classes">
+                                    <div class="layer-header">
+                                        <span class="layer-type">Dense Head</span>
+                                        <span class="layer-shape">8 Logits</span>
+                                    </div>
+                                    <div class="layer-name">Classification Head</div>
+                                    <div class="layer-params">1,032 params</div>
+                                </div>
+                            </div>
+
+                            <!-- Mathematical Symbols Bar (Ref 1 Exact Design) -->
+                            <div class="ref1-math-symbol-bar">
+                                <div class="math-sym-pill" title="Convolutional Spatial Filter"><span class="sym">∫</span> Conv</div>
+                                <div class="math-sym-pill" title="Max Pooling Downsampling"><span class="sym">∑</span> Operations</div>
+                                <div class="math-sym-pill" title="Non-Linear Activation Function"><span class="sym">ƒ</span> ReLU / GELU</div>
+                                <div class="math-sym-pill" title="Bidirectional Recurrent Context"><span class="sym">⇌</span> BiLSTM</div>
+                                <div class="math-sym-pill" title="Attention Softmax Weighting"><span class="sym">⊙</span> Attention</div>
+                                <div class="math-sym-pill" title="8-Class Output Logits"><span class="sym">=</span> 8 Classes</div>
+                            </div>
+
+                            <!-- Telemetry Footnote -->
+                            <div class="arch-telemetry-footer">
+                                <span>Total Checkpoint Parameters: <strong id="arch-param-count">849,832</strong></span>
+                                <span>•</span>
+                                <span>Inference Engine: <strong>PyTorch CPU Native</strong></span>
+                                <span>•</span>
+                                <span>Mean Latency: <strong>38.56 ms</strong></span>
+                            </div>
+                        </div>
+
+                        <!-- QUADRANT 3 (BOTTOM LEFT): FEATURE EXTRACTION WORKSPACE -->
+                        <div class="workstation-panel ref1-panel">
+                            <div class="panel-header">
+                                <div class="panel-header-titles">
+                                    <p class="eyebrow">Quantitative Analytics</p>
+                                    <h2>Feature Extraction &amp; Texture Analysis</h2>
+                                </div>
+                                <div class="panel-actions">
+                                    <div class="pill-tab-group">
+                                        <button type="button" class="pill-tab active" data-tab="texture" onclick="switchFeatureTab('texture')">Texture (LBP/GLCM)</button>
+                                        <button type="button" class="pill-tab" data-tab="color" onclick="switchFeatureTab('color')">Stain Optical Density</button>
+                                        <button type="button" class="pill-tab" data-tab="pca" onclick="switchFeatureTab('pca')">PCA Projections</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Feature Pane 1: Texture Analysis (Ref 1 Exact Design) -->
+                            <div id="feature-pane-texture" class="feature-tab-content">
+                                <div class="ref1-texture-grid">
+                                    <!-- Left: Local Binary Patterns Histogram -->
+                                    <div class="texture-subcard">
+                                        <div class="subcard-header">
+                                            <strong>Local Binary Patterns (LBP) Histogram</strong>
+                                            <span class="subcard-meta">24 Uniform Bins</span>
+                                        </div>
+                                        <div class="lbp-histogram-canvas" id="lbp-histogram-bars">
+                                            <!-- Dynamically filled with 24 emerald green bars -->
+                                            <div class="lbp-bar" style="height: 35%;" title="Bin 1: 110"></div>
+                                            <div class="lbp-bar" style="height: 48%;" title="Bin 2: 145"></div>
+                                            <div class="lbp-bar" style="height: 60%;" title="Bin 3: 182"></div>
+                                            <div class="lbp-bar" style="height: 70%;" title="Bin 4: 210"></div>
+                                            <div class="lbp-bar" style="height: 88%;" title="Bin 5: 265"></div>
+                                            <div class="lbp-bar" style="height: 95%;" title="Bin 6: 290"></div>
+                                            <div class="lbp-bar active" style="height: 100%;" title="Bin 7: 340"></div>
+                                            <div class="lbp-bar" style="height: 92%;" title="Bin 8: 312"></div>
+                                            <div class="lbp-bar" style="height: 82%;" title="Bin 9: 278"></div>
+                                            <div class="lbp-bar" style="height: 72%;" title="Bin 10: 245"></div>
+                                            <div class="lbp-bar" style="height: 58%;" title="Bin 11: 195"></div>
+                                            <div class="lbp-bar" style="height: 48%;" title="Bin 12: 160"></div>
+                                            <div class="lbp-bar" style="height: 40%;" title="Bin 13: 135"></div>
+                                            <div class="lbp-bar" style="height: 34%;" title="Bin 14: 115"></div>
+                                            <div class="lbp-bar" style="height: 28%;" title="Bin 15: 95"></div>
+                                            <div class="lbp-bar" style="height: 24%;" title="Bin 16: 82"></div>
+                                            <div class="lbp-bar" style="height: 20%;" title="Bin 17: 70"></div>
+                                            <div class="lbp-bar" style="height: 18%;" title="Bin 18: 62"></div>
+                                            <div class="lbp-bar" style="height: 16%;" title="Bin 19: 55"></div>
+                                            <div class="lbp-bar" style="height: 14%;" title="Bin 20: 48"></div>
+                                            <div class="lbp-bar" style="height: 12%;" title="Bin 21: 40"></div>
+                                            <div class="lbp-bar" style="height: 10%;" title="Bin 22: 35"></div>
+                                            <div class="lbp-bar" style="height: 8%;" title="Bin 23: 28"></div>
+                                            <div class="lbp-bar" style="height: 6%;" title="Bin 24: 22"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Right: GLCM 4x4 Matrices (Correlation & Contrast) -->
+                                    <div class="texture-subcard">
+                                        <div class="subcard-header">
+                                            <strong>Gray-Level Co-occurrence Matrix (GLCM)</strong>
+                                            <span class="subcard-meta">4×4 Spatial Matrices</span>
+                                        </div>
+                                        <div class="glcm-matrices-pair">
+                                            <!-- Matrix 1: Correlation (Warm Orange/Red) -->
+                                            <div class="glcm-matrix-box">
+                                                <span class="matrix-title">Correlation Heatmap</span>
+                                                <div class="glcm-grid-4x4 warm-grid">
+                                                    <div class="glcm-cell" style="background: rgba(239, 68, 68, 0.9);">0.92</div>
+                                                    <div class="glcm-cell" style="background: rgba(239, 68, 68, 0.65);">0.65</div>
+                                                    <div class="glcm-cell" style="background: rgba(239, 68, 68, 0.38);">0.38</div>
+                                                    <div class="glcm-cell" style="background: rgba(239, 68, 68, 0.12);">0.12</div>
+                                                    <div class="glcm-cell" style="background: rgba(239, 68, 68, 0.65);">0.65</div>
+                                                    <div class="glcm-cell" style="background: rgba(239, 68, 68, 0.86);">0.86</div>
+                                                    <div class="glcm-cell" style="background: rgba(239, 68, 68, 0.58);">0.58</div>
+                                                    <div class="glcm-cell" style="background: rgba(239, 68, 68, 0.29);">0.29</div>
+                                                    <div class="glcm-cell" style="background: rgba(239, 68, 68, 0.38);">0.38</div>
+                                                    <div class="glcm-cell" style="background: rgba(239, 68, 68, 0.58);">0.58</div>
+                                                    <div class="glcm-cell" style="background: rgba(239, 68, 68, 0.81);">0.81</div>
+                                                    <div class="glcm-cell" style="background: rgba(239, 68, 68, 0.52);">0.52</div>
+                                                    <div class="glcm-cell" style="background: rgba(239, 68, 68, 0.12);">0.12</div>
+                                                    <div class="glcm-cell" style="background: rgba(239, 68, 68, 0.29);">0.29</div>
+                                                    <div class="glcm-cell" style="background: rgba(239, 68, 68, 0.52);">0.52</div>
+                                                    <div class="glcm-cell" style="background: rgba(239, 68, 68, 0.74);">0.74</div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Matrix 2: Contrast (Cool Blue/Cyan) -->
+                                            <div class="glcm-matrix-box">
+                                                <span class="matrix-title">Contrast Matrix</span>
+                                                <div class="glcm-grid-4x4 cool-grid">
+                                                    <div class="glcm-cell" style="background: rgba(6, 182, 212, 0.1);">0.08</div>
+                                                    <div class="glcm-cell" style="background: rgba(6, 182, 212, 0.28);">0.28</div>
+                                                    <div class="glcm-cell" style="background: rgba(6, 182, 212, 0.54);">0.54</div>
+                                                    <div class="glcm-cell" style="background: rgba(6, 182, 212, 0.81);">0.81</div>
+                                                    <div class="glcm-cell" style="background: rgba(6, 182, 212, 0.28);">0.28</div>
+                                                    <div class="glcm-cell" style="background: rgba(6, 182, 212, 0.14);">0.14</div>
+                                                    <div class="glcm-cell" style="background: rgba(6, 182, 212, 0.36);">0.36</div>
+                                                    <div class="glcm-cell" style="background: rgba(6, 182, 212, 0.65);">0.65</div>
+                                                    <div class="glcm-cell" style="background: rgba(6, 182, 212, 0.54);">0.54</div>
+                                                    <div class="glcm-cell" style="background: rgba(6, 182, 212, 0.36);">0.36</div>
+                                                    <div class="glcm-cell" style="background: rgba(6, 182, 212, 0.19);">0.19</div>
+                                                    <div class="glcm-cell" style="background: rgba(6, 182, 212, 0.44);">0.44</div>
+                                                    <div class="glcm-cell" style="background: rgba(6, 182, 212, 0.81);">0.81</div>
+                                                    <div class="glcm-cell" style="background: rgba(6, 182, 212, 0.65);">0.65</div>
+                                                    <div class="glcm-cell" style="background: rgba(6, 182, 212, 0.44);">0.44</div>
+                                                    <div class="glcm-cell" style="background: rgba(6, 182, 212, 0.21);">0.21</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Scalar Haralick Metrics Strip -->
+                                <div class="haralick-metrics-row">
+                                    <div class="haralick-pill">Contrast: <strong>3.42</strong></div>
+                                    <div class="haralick-pill">Homogeneity: <strong>0.81</strong></div>
+                                    <div class="haralick-pill">Energy: <strong>0.28</strong></div>
+                                    <div class="haralick-pill">Correlation: <strong>0.76</strong></div>
+                                    <div class="haralick-pill">Entropy: <strong>4.15</strong></div>
+                                </div>
+                            </div>
+
+                            <!-- Feature Pane 2: Stain Color Analysis (Hidden by Default) -->
+                            <div id="feature-pane-color" class="feature-tab-content hidden">
+                                <div class="color-analysis-layout">
+                                    <div class="color-bar-item">
+                                        <span class="color-label">Hematoxylin (Nuclear OD)</span>
+                                        <div class="color-track"><div class="color-fill" style="width: 64.2%; background: #6366f1;"></div></div>
+                                        <span class="color-val">0.642</span>
+                                    </div>
+                                    <div class="color-bar-item">
+                                        <span class="color-label">Eosin (Cytoplasmic / Stroma OD)</span>
+                                        <div class="color-track"><div class="color-fill" style="width: 41.8%; background: #ec4899;"></div></div>
+                                        <span class="color-val">0.418</span>
+                                    </div>
+                                    <div class="color-bar-item">
+                                        <span class="color-label">RGB Red Channel Mean</span>
+                                        <div class="color-track"><div class="color-fill" style="width: 71.5%; background: #ef4444;"></div></div>
+                                        <span class="color-val">182.4</span>
+                                    </div>
+                                    <div class="color-bar-item">
+                                        <span class="color-label">RGB Green Channel Mean</span>
+                                        <div class="color-track"><div class="color-fill" style="width: 53.0%; background: #10b981;"></div></div>
+                                        <span class="color-val">135.2</span>
+                                    </div>
+                                    <div class="color-bar-item">
+                                        <span class="color-label">RGB Blue Channel Mean</span>
+                                        <div class="color-track"><div class="color-fill" style="width: 68.5%; background: #3b82f6;"></div></div>
+                                        <span class="color-val">174.8</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Feature Pane 3: PCA Projections (Hidden by Default) -->
+                            <div id="feature-pane-pca" class="feature-tab-content hidden">
+                                <div class="pca-scatter-container" id="pca-scatter-box">
+                                    <div class="pca-legend">
+                                        <span class="dot-pill" style="--c: var(--class-tum);">TUM</span>
+                                        <span class="dot-pill" style="--c: var(--class-str);">STR</span>
+                                        <span class="dot-pill" style="--c: var(--class-lym);">LYM</span>
+                                        <span class="dot-pill" style="--c: var(--class-nor);">NOR</span>
+                                        <span class="dot-pill" style="--c: var(--class-muc);">MUC</span>
+                                        <span class="dot-pill" style="--c: var(--class-deb);">DEB</span>
+                                        <span class="dot-pill" style="--c: var(--class-mus);">MUS</span>
+                                        <span class="dot-pill" style="--c: var(--class-adi);">ADI</span>
+                                    </div>
+                                    <svg class="pca-scatter-svg" viewBox="-4 -4 8 8" id="pca-svg-canvas">
+                                        <circle cx="2.45" cy="1.82" r="0.18" fill="var(--class-tum)" />
+                                        <circle cx="2.82" cy="1.45" r="0.18" fill="var(--class-tum)" />
+                                        <circle cx="1.95" cy="2.15" r="0.18" fill="var(--class-tum)" />
+                                        <circle cx="0.45" cy="-1.25" r="0.18" fill="var(--class-str)" />
+                                        <circle cx="0.82" cy="-0.95" r="0.18" fill="var(--class-str)" />
+                                        <circle cx="-1.85" cy="2.45" r="0.18" fill="var(--class-lym)" />
+                                        <circle cx="-2.15" cy="2.10" r="0.18" fill="var(--class-lym)" />
+                                        <circle cx="-1.45" cy="-1.82" r="0.18" fill="var(--class-nor)" />
+                                        <circle cx="-1.10" cy="-1.45" r="0.18" fill="var(--class-nor)" />
+                                        <circle cx="1.15" cy="-2.35" r="0.18" fill="var(--class-muc)" />
+                                        <circle cx="0.12" cy="0.45" r="0.18" fill="var(--class-deb)" />
+                                        <circle cx="-2.45" cy="-0.65" r="0.18" fill="var(--class-mus)" />
+                                        <circle cx="-2.85" cy="-2.25" r="0.18" fill="var(--class-adi)" />
+                                    </svg>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Right Column: Diagnostic Inference Inspector -->
-                        <div class="inference-inspector-panel">
-                            <div class="inspector-header">
-                                <h3>Classification Assessment</h3>
-                                <span class="badge badge-implemented" id="model-badge-status">Checkpointed</span>
-                            </div>
-
-                            <!-- Classification Result Topline: Purely Scientific (No Clinical Risk Tiers) -->
-                            <div id="result-card" class="classification-result-banner hidden">
-                                <div class="result-top-row">
-                                    <div class="predicted-tissue-badge">
-                                        <span id="result-label">No result yet</span>
-                                    </div>
-                                    <!-- Hidden DOM node preserved for script compatibility -->
-                                    <span id="result-risk" class="hidden"></span>
-                                    <div class="confidence-badge" title="Softmax probability of predicted class">
-                                        <span style="color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase;">Confidence:</span>
-                                        <strong id="result-confidence" style="color: var(--cyan-400); font-family: var(--font-mono);">0%</strong>
-                                    </div>
+                        <!-- QUADRANT 4 (BOTTOM RIGHT): CLASSIFICATION & CONFIDENCE -->
+                        <div class="workstation-panel ref1-panel">
+                            <div class="panel-header">
+                                <div class="panel-header-titles">
+                                    <p class="eyebrow">Diagnostic Assessment</p>
+                                    <h2>Classification &amp; Model Confidence</h2>
                                 </div>
-
-                                <!-- Crucial Required Scientific Label Metric: Precise Formulation -->
-                                <div class="scientific-tum-metric-card">
-                                    <div class="tum-metric-meta">
-                                        <span>Predicted TUM Class Probability</span>
-                                        <small>(Patch-level model output)</small>
-                                    </div>
-                                    <div id="result-percentage" class="tum-metric-value">0%</div>
-                                </div>
-
-                                <div class="inference-metrics-row">
-                                    <div class="mini-metric-tile">
-                                        <span>Inference Engine</span>
-                                        <strong id="result-source">GastricCancerRNN</strong>
-                                    </div>
-                                    <div class="mini-metric-tile">
-                                        <span>Sequence Length</span>
-                                        <strong style="color: var(--text-secondary);">16 Patches (56×56 px)</strong>
-                                    </div>
+                                <div class="panel-actions">
+                                    <span class="badge badge-implemented" id="model-badge-status">Checkpointed</span>
                                 </div>
                             </div>
 
-                            <!-- 8-Class Probability Distribution -->
-                            <div class="bar-panel">
-                                <div class="panel-header compact">
-                                    <h4 style="margin: 0; font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">
-                                        8-Class Tissue Probability Distribution
-                                    </h4>
+                            <div class="ref1-classification-layout">
+                                <!-- Left Column: 8-Class Probability Distribution Bars -->
+                                <div class="ref1-bars-col">
+                                    <div class="panel-header compact" style="margin-bottom: 8px;">
+                                        <span class="subcard-meta">8-Class Tissue Probability Distribution</span>
+                                    </div>
+                                    <div id="probability-bars" class="probabilities-container">
+                                        <!-- Dynamically populated -->
+                                    </div>
                                 </div>
-                                <div id="probability-bars" class="probabilities-container">
-                                    <!-- Populated dynamically -->
-                                    <div style="color: var(--text-muted); font-size: 0.82rem; padding: 12px 0;">
-                                        Run inference on a tissue patch to view probability distribution across all 8 classes.
+
+                                <!-- Right Column: Glowing Radial Confidence Meter (Ref 1 Exact Design) -->
+                                <div class="ref1-confidence-col">
+                                    <!-- Radial Circular Progress Meter -->
+                                    <div class="radial-confidence-box">
+                                        <svg class="radial-svg" viewBox="0 0 120 120">
+                                            <circle class="radial-bg" cx="60" cy="60" r="48" />
+                                            <circle id="radial-progress-circle" class="radial-fill" cx="60" cy="60" r="48" style="stroke-dasharray: 301.6; stroke-dashoffset: 42.2;" />
+                                        </svg>
+                                        <div class="radial-center-text">
+                                            <span class="radial-percent" id="radial-confidence-value">86.0%</span>
+                                            <span class="radial-sub">Confidence</span>
+                                        </div>
+                                    </div>
+                                    <span class="radial-meter-label">Model Prediction Confidence</span>
+                                    <small class="radial-meter-caveat">(Patch-level model output)</small>
+
+                                    <!-- Sample Metadata Card -->
+                                    <div class="ref1-patient-card">
+                                        <div class="patient-card-header">
+                                            <strong>Sample Metadata</strong>
+                                            <span class="patient-time">Verified Patch</span>
+                                        </div>
+                                        <div class="patient-card-body">
+                                            <div class="patient-item">
+                                                <span>Tissue Class:</span>
+                                                <strong id="result-label" style="color: var(--class-tum);">TUM (Adenocarcinoma)</strong>
+                                            </div>
+                                            <!-- Preserved hidden DOM element for compatibility -->
+                                            <span id="result-risk" class="hidden"></span>
+                                            <div class="patient-item">
+                                                <span>Predicted TUM Prob:</span>
+                                                <strong id="result-percentage" style="color: var(--teal-400);">86.0%</strong>
+                                            </div>
+                                            <div class="patient-item">
+                                                <span>Confidence:</span>
+                                                <strong id="result-confidence">86.0%</strong>
+                                            </div>
+                                            <div class="patient-item">
+                                                <span>Engine:</span>
+                                                <strong id="result-source">GastricCancerRNN</strong>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- BiLSTM Sequence Attention Weights (Attribution Only, Not Tumor Localization) -->
-                            <div class="attention-preview-container" id="attention-preview-box">
+                            <!-- BiLSTM Sequence Attention Weights Preview -->
+                            <div class="attention-preview-container" id="attention-preview-box" style="margin-top: 14px;">
                                 <div class="attention-preview-header">
-                                    <strong style="color: var(--text-primary); font-size: 0.82rem;">BiLSTM sequence attention weights</strong>
-                                    <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">16 Sequential Tokens (56×56 px)</span>
+                                    <strong style="color: var(--text-primary); font-size: 0.82rem;">BiLSTM Sequence Attention Weights (16 Tokens)</strong>
                                 </div>
                                 <div class="attention-grid" id="attention-grid-cells">
-                                    <!-- 16 cells representing sequential tokens -->
                                     <div class="attention-cell" title="Token 1"></div><div class="attention-cell" title="Token 2"></div><div class="attention-cell" title="Token 3"></div><div class="attention-cell" title="Token 4"></div>
                                     <div class="attention-cell" title="Token 5"></div><div class="attention-cell" title="Token 6"></div><div class="attention-cell" title="Token 7"></div><div class="attention-cell" title="Token 8"></div>
                                     <div class="attention-cell" title="Token 9"></div><div class="attention-cell" title="Token 10"></div><div class="attention-cell" title="Token 11"></div><div class="attention-cell" title="Token 12"></div>
                                     <div class="attention-cell" title="Token 13"></div><div class="attention-cell" title="Token 14"></div><div class="attention-cell" title="Token 15"></div><div class="attention-cell" title="Token 16"></div>
                                 </div>
-                                <small style="color: var(--text-muted); font-size: 0.72rem; line-height: 1.45; display: block; margin-top: 4px;">
-                                    Model attribution visualization only — displays mathematical softmax weights across sequential BiLSTM patch tokens. Does NOT establish biological importance, diagnostic localization, or tumor margins.
-                                </small>
                             </div>
-
                         </div>
+
                     </div>
 
-                    <!-- SECONDARY ANALYTICS PANELS (DASHBOARD) -->
-                    <div class="analytics-dashboard-grid">
-
-                        <!-- Panel 1: Dataset Tissue Distribution -->
+                    <!-- SECONDARY ANALYTICS PANELS: DATASET COHORT & PREDICTION LEDGER -->
+                    <div class="analytics-dashboard-grid" style="margin-top: 18px;">
+                        <!-- Panel 1: Dataset Distribution -->
                         <section class="workstation-panel">
                             <div class="panel-header">
                                 <div class="panel-header-titles">
@@ -447,168 +820,317 @@
                             <div id="dataset-bars" class="probabilities-container"></div>
                         </section>
 
-                        <!-- Panel 2: Historical Benchmark & Confusion Matrix -->
+                        <!-- Panel 2: Benchmark Confusion Matrix -->
                         <section class="workstation-panel">
                             <div class="panel-header">
                                 <div class="panel-header-titles">
-                                    <p class="eyebrow">Empirical Verification</p>
-                                    <h2>Development Notebook Benchmark & Confusion Matrix</h2>
+                                    <p class="eyebrow">Baseline Verification</p>
+                                    <h2>Historical Benchmark Matrix</h2>
                                 </div>
-                                <span class="badge badge-evaluated">Historical Record</span>
+                                <span class="badge badge-implemented">71.04% Test Acc</span>
                             </div>
-
-                            <p style="color: var(--text-muted); font-size: 0.78rem; margin: -6px 0 12px;">
-                                Metrics from the historical development notebook benchmark (<code style="color: var(--text-secondary);">notebook_metrics.json</code>) on development split ($N=3,110$):
-                            </p>
-
-                            <div class="metric-stat-quad">
-                                <div class="quad-stat-box">
-                                    <span>Dev Train Acc</span>
-                                    <strong id="train-accuracy">0%</strong>
-                                </div>
-                                <div class="quad-stat-box">
-                                    <span>Dev Valid Acc</span>
-                                    <strong id="valid-accuracy">0%</strong>
-                                </div>
-                                <div class="quad-stat-box">
-                                    <span>Dev Test Acc</span>
-                                    <strong id="test-accuracy">0%</strong>
-                                </div>
-                                <div class="quad-stat-box">
-                                    <span>Dev Test Loss</span>
-                                    <strong id="test-loss">0</strong>
-                                </div>
-                            </div>
-
-                            <div class="benchmark-card-grid">
-                                <div>
-                                    <img src="/static/assets/confusion_matrix.png" alt="Confusion matrix" class="confusion-image">
-                                </div>
-                                <div class="table-wrap">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>Class</th>
-                                                <th>Precision</th>
-                                                <th>Recall</th>
-                                                <th>F1</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="benchmark-body"></tbody>
-                                    </table>
-                                </div>
+                            <div class="confusion-matrix-frame">
+                                <img src="/api/research/artifacts/benchmarks/confusion_matrix_historical.png" alt="Confusion Matrix" class="confusion-matrix-img" onerror="this.onerror=null; this.src='/static/assets/confusion_matrix.png';">
                             </div>
                         </section>
 
-                        <!-- Panel 3: Clinical Cohort (N=300) -->
-                        <section class="workstation-panel">
+                        <!-- Panel 3: SQLite Prediction Ledger -->
+                        <section class="workstation-panel full-width-panel">
                             <div class="panel-header">
                                 <div class="panel-header-titles">
-                                    <p class="eyebrow">Multimodal Data</p>
-                                    <h2>Clinical Cohort Demographics (N=300)</h2>
+                                    <p class="eyebrow">Audit Trail &amp; Ledger</p>
+                                    <h2>Prediction History</h2>
                                 </div>
-                                <span class="badge badge-implemented">Aggregated</span>
+                                <span class="badge badge-evaluated">SQLite Ledger</span>
                             </div>
-                            <div class="caveat-banner info" style="padding: 8px 12px; margin-bottom: 12px; font-size: 0.78rem;">
-                                <div>
-                                    <strong>Privacy Enforced:</strong>
-                                    All patient admission IDs are protected. Zero crosswalk linkage exists between GCHTID image tiles and clinical records.
-                                </div>
-                            </div>
-                            <div class="clinical-stats-row">
-                                <div class="quad-stat-box">
-                                    <span>Mean Age</span>
-                                    <strong id="mean-age">60.8 yrs</strong>
-                                </div>
-                                <div class="quad-stat-box">
-                                    <span>Male Patients</span>
-                                    <strong id="male-count">236</strong>
-                                </div>
-                                <div class="quad-stat-box">
-                                    <span>Female Patients</span>
-                                    <strong id="female-count">64</strong>
-                                </div>
-                            </div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
-                                <div>
-                                    <h4 style="margin: 0 0 8px; font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase;">
-                                        Comprehensive Staging
-                                    </h4>
-                                    <div id="stage-bars" class="probabilities-container"></div>
-                                </div>
-                                <div>
-                                    <h4 style="margin: 0 0 8px; font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase;">
-                                        Histological Subtypes
-                                    </h4>
-                                    <div id="histology-bars" class="probabilities-container"></div>
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- Panel 4: In-Silico Molecular Targets -->
-                        <section class="workstation-panel">
-                            <div class="panel-header">
-                                <div class="panel-header-titles">
-                                    <p class="eyebrow">Molecular Predictions</p>
-                                    <h2>hsa-miR-497-5p In-Silico Targets</h2>
-                                </div>
-                                <span class="badge badge-evaluated">3,711 Records</span>
-                            </div>
-                            <div class="caveat-banner info" style="padding: 8px 12px; margin-bottom: 12px; font-size: 0.78rem;">
-                                <div>
-                                    <strong>In-Silico Disclosure:</strong>
-                                    Predictions across 8 computational databases. High consensus targets include <code>SEMA6D</code> (8/8) and <code>CCNE1</code> (7/8).
-                                </div>
-                            </div>
-                            <div class="table-wrap">
-                                <table>
+                            <div class="table-container">
+                                <table class="scientific-data-table">
                                     <thead>
                                         <tr>
-                                            <th>Target Symbol</th>
-                                            <th>Predicted Consensus</th>
-                                            <th>All Databases Sum</th>
+                                            <th>Timestamp</th>
+                                            <th>Image Filename</th>
+                                            <th>Predicted Class</th>
+                                            <th>Confidence</th>
+                                            <th>Model Checkpoint</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="biomarker-body"></tbody>
+                                    <tbody id="prediction-history-body">
+                                        <!-- Dynamically loaded -->
+                                    </tbody>
                                 </table>
                             </div>
                         </section>
-
                     </div>
-
-                    <!-- Panel 5: SQLite History Table: Clinical Risk Band Column Removed -->
-                    <section class="workstation-panel">
-                        <div class="panel-header">
-                            <div class="panel-header-titles">
-                                <p class="eyebrow">Database Ledger</p>
-                                <h2>Recent Prediction History</h2>
-                            </div>
-                            <span class="badge badge-implemented">SQLite Ledger</span>
-                        </div>
-                        <div class="table-wrap">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>File</th>
-                                        <th>Predicted Tissue Class</th>
-                                        <th>Model Confidence</th>
-                                        <th title="Predicted TUM class probability (patch-level model output)">Predicted TUM %</th>
-                                        <th>Model Source</th>
-                                        <th>Timestamp</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="records-body"></tbody>
-                            </table>
-                        </div>
-                    </section>
 
                 </div>
 
+                <!-- ===============================================================
+                     VIEW 2: ADVANCED SPATIAL RESEARCH (REFERENCE 2 INSPIRED)
+                     =============================================================== -->
+                <div id="spatial-research-view" class="workbench-view hidden">
+
+                    <!-- Spatial Breadcrumb & Sub-header -->
+                    <div class="spatial-subbar">
+                        <div class="spatial-breadcrumbs">
+                            <span class="crumb-dim">Projects</span>
+                            <span class="crumb-arrow">›</span>
+                            <span class="crumb-dim">Gastric Cancer Study</span>
+                            <span class="crumb-arrow">›</span>
+                            <span class="crumb-active">Sample GC-TUM-01</span>
+                            <span class="crumb-arrow">›</span>
+                            <span class="crumb-highlight">Spatial Candidate-Object Overview</span>
+                        </div>
+                        <div class="spatial-subbar-actions">
+                            <button type="button" class="btn-spatial-action" onclick="toggleCopilotDrawer()">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2a8 8 0 0 0-8 8c0 3.37 2.1 6.26 5.09 7.4.4.07.55-.17.55-.38v-1.34c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.88-1.17-.88-1.17-.72-.49.06-.48.06-.48.8.06 1.22.82 1.22.82.71 1.21 1.87.86 2.33.66.07-.52.28-.86.51-1.06-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.65 7.65 0 0 1 12 6.84c.68.01 1.36.09 2 .27 1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .22.15.46.55.38A8.01 8.01 0 0 0 20 10a8 8 0 0 0-8-8z" />
+                                </svg>
+                                <span>AI Analysis</span>
+                            </button>
+                            <button type="button" class="btn-spatial-action highlight-btn" onclick="initSpatialGraphCanvas()">
+                                <span>Run Spatial Graph</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Main Spatial 2-Column Section (Reference 2 Layout) -->
+                    <div class="spatial-main-grid">
+
+                        <!-- Left Column: Large Central 2D Tissue & Spatial Graph Viewer -->
+                        <div class="spatial-center-panel">
+                            <!-- Canvas Top Toolbar -->
+                            <div class="spatial-canvas-toolbar">
+                                <div class="toolbar-mode-pills">
+                                    <button type="button" class="tool-pill active" id="tool-graph-mode" onclick="setSpatialViewMode('graph')">Candidate Graph (k=6)</button>
+                                    <button type="button" class="tool-pill" id="tool-patch-mode" onclick="setSpatialViewMode('patch')">2D Histology Patch</button>
+                                    <button type="button" class="tool-pill" id="tool-3d-mode" onclick="setSpatialViewMode('3d')">3D Volumetric (Future)</button>
+                                </div>
+                                <div class="toolbar-actions">
+                                    <button type="button" class="canvas-tool-btn" title="Reset Zoom" onclick="resetSpatialCanvas()">100%</button>
+                                    <button type="button" class="canvas-tool-btn" title="Zoom In" onclick="zoomSpatialCanvas(1.2)">+</button>
+                                    <button type="button" class="canvas-tool-btn" title="Zoom Out" onclick="zoomSpatialCanvas(0.8)">-</button>
+                                </div>
+                            </div>
+
+                            <!-- Interactive 2D Spatial Canvas Stage -->
+                            <div class="spatial-canvas-viewport" id="spatial-canvas-stage">
+                                <svg class="spatial-graph-svg" id="spatial-svg-viewport" viewBox="0 0 240 240">
+                                    <!-- Graph Edges & Nodes generated dynamically by JS -->
+                                </svg>
+
+                                <!-- Right Color Scale Intensity Bar -->
+                                <div class="spatial-od-scale-bar">
+                                    <span class="scale-max">1.0 OD</span>
+                                    <div class="od-gradient-line"></div>
+                                    <span class="scale-min">0.0 OD</span>
+                                </div>
+
+                                <!-- Tooltip Overlay -->
+                                <div class="spatial-node-tooltip hidden" id="spatial-tooltip">
+                                    <strong id="st-node-id">Node #1</strong>
+                                    <span id="st-node-class">TUM (Adenocarcinoma)</span>
+                                    <small id="st-node-od">Hematoxylin OD: 0.72</small>
+                                </div>
+
+                                <!-- Physical Calibration Disclosure -->
+                                <div class="spatial-disclaimer-tag">
+                                    Experimental candidate-object spatial visualization — not validated cell segmentation
+                                </div>
+                            </div>
+
+                            <!-- Bottom Thumbnail Strip Across 6 Classes (Ref 2 Style) -->
+                            <div class="spatial-bottom-thumbnails">
+                                <span class="bottom-thumb-label">Explore Cohort Patches:</span>
+                                <button type="button" class="spatial-thumb-card active" onclick="loadSpatialSample('TUM')">
+                                    <span class="thumb-mini-dot" style="background: var(--class-tum);"></span>
+                                    <span>TUM-001</span>
+                                </button>
+                                <button type="button" class="spatial-thumb-card" onclick="loadSpatialSample('STR')">
+                                    <span class="thumb-mini-dot" style="background: var(--class-str);"></span>
+                                    <span>STR-002</span>
+                                </button>
+                                <button type="button" class="spatial-thumb-card" onclick="loadSpatialSample('LYM')">
+                                    <span class="thumb-mini-dot" style="background: var(--class-lym);"></span>
+                                    <span>LYM-003</span>
+                                </button>
+                                <button type="button" class="spatial-thumb-card" onclick="loadSpatialSample('NOR')">
+                                    <span class="thumb-mini-dot" style="background: var(--class-nor);"></span>
+                                    <span>NOR-004</span>
+                                </button>
+                                <button type="button" class="spatial-thumb-card" onclick="loadSpatialSample('MUC')">
+                                    <span class="thumb-mini-dot" style="background: var(--class-muc);"></span>
+                                    <span>MUC-005</span>
+                                </button>
+                                <button type="button" class="spatial-thumb-card" onclick="loadSpatialSample('MUS')">
+                                    <span class="thumb-mini-dot" style="background: var(--class-mus);"></span>
+                                    <span>MUS-006</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Tissue Composition & AI-Derived Insights -->
+                        <div class="spatial-sidebar-panel">
+
+                            <!-- Card 1: Tissue Class Composition -->
+                            <div class="workstation-panel compact-panel">
+                                <div class="panel-header compact">
+                                    <span class="subcard-meta">Tissue Class Composition</span>
+                                    <span class="badge badge-implemented">8 Categories</span>
+                                </div>
+                                <div class="tissue-composition-layout">
+                                    <div class="composition-list" id="composition-items-list">
+                                        <!-- Dynamically filled with 8 classes -->
+                                    </div>
+                                    <div class="composition-stacked-bar" id="composition-stacked-bar">
+                                        <!-- Multi-color vertical stacked composition bar -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 2: AI-Derived Insights (4-Grid) -->
+                            <div class="workstation-panel compact-panel">
+                                <div class="panel-header compact">
+                                    <span class="subcard-meta">AI-Derived Insights</span>
+                                    <span class="badge badge-evaluated">Verified</span>
+                                </div>
+                                <div class="ai-insights-grid">
+                                    <div class="insight-tile">
+                                        <span class="insight-label">Patch Cohort</span>
+                                        <strong class="insight-val" id="ins-patches">31,096</strong>
+                                        <small class="insight-sub">HMU-GC-HE-30K</small>
+                                    </div>
+                                    <div class="insight-tile">
+                                        <span class="insight-label">Benchmark Acc</span>
+                                        <strong class="insight-val" id="ins-acc">71.04%</strong>
+                                        <small class="insight-sub">N=4,665 Test Split</small>
+                                    </div>
+                                    <div class="insight-tile">
+                                        <span class="insight-label">Candidate Objects</span>
+                                        <strong class="insight-val" id="ins-objects">1,280</strong>
+                                        <small class="insight-sub">HED-Watershed</small>
+                                    </div>
+                                    <div class="insight-tile">
+                                        <span class="insight-label">Spatial Edges</span>
+                                        <strong class="insight-val" id="ins-edges">3,840</strong>
+                                        <small class="insight-sub">Symmetric k=6</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 3: Spatial Interaction / Proximity Score Multi-Line SVG Chart -->
+                            <div class="workstation-panel compact-panel">
+                                <div class="panel-header compact">
+                                    <span class="subcard-meta">Spatial Interaction Score</span>
+                                    <span class="badge badge-evaluated">Proximity vs. Distance (µm)</span>
+                                </div>
+                                <div class="spatial-curve-frame">
+                                    <svg class="spatial-curve-svg" viewBox="0 0 300 120" id="spatial-curve-svg">
+                                        <!-- Grid lines -->
+                                        <line x1="30" y1="20" x2="290" y2="20" stroke="rgba(255,255,255,0.06)" />
+                                        <line x1="30" y1="55" x2="290" y2="55" stroke="rgba(255,255,255,0.06)" />
+                                        <line x1="30" y1="90" x2="290" y2="90" stroke="rgba(255,255,255,0.06)" />
+                                        <!-- Axis Labels -->
+                                        <text x="5" y="25" fill="var(--text-muted)" font-size="8">1.0</text>
+                                        <text x="5" y="60" fill="var(--text-muted)" font-size="8">0.5</text>
+                                        <text x="5" y="95" fill="var(--text-muted)" font-size="8">0.0</text>
+                                        <text x="30" y="112" fill="var(--text-muted)" font-size="8">0</text>
+                                        <text x="110" y="112" fill="var(--text-muted)" font-size="8">50</text>
+                                        <text x="195" y="112" fill="var(--text-muted)" font-size="8">100</text>
+                                        <text x="275" y="112" fill="var(--text-muted)" font-size="8">150 µm</text>
+                                        
+                                        <!-- Curves: TUM-STR (Orange), TUM-LYM (Cyan), TUM-TUM (Red) -->
+                                        <path d="M 30 85 Q 90 60 145 22 T 220 65 T 290 82" fill="none" stroke="#f97316" stroke-width="2.5" />
+                                        <path d="M 30 88 Q 80 75 145 35 T 220 72 T 290 85" fill="none" stroke="#06b6d4" stroke-width="2.5" />
+                                        <path d="M 30 80 Q 90 35 145 20 T 220 80 T 290 88" fill="none" stroke="#ef4444" stroke-width="2.5" />
+                                    </svg>
+                                    <div class="spatial-curve-legend">
+                                        <span class="curve-pill" style="--c: #f97316;">Tumor – Stroma (TUM-STR)</span>
+                                        <span class="curve-pill" style="--c: #06b6d4;">Tumor – Lymphocyte (TUM-LYM)</span>
+                                        <span class="curve-pill" style="--c: #ef4444;">Tumor – Tumor (TUM-TUM)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Bottom Multi-Panel Row (Reference 2 Style) -->
+                    <div class="spatial-bottom-grid">
+
+                        <!-- Panel 1: Molecular Biomarkers Table -->
+                        <div class="workstation-panel">
+                            <div class="panel-header compact">
+                                <div class="panel-header-titles">
+                                    <p class="eyebrow">Biomarker Targets</p>
+                                    <h3 style="margin: 0; font-size: 0.95rem;">hsa-miR-497-5p In-Silico Consensus</h3>
+                                </div>
+                                <span class="badge badge-implemented">Consensus ≥ 6/8</span>
+                            </div>
+                            <div class="table-container" style="max-height: 180px;">
+                                <table class="scientific-data-table compact-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Gene</th>
+                                            <th>Consensus</th>
+                                            <th>Score</th>
+                                            <th>Predicted Biological Role</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="spatial-markers-body">
+                                        <!-- Dynamically filled -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Panel 2: Top Enriched Pathways Table -->
+                        <div class="workstation-panel">
+                            <div class="panel-header compact">
+                                <div class="panel-header-titles">
+                                    <p class="eyebrow">Functional Profiling</p>
+                                    <h3 style="margin: 0; font-size: 0.95rem;">Top Enriched Pathways</h3>
+                                </div>
+                                <span class="badge badge-implemented">KEGG / Reactome</span>
+                            </div>
+                            <div class="table-container" style="max-height: 180px;">
+                                <table class="scientific-data-table compact-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Pathway Description</th>
+                                            <th>p-Value</th>
+                                            <th>Source Database</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="spatial-pathways-body">
+                                        <!-- Dynamically filled -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Panel 3: AI Research Summary Card -->
+                        <div class="workstation-panel ai-summary-card">
+                            <div class="ai-summary-header">
+                                <div class="ai-brain-icon-glow">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 2a8 8 0 0 0-8 8c0 3.37 2.1 6.26 5.09 7.4.4.07.55-.17.55-.38v-1.34c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.88-1.17-.88-1.17-.72-.49.06-.48.06-.48.8.06 1.22.82 1.22.82.71 1.21 1.87.86 2.33.66.07-.52.28-.86.51-1.06-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.65 7.65 0 0 1 12 6.84c.68.01 1.36.09 2 .27 1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .22.15.46.55.38A8.01 8.01 0 0 0 20 10a8 8 0 0 0-8-8z" />
+                                    </svg>
+                                </div>
+                                <h3 style="margin: 0; font-size: 0.95rem; color: var(--text-primary);">AI Research Summary</h3>
+                            </div>
+                            <div class="ai-summary-text" id="ai-summary-content">
+                                High epithelial density with prominent adenocarcinoma gland infiltration. Dense candidate-object clustering in mucosal regions with marked decrease in extracellular mucus. Concordant with high-consensus CCNE1 and PTEN regulatory disruption identified in the miRNA target screening cohort.
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
 
                 <!-- ===============================================================
-                     VIEW 2: UNIFIED RESEARCH WORKBENCH (14 MODULES)
+                     VIEW 3: RESEARCH WORKBENCH (14 MODULES PRESERVED IN FULL)
                      =============================================================== -->
-                <section id="research-workbench-view" class="workbench-view hidden">
+<section id="research-workbench-view" class="workbench-view hidden">
 
                     <!-- 14-Module Horizontal Subnav Pill Bar -->
                     <nav class="workbench-subnav" aria-label="Research Workbench Modules">
@@ -1144,7 +1666,8 @@
                 <!-- ===================================================================
                      CLINICAL RESEARCH, GASTRIC CANCER ANALYSIS & PDF WORKBENCH
                      =================================================================== -->
-                <section id="clinical-reporting-view" class="workbench-view hidden">
+
+<section id="clinical-reporting-view" class="workbench-view hidden">
 
                     <!-- Workbench Subnav Pill Bar -->
                     <nav class="workbench-subnav" aria-label="Clinical Reporting Tabs">
@@ -1561,9 +2084,51 @@
 
             </main>
         </div>
+
+        <!-- ===================================================================
+             RESEARCH COPILOT SLIDE-IN DRAWER (REF 2 AI ANALYSIS INSPIRED)
+             =================================================================== -->
+        <div class="copilot-drawer-backdrop hidden" id="copilot-backdrop" onclick="toggleCopilotDrawer()"></div>
+        <aside class="copilot-drawer hidden" id="copilot-drawer" aria-label="Research Copilot Assistant">
+            <div class="copilot-header">
+                <div class="copilot-title-group">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--teal-400);">
+                        <path d="M12 2a8 8 0 0 0-8 8c0 3.37 2.1 6.26 5.09 7.4.4.07.55-.17.55-.38v-1.34c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.88-1.17-.88-1.17-.72-.49.06-.48.06-.48.8.06 1.22.82 1.22.82.71 1.21 1.87.86 2.33.66.07-.52.28-.86.51-1.06-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.65 7.65 0 0 1 12 6.84c.68.01 1.36.09 2 .27 1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .22.15.46.55.38A8.01 8.01 0 0 0 20 10a8 8 0 0 0-8-8z" />
+                    </svg>
+                    <div>
+                        <h3 style="margin: 0; font-size: 1rem; color: var(--text-primary);">GastricPath AI Copilot</h3>
+                        <span style="font-size: 0.72rem; color: var(--text-muted);" id="copilot-context-label">Context: Live Classifier</span>
+                    </div>
+                </div>
+                <button type="button" class="copilot-close-btn" onclick="toggleCopilotDrawer()" title="Close Copilot">✕</button>
+            </div>
+
+            <div class="copilot-chat-history" id="copilot-chat-history">
+                <div class="copilot-msg copilot-assistant">
+                    <p>Welcome to <strong>GastricPath AI Research Copilot</strong>. I provide grounded scientific synthesis across our 32-paper clinical literature registry, model telemetry, and spatial graph analyses.</p>
+                    <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 6px;">How can I assist your investigation today?</p>
+                </div>
+            </div>
+
+            <!-- Quick Action Prompts -->
+            <div class="copilot-quick-prompts">
+                <button type="button" class="copilot-chip" onclick="askCopilot('explain_prediction')">Explain Current Prediction</button>
+                <button type="button" class="copilot-chip" onclick="askCopilot('compare_models')">Compare CNN-BiLSTM vs. Phikon</button>
+                <button type="button" class="copilot-chip" onclick="askCopilot('spatial_clustering')">Interpret Spatial Proximity Curve</button>
+                <button type="button" class="copilot-chip" onclick="askCopilot('molecular_evidence')">Summarize miRNA Targets</button>
+            </div>
+
+            <div class="copilot-input-bar">
+                <input type="text" id="copilot-user-input" class="text-input" placeholder="Ask research question..." onkeydown="if(event.key==='Enter') sendCopilotQuery()">
+                <button type="button" class="btn-run-prediction" onclick="sendCopilotQuery()" style="padding: 0 16px;">
+                    <span>Send</span>
+                </button>
+            </div>
+        </aside>
+
     </div>
 
-    <script src="/static/app.js?v=20261112v2"></script>
+    <script src="/static/app.js?v=20261113a"></script>
 </body>
 
 </html>

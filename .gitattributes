@@ -30,3 +30,8 @@
 *.csv text
 *.ris text
 *.bib text
+
+# Preserved checksum manifests (byte-exact, prevent line-ending normalization)
+research/splits/*.csv -text
+research/manifests/*.csv -text
+

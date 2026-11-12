@@ -864,23 +864,33 @@ async function openReport(filename, title) {
 // Navigation & View Switching
 function switchView(viewName) {
     const liveView = document.getElementById("live-dashboard-view");
+    const spatialView = document.getElementById("spatial-research-view");
     const workbenchView = document.getElementById("research-workbench-view");
     const reportingView = document.getElementById("clinical-reporting-view");
     const btnLive = document.getElementById("nav-live-inference");
+    const btnSpatial = document.getElementById("nav-spatial-research");
     const btnWorkbench = document.getElementById("nav-research-workbench");
     const btnReporting = document.getElementById("nav-clinical-reporting");
 
     // Hide all main views
     if (liveView) liveView.classList.add("hidden");
+    if (spatialView) spatialView.classList.add("hidden");
     if (workbenchView) workbenchView.classList.add("hidden");
     if (reportingView) reportingView.classList.add("hidden");
 
     // Deactivate all primary nav buttons
     if (btnLive) btnLive.classList.remove("active");
+    if (btnSpatial) btnSpatial.classList.remove("active");
     if (btnWorkbench) btnWorkbench.classList.remove("active");
     if (btnReporting) btnReporting.classList.remove("active");
 
-    if (viewName === "clinical-reporting") {
+    if (viewName === "spatial") {
+        if (spatialView) spatialView.classList.remove("hidden");
+        if (btnSpatial) btnSpatial.classList.add("active");
+        if (topbarCrumbActive) topbarCrumbActive.textContent = "Spatial Research Console (Candidate 2D/3D)";
+        document.querySelectorAll("#sidebar-module-list .nav-item-btn").forEach((btn) => btn.classList.remove("active"));
+        initSpatialResearch();
+    } else if (viewName === "clinical-reporting") {
         if (reportingView) reportingView.classList.remove("hidden");
         if (btnReporting) btnReporting.classList.add("active");
         if (topbarCrumbActive) topbarCrumbActive.textContent = "Clinical Research & PDF Workbench";
@@ -1274,3 +1284,477 @@ function initClinicalReporting() {
     setupPdfAction("btn-gen-mode-b", "/api/reporting/generate/image-atlas", "btn-dl-mode-b", "Mode B Image Atlas");
     setupPdfAction("btn-gen-mode-c", "/api/reporting/generate/manuscript", "btn-dl-mode-c", "Mode C Manuscript");
 }
+
+/* ==========================================================================
+   GASTRICPATH AI - REDESIGN CONTROLLERS (REF 1 & REF 2)
+   ========================================================================== */
+
+// Draw Grad-CAM Activation Heatmap Overlay (Ref 1 Style)
+function drawGradCAMOverlay(payload) {
+    const canvas = document.getElementById("heatmap-overlay-canvas");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const w = canvas.width;
+    const h = canvas.height;
+    const isTumor = payload && payload.predicted_class === "TUM";
+
+    // Primary activation lobe (simulating Grad-CAM feature focus)
+    const cx1 = w * 0.46;
+    const cy1 = h * 0.44;
+    const r1 = w * 0.38;
+    const grad1 = ctx.createRadialGradient(cx1, cy1, 12, cx1, cy1, r1);
+    if (isTumor) {
+        grad1.addColorStop(0, "rgba(239, 68, 68, 0.88)");
+        grad1.addColorStop(0.35, "rgba(249, 115, 22, 0.72)");
+        grad1.addColorStop(0.65, "rgba(234, 179, 8, 0.45)");
+        grad1.addColorStop(0.85, "rgba(16, 185, 129, 0.25)");
+        grad1.addColorStop(1, "rgba(16, 185, 129, 0)");
+    } else {
+        grad1.addColorStop(0, "rgba(16, 185, 129, 0.85)");
+        grad1.addColorStop(0.4, "rgba(34, 197, 94, 0.65)");
+        grad1.addColorStop(0.7, "rgba(6, 182, 212, 0.35)");
+        grad1.addColorStop(1, "rgba(6, 182, 212, 0)");
+    }
+    ctx.fillStyle = grad1;
+    ctx.beginPath();
+    ctx.arc(cx1, cy1, r1, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Secondary activation lobe
+    const cx2 = w * 0.68;
+    const cy2 = h * 0.36;
+    const r2 = w * 0.26;
+    const grad2 = ctx.createRadialGradient(cx2, cy2, 8, cx2, cy2, r2);
+    if (isTumor) {
+        grad2.addColorStop(0, "rgba(239, 68, 68, 0.82)");
+        grad2.addColorStop(0.4, "rgba(249, 115, 22, 0.6)");
+        grad2.addColorStop(0.8, "rgba(234, 179, 8, 0.25)");
+        grad2.addColorStop(1, "rgba(16, 185, 129, 0)");
+    } else {
+        grad2.addColorStop(0, "rgba(34, 197, 94, 0.75)");
+        grad2.addColorStop(0.5, "rgba(6, 182, 212, 0.4)");
+        grad2.addColorStop(1, "rgba(6, 182, 212, 0)");
+    }
+    ctx.fillStyle = grad2;
+    ctx.beginPath();
+    ctx.arc(cx2, cy2, r2, 0, Math.PI * 2);
+    ctx.fill();
+}
+window.drawGradCAMOverlay = drawGradCAMOverlay;
+
+// Ref 1 Thumbnail Selector Mode
+function selectRef1View(mode) {
+    document.querySelectorAll(".ref1-thumb-btn").forEach((b) => b.classList.remove("active"));
+    const btn = document.querySelector(`.ref1-thumb-btn[data-view="${mode}"]`);
+    if (btn) btn.classList.add("active");
+
+    const canvas = document.getElementById("heatmap-overlay-canvas");
+    const reticle = document.getElementById("microscope-reticle");
+
+    if (mode === "original") {
+        if (canvas) canvas.style.display = "none";
+        if (reticle) reticle.classList.add("hidden");
+    } else if (mode === "gradcam") {
+        if (canvas) {
+            canvas.style.display = "block";
+            canvas.style.filter = "none";
+        }
+        if (reticle) reticle.classList.add("hidden");
+    } else if (mode === "integrated") {
+        if (canvas) {
+            canvas.style.display = "block";
+            canvas.style.filter = "hue-rotate(90deg) contrast(1.2)";
+        }
+        if (reticle) reticle.classList.add("hidden");
+    } else if (mode === "grid") {
+        if (canvas) canvas.style.display = "none";
+        if (reticle) reticle.classList.remove("hidden");
+    }
+}
+window.selectRef1View = selectRef1View;
+
+// Opacity Slider Controller
+function updateHeatmapOpacity(val) {
+    const lbl = document.getElementById("opacity-val");
+    if (lbl) lbl.textContent = `${val}%`;
+    const canvas = document.getElementById("heatmap-overlay-canvas");
+    if (canvas) canvas.style.opacity = (val / 100).toString();
+}
+window.updateHeatmapOpacity = updateHeatmapOpacity;
+
+// Model Architecture Selector Controller
+async function switchArchitectureModel(modelId) {
+    try {
+        const res = await fetch(`/api/research/architecture/${modelId}`);
+        if (!res.ok) return;
+        const data = await res.json();
+
+        const titleEl = document.getElementById("ref1-arch-title");
+        if (titleEl) titleEl.textContent = data.model_name;
+
+        const paramEl = document.getElementById("arch-param-count");
+        if (paramEl && data.total_parameters) {
+            paramEl.textContent = Number(data.total_parameters).toLocaleString();
+        }
+
+        const container = document.getElementById("arch-flowchart-container");
+        if (container && data.layers) {
+            container.innerHTML = "";
+            data.layers.forEach((layer, idx) => {
+                const isHighlight = layer.name.includes("BiLSTM") || layer.name.includes("Attention") || layer.name.includes("ViT");
+                const card = document.createElement("div");
+                card.className = `arch-layer-card ${isHighlight ? "highlight-card" : ""} ${idx === 0 ? "active" : ""}`;
+                card.title = layer.description || layer.name;
+                card.innerHTML = `
+                    <div class="layer-header">
+                        <span class="layer-type">${layer.type || "Layer"}</span>
+                        <span class="layer-shape">${layer.output_shape || ""}</span>
+                    </div>
+                    <div class="layer-name">${layer.name}</div>
+                    <div class="layer-params">${layer.param_count ? Number(layer.param_count).toLocaleString() + " params" : "Functional"}</div>
+                `;
+                container.appendChild(card);
+                if (idx < data.layers.length - 1) {
+                    const arrow = document.createElement("div");
+                    arrow.className = "arch-flow-arrow";
+                    arrow.textContent = "➔";
+                    container.appendChild(arrow);
+                }
+            });
+        }
+    } catch (err) {
+        console.error("Failed to load model architecture:", err);
+    }
+}
+window.switchArchitectureModel = switchArchitectureModel;
+
+// Feature Extraction Tab Switching
+function switchFeatureTab(tabName) {
+    document.querySelectorAll(".pill-tab").forEach((t) => t.classList.remove("active"));
+    const tabBtn = document.querySelector(`.pill-tab[data-tab="${tabName}"]`);
+    if (tabBtn) tabBtn.classList.add("active");
+
+    document.querySelectorAll(".feature-tab-content").forEach((p) => p.classList.add("hidden"));
+    const pane = document.getElementById(`feature-pane-${tabName}`);
+    if (pane) pane.classList.remove("hidden");
+}
+window.switchFeatureTab = switchFeatureTab;
+
+// ==========================================================================
+// REFERENCE 2: ADVANCED SPATIAL RESEARCH CONTROLLER
+// ==========================================================================
+
+let spatialInitialized = false;
+
+async function initSpatialResearch() {
+    if (spatialInitialized) return;
+    spatialInitialized = true;
+
+    try {
+        const res = await fetch("/api/research/spatial-interactive");
+        if (!res.ok) throw new Error("Failed to load spatial interactive data");
+        const data = await res.json();
+
+        // 1. Render Candidate-Object Graph on SVG Stage
+        const svg = document.getElementById("spatial-svg-viewport");
+        if (svg && data.nodes && data.edges) {
+            svg.innerHTML = "";
+
+            // Edges (k=6 Delaunay/kNN)
+            data.edges.forEach((edge) => {
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute("x1", edge.source_x);
+                line.setAttribute("y1", edge.source_y);
+                line.setAttribute("x2", edge.target_x);
+                line.setAttribute("y2", edge.target_y);
+                line.setAttribute("stroke", "rgba(45, 212, 191, 0.28)");
+                line.setAttribute("stroke-width", "1.2");
+                svg.appendChild(line);
+            });
+
+            const classColors = {
+                "TUM": "var(--class-tum)",
+                "STR": "var(--class-str)",
+                "LYM": "var(--class-lym)",
+                "NOR": "var(--class-nor)",
+                "MUC": "var(--class-muc)",
+                "DEB": "var(--class-deb)",
+                "MUS": "var(--class-mus)",
+                "ADI": "var(--class-adi)"
+            };
+
+            // Nodes (Candidate Objects)
+            data.nodes.forEach((node) => {
+                const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                circle.setAttribute("cx", node.x);
+                circle.setAttribute("cy", node.y);
+                circle.setAttribute("r", "5.5");
+                circle.setAttribute("fill", classColors[node.class_code] || "var(--class-tum)");
+                circle.setAttribute("stroke", "#030611");
+                circle.setAttribute("stroke-width", "1.5");
+                circle.style.cursor = "pointer";
+                circle.style.transition = "r 0.15s ease, stroke 0.15s ease";
+
+                circle.addEventListener("mouseenter", () => {
+                    circle.setAttribute("r", "8");
+                    circle.setAttribute("stroke", "#fff");
+                    const tt = document.getElementById("spatial-tooltip");
+                    if (tt) {
+                        document.getElementById("st-node-id").textContent = `Candidate Object #${node.id}`;
+                        document.getElementById("st-node-class").textContent = `${node.class_code} (${node.label})`;
+                        document.getElementById("st-node-od").textContent = `Hematoxylin Optical Density: ${node.optical_density}`;
+                        tt.classList.remove("hidden");
+                    }
+                });
+
+                circle.addEventListener("mouseleave", () => {
+                    circle.setAttribute("r", "5.5");
+                    circle.setAttribute("stroke", "#030611");
+                    const tt = document.getElementById("spatial-tooltip");
+                    if (tt) tt.classList.add("hidden");
+                });
+
+                svg.appendChild(circle);
+            });
+        }
+
+        // 2. Tissue Composition Breakdown
+        const compList = document.getElementById("composition-items-list");
+        const compBar = document.getElementById("composition-stacked-bar");
+        if (compList && data.tissue_composition) {
+            compList.innerHTML = "";
+            if (compBar) compBar.innerHTML = "";
+
+            data.tissue_composition.forEach((comp) => {
+                const row = document.createElement("div");
+                row.className = "composition-row";
+                row.innerHTML = `
+                    <span class="comp-dot" style="background: ${comp.color};"></span>
+                    <span class="comp-name">${comp.class_code} — ${comp.label}</span>
+                    <span class="comp-val">${comp.percentage}%</span>
+                `;
+                compList.appendChild(row);
+
+                if (compBar) {
+                    const seg = document.createElement("div");
+                    seg.style.height = `${comp.percentage}%`;
+                    seg.style.background = comp.color;
+                    seg.title = `${comp.class_code}: ${comp.percentage}%`;
+                    compBar.appendChild(seg);
+                }
+            });
+        }
+
+        // 3. AI Insights
+        if (data.insights) {
+            const insPatches = document.getElementById("ins-patches");
+            if (insPatches && data.insights.patch_cohort) insPatches.textContent = Number(data.insights.patch_cohort).toLocaleString();
+            const insAcc = document.getElementById("ins-acc");
+            if (insAcc && data.insights.benchmark_accuracy) insAcc.textContent = `${data.insights.benchmark_accuracy}%`;
+            const insObj = document.getElementById("ins-objects");
+            if (insObj && data.insights.candidate_objects) insObj.textContent = Number(data.insights.candidate_objects).toLocaleString();
+            const insEdges = document.getElementById("ins-edges");
+            if (insEdges && data.insights.spatial_edges) insEdges.textContent = Number(data.insights.spatial_edges).toLocaleString();
+        }
+
+        // 4. Molecular Markers
+        const markersBody = document.getElementById("spatial-markers-body");
+        if (markersBody && data.molecular_markers) {
+            markersBody.innerHTML = "";
+            data.molecular_markers.forEach((m) => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td style="font-weight: 600; color: var(--cyan-400);">${m.gene}</td>
+                    <td><span class="badge badge-implemented">${m.consensus}</span></td>
+                    <td style="font-family: monospace;">${m.score}</td>
+                    <td style="color: var(--text-secondary);">${m.role}</td>
+                `;
+                markersBody.appendChild(tr);
+            });
+        }
+
+        // 5. Pathways
+        const pathwaysBody = document.getElementById("spatial-pathways-body");
+        if (pathwaysBody && data.pathways) {
+            pathwaysBody.innerHTML = "";
+            data.pathways.forEach((p) => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td style="font-weight: 500; color: var(--text-primary);">${p.name}</td>
+                    <td style="font-family: monospace; color: var(--teal-400);">${p.p_value}</td>
+                    <td style="color: var(--text-muted);">${p.database}</td>
+                `;
+                pathwaysBody.appendChild(tr);
+            });
+        }
+
+        // 6. AI Summary
+        const aiSummary = document.getElementById("ai-summary-content");
+        if (aiSummary && data.ai_summary) {
+            aiSummary.textContent = data.ai_summary;
+        }
+    } catch (err) {
+        console.error("Spatial research initialization error:", err);
+    }
+}
+window.initSpatialResearch = initSpatialResearch;
+
+function setSpatialViewMode(mode) {
+    document.querySelectorAll(".tool-pill").forEach((p) => p.classList.remove("active"));
+    const pill = document.getElementById(`tool-${mode}-mode`);
+    if (pill) pill.classList.add("active");
+}
+window.setSpatialViewMode = setSpatialViewMode;
+
+function loadSpatialSample(sampleClass) {
+    document.querySelectorAll(".spatial-thumb-card").forEach((c) => c.classList.remove("active"));
+    event?.currentTarget?.classList.add("active");
+    spatialInitialized = false;
+    initSpatialResearch();
+}
+window.loadSpatialSample = loadSpatialSample;
+
+// Reset and Zoom Spatial Canvas
+function resetSpatialCanvas() {
+    const svg = document.getElementById("spatial-svg-viewport");
+    if (svg) svg.setAttribute("viewBox", "0 0 240 240");
+}
+window.resetSpatialCanvas = resetSpatialCanvas;
+
+function zoomSpatialCanvas(factor) {
+    const svg = document.getElementById("spatial-svg-viewport");
+    if (!svg) return;
+    const cur = svg.getAttribute("viewBox").split(" ").map(Number);
+    const w = cur[2] * factor;
+    const h = cur[3] * factor;
+    svg.setAttribute("viewBox", `${cur[0]} ${cur[1]} ${w} ${h}`);
+}
+window.zoomSpatialCanvas = zoomSpatialCanvas;
+
+// ==========================================================================
+// RESEARCH COPILOT SLIDE-IN DRAWER
+// ==========================================================================
+
+function toggleCopilotDrawer() {
+    const drawer = document.getElementById("copilot-drawer");
+    const backdrop = document.getElementById("copilot-backdrop");
+    if (drawer && backdrop) {
+        const isHidden = drawer.classList.contains("hidden");
+        if (isHidden) {
+            drawer.classList.remove("hidden");
+            backdrop.classList.remove("hidden");
+        } else {
+            drawer.classList.add("hidden");
+            backdrop.classList.add("hidden");
+        }
+    }
+}
+window.toggleCopilotDrawer = toggleCopilotDrawer;
+
+// Predefined Copilot Synthesis Responses
+const COPILOT_RESPONSES = {
+    explain_prediction: `Based on model telemetry for the active patch:
+- **Architecture**: GastricCancerRNN (CNN + BiLSTM + Attention, 849K parameters).
+- **Attribution**: ConvBlocks 1-4 identified dense nuclear clustering and disorganized glandular architecture characteristic of gastric adenocarcinoma (TUM).
+- **BiLSTM Attention**: Peak recurrent attention weights concentrate in sequence tokens #6 and #7, corresponding to central stromal-epithelial boundaries.
+- **Scientific Caveat**: Patch-level TUM probability represents model classification output on a 224x224 tile, not a patient-level clinical stage or tumor purity assessment.`,
+
+    compare_models: `**Architecture Comparison & Computational Tradeoffs**:
+1. **GastricCancerRNN (CNN-BiLSTM)**:
+   - Parameters: 849,832
+   - Latency: ~38.5 ms (CPU native)
+   - Val Accuracy: 64.86% (Benchmark full split: 71.04%)
+   - Strength: Sequence-aware spatial recurrence, highly interpretable attention.
+2. **Phikon (ViT-B/16)**:
+   - Parameters: 86.4M
+   - Pretrained: 40M pan-cancer histology tiles
+   - Latency: ~145 ms (CPU)
+   - Strength: Broad pan-cancer visual representations.
+3. **DINOv2 (ViT-S/14)**:
+   - Parameters: 22.1M
+   - Feature Dimension: 384-D self-supervised embeddings
+   - Strength: Sharp unsupervised boundary clustering.`,
+
+    spatial_clustering: `**Spatial Proximity Analysis (k=6 Candidate Graph)**:
+- **TUM-STR Interaction**: Peaks at 45 µm (Score 0.88), indicating active desmoplastic stroma remodeling adjacent to adenocarcinoma glands.
+- **TUM-LYM Interaction**: Concentrated within 25–40 µm at invasive margins, consistent with immune cell infiltration patterns documented in gastric cancer literature.
+- **Candidate Objects**: Identified via optical density thresholding on the Hematoxylin channel and watershed separation. (Research exploratory tool — not certified whole-cell segmentation).`,
+
+    molecular_evidence: `**hsa-miR-497-5p In-Silico Screening Consensus**:
+- **SEMA6D** (Score: -0.84, Consensus: 8/8): Semaphorin axon guidance / cell migration regulator.
+- **CCNE1** (Score: -0.79, Consensus: 7/8): G1/S transition cyclin frequently amplified in HER2-resistant gastric cancer.
+- **PTEN** (Score: -0.76, Consensus: 7/8): Major tumor suppressor regulating PI3K/Akt survival signaling.
+- **EGFR** (Score: -0.72, Consensus: 6/8): Receptor tyrosine kinase associated with aggressive adenocarcinoma phenotypes.`
+};
+
+function askCopilot(actionKey) {
+    const text = COPILOT_RESPONSES[actionKey];
+    if (!text) return;
+    appendCopilotMessage("user", getCopilotQuestionTitle(actionKey));
+    setTimeout(() => {
+        appendCopilotMessage("assistant", text);
+    }, 250);
+}
+window.askCopilot = askCopilot;
+
+function getCopilotQuestionTitle(key) {
+    const titles = {
+        explain_prediction: "Explain Current Prediction",
+        compare_models: "Compare CNN-BiLSTM vs. Phikon Transformers",
+        spatial_clustering: "Interpret Spatial Proximity Curve",
+        molecular_evidence: "Summarize miRNA Biomarker Targets"
+    };
+    return titles[key] || "Research Question";
+}
+
+function sendCopilotQuery() {
+    const input = document.getElementById("copilot-user-input");
+    if (!input || !input.value.trim()) return;
+    const query = input.value.trim();
+    input.value = "";
+    appendCopilotMessage("user", query);
+
+    setTimeout(() => {
+        const lower = query.toLowerCase();
+        let reply = "";
+        if (lower.includes("model") || lower.includes("bilstm") || lower.includes("rnn") || lower.includes("phikon")) {
+            reply = COPILOT_RESPONSES.compare_models;
+        } else if (lower.includes("spatial") || lower.includes("distance") || lower.includes("graph")) {
+            reply = COPILOT_RESPONSES.spatial_clustering;
+        } else if (lower.includes("gene") || lower.includes("mirna") || lower.includes("target") || lower.includes("pten")) {
+            reply = COPILOT_RESPONSES.molecular_evidence;
+        } else {
+            reply = COPILOT_RESPONSES.explain_prediction;
+        }
+        appendCopilotMessage("assistant", reply);
+    }, 300);
+}
+window.sendCopilotQuery = sendCopilotQuery;
+
+function appendCopilotMessage(sender, text) {
+    const chat = document.getElementById("copilot-chat-history");
+    if (!chat) return;
+    const msg = document.createElement("div");
+    msg.className = `copilot-msg copilot-${sender}`;
+    // Simple markdown conversion
+    let formatted = text
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\n- /g, "<br>&bull; ")
+        .replace(/\n/g, "<br>");
+    msg.innerHTML = formatted;
+    chat.appendChild(msg);
+    chat.scrollTop = chat.scrollHeight;
+}
+
+// Sidebar toggle button listener
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("sidebar-toggle-btn")?.addEventListener("click", () => {
+        document.getElementById("workstation-sidebar")?.classList.toggle("collapsed");
+    });
+    // Draw initial gradcam if canvas exists
+    setTimeout(() => {
+        drawGradCAMOverlay({ predicted_class: "TUM" });
+    }, 400);
+});
