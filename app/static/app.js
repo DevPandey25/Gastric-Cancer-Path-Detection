@@ -965,6 +965,17 @@ function switchCrTab(tabId) {
 }
 window.switchCrTab = switchCrTab;
 
+function openPdfTab() {
+    switchView("clinical-reporting");
+    switchCrTab("cr-tab-pdf");
+    const navPdf = document.getElementById("nav-pdf-generator");
+    if (navPdf) {
+        document.querySelectorAll(".nav-item-btn").forEach((b) => b.classList.remove("active"));
+        navPdf.classList.add("active");
+    }
+}
+window.openPdfTab = openPdfTab;
+
 function initNavigation() {
     // Primary View Buttons
     document.getElementById("nav-live-inference")?.addEventListener("click", () => switchView("live"));
